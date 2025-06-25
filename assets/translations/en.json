@@ -1,0 +1,16 @@
+{
+  "weather_app_title": "Weather App",
+  "use_my_location": "Use my location",
+  "search_for_city": "Search for a city",
+  "search_city": "Search City",
+  "enter_city": "Enter city name",
+  "popular_cities": "Popular Cities",
+  "other_cities": "Other cities",
+  "change_location": "Change location",
+  "try_again": "Try Again",
+  "location_permission_denied": "Location permission denied",
+  "location_error": "Could not get location",
+  "settings": "Settings",
+  "toggle_theme": "Toggle theme",
+  "change_language": "Change language"
+}

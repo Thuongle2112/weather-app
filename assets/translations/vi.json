@@ -1,0 +1,16 @@
+{
+  "weather_app_title": "Ứng dụng Thời tiết",
+  "use_my_location": "Sử dụng vị trí của tôi",
+  "search_for_city": "Tìm kiếm thành phố",
+  "search_city": "Tìm kiếm thành phố",
+  "enter_city": "Nhập tên thành phố",
+  "popular_cities": "Thành phố phổ biến",
+  "other_cities": "Các thành phố khác",
+  "change_location": "Thay đổi vị trí",
+  "try_again": "Thử lại",
+  "location_permission_denied": "Quyền vị trí bị từ chối",
+  "location_error": "Không thể lấy vị trí",
+  "settings": "Cài đặt",
+  "toggle_theme": "Chuyển đổi giao diện",
+  "change_language": "Đổi ngôn ngữ"
+}
