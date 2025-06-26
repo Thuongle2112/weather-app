@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ import 'package:weather_app/presentation/page/home/widget/initial_view.dart';
 
 import '../../../data/model/weather/weather.dart';
 import '../../providers/theme_provider.dart';
+import '../../utils/weather_icon_mapper.dart';
 import 'bloc/home_bloc.dart';
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
@@ -165,10 +167,7 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
     final isDarkMode = themeProvider.isDarkMode;
 
     Color backgroundColor =
-        isDarkMode
-            ? Colors.black
-            : _getWeatherBackgroundColor(weather.temperature);
-
+        isDarkMode ? Colors.black : _getBackgroundColorByWeather(weather);
     Color textColor = isDarkMode ? Colors.white : Colors.white;
 
     return Container(
@@ -237,11 +236,34 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
   }
 
   Widget _buildTemperatureSection(Weather weather, Color textColor) {
+    final iconFileName = WeatherIconMapper.getIconByDescription(
+      weather.description,
+    );
+
     return Expanded(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0.0, end: 1.0),
+              duration: const Duration(milliseconds: 800),
+              builder: (context, value, child) {
+                return Transform.scale(
+                  scale: value,
+                  child: Opacity(
+                    opacity: value,
+                    child: child,
+                  ),
+                );
+              },
+              child: SvgPicture.asset(
+                'assets/weather_icons/$iconFileName',
+                height: 150,
+                width: 150,
+              ),
+            ),
+            const SizedBox(height: 20),
             Text(
               '${weather.temperature.toInt()}°C',
               style: TextStyle(
@@ -326,7 +348,47 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
     );
   }
 
-  Color _getWeatherBackgroundColor(double temperature) {
+  Color _getBackgroundColorByWeather(Weather weather) {
+    final description = weather.description.toLowerCase();
+    final temperature = weather.temperature;
+
+    if (description.contains('night') || description.contains('đêm')) {
+      return const Color(0xFF1A237E);
+    }
+
+    if (description.contains('clear') ||
+        description.contains('sunny') ||
+        description.contains('quang đãng')) {
+      if (temperature > 30) {
+        return const Color(0xFFFFA000);
+      } else {
+        return const Color(0xFF2196F3);
+      }
+    }
+
+    if (description.contains('rain') ||
+        description.contains('shower') ||
+        description.contains('mưa')) {
+      return const Color(0xFF37474F);
+    }
+
+    if (description.contains('thunder') ||
+        description.contains('storm') ||
+        description.contains('giông')) {
+      return const Color(0xFF263238);
+    }
+
+    if (description.contains('snow') || description.contains('tuyết')) {
+      return const Color(0xFF90CAF9);
+    }
+
+    if (description.contains('mist') ||
+        description.contains('fog') ||
+        description.contains('haze') ||
+        description.contains('sương')) {
+      return const Color(0xFF78909C);
+    }
+
     if (temperature > 30) {
       return const Color(0xFFFFC107);
     } else if (temperature > 20) {

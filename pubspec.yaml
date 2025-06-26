@@ -48,6 +48,7 @@ dependencies:
   geolocator: ^14.0.1
   permission_handler: ^12.0.0+1
   provider: ^6.1.5
+  flutter_svg: ^2.2.0
 
 
 
@@ -77,6 +78,7 @@ flutter:
   assets:
     - .env
     - assets/translations/
+    - assets/weather_icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
