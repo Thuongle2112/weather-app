@@ -12,5 +12,9 @@
   "location_error": "Không thể lấy vị trí",
   "settings": "Cài đặt",
   "toggle_theme": "Chuyển đổi giao diện",
-  "change_language": "Đổi ngôn ngữ"
+  "change_language": "Đổi ngôn ngữ",
+  "wind": "Gió",
+  "humidity": "Độ ẩm",
+  "chance_of_rain": "Lượng mưa",
+  "km_per_hour": "km/h"
 }

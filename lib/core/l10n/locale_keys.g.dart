@@ -17,5 +17,9 @@ abstract class  LocaleKeys {
   static const settings = 'settings';
   static const toggle_theme = 'toggle_theme';
   static const change_language = 'change_language';
+  static const wind = 'wind';
+  static const humidity = 'humidity';
+  static const chance_of_rain = 'chance_of_rain';
+  static const km_per_hour = 'km_per_hour';
 
 }

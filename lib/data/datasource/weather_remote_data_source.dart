@@ -15,7 +15,6 @@ class WeatherRemoteDataSource {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getString('language_code') ?? 'en';
     } catch (e) {
-      debugPrint('❌ Error getting language from SharedPreferences: $e');
       return 'en';
     }
   }
@@ -113,37 +112,40 @@ class WeatherRemoteDataSource {
     debugPrint('📡 Calling Weather API with language: $languageCode');
     debugPrint('🔗 URL: $baseUrl?lat=$lat&lon=$lon&lang=$languageCode');
 
-    try {
-      final weatherResponse = await dio.get(
-        baseUrl,
-        queryParameters: {
-          'lat': lat,
-          'lon': lon,
-          'appid': apiKey,
-          'units': 'metric',
-          'lang': languageCode,
-        },
-      );
+    final weatherResponse = await dio.get(
+      baseUrl,
+      queryParameters: {
+        'lat': lat,
+        'lon': lon,
+        'appid': apiKey,
+        'units': 'metric',
+        'lang': languageCode,
+      },
+    );
 
-      debugPrint(
-        '✅ Weather API response received: ${weatherResponse.statusCode}',
-      );
+    debugPrint(
+      '✅ Weather API response received: ${weatherResponse.statusCode}',
+    );
 
-      final data = weatherResponse.data;
-      final mainTemp = data['main']['temp'].toDouble();
-      final desc = data['weather'][0]['description'];
+    final data = weatherResponse.data;
+    final mainTemp = data['main']['temp'].toDouble();
+    final desc = data['weather'][0]['description'];
+    final windSpeed =
+        data['wind']?['speed'] != null
+            ? (data['wind']['speed'] * 3.6).toDouble()
+            : null;
+    final humidity = data['main']['humidity'] as int?;
+    // final rainChance = data['pop'] != null ? (data['pop'] * 100).toInt() : null;
+    final rainChance = data['clouds']?['all'] as int?;
 
-      debugPrint('🌤️ Temperature: $mainTemp°C, Description: $desc');
-
-      return Weather(
-        cityName: locationName,
-        temperature: mainTemp,
-        description: desc,
-        language: languageCode,
-      );
-    } catch (e) {
-      debugPrint('❌ Exception in _getWeatherData: $e');
-      throw Exception('Failed to fetch weather data: $e');
-    }
+    return Weather(
+      cityName: locationName,
+      temperature: mainTemp,
+      description: desc,
+      language: languageCode,
+      windSpeed: windSpeed,
+      humidity: humidity,
+      rainChance: rainChance,
+    );
   }
 }

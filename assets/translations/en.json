@@ -12,5 +12,9 @@
   "location_error": "Could not get location",
   "settings": "Settings",
   "toggle_theme": "Toggle theme",
-  "change_language": "Change language"
+  "change_language": "Change language",
+  "wind": "Wind",
+  "humidity": "Humidity",
+  "chance_of_rain": "Chance of rain",
+  "km_per_hour": "km/h"
 }
