@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:weather_app/presentation/page/home/widget/city_card.dart';
-import 'package:weather_app/presentation/page/home/widget/city_search_modal.dart';
-import 'package:weather_app/presentation/page/home/widget/error_view.dart';
-import 'package:weather_app/presentation/page/home/widget/initial_view.dart';
+import 'package:weather_app/presentation/page/home/widgets/city_list_section.dart';
+import 'package:weather_app/presentation/page/home/widgets/city_search_modal.dart';
+import 'package:weather_app/presentation/page/home/widgets/error_view.dart';
+import 'package:weather_app/presentation/page/home/widgets/initial_view.dart';
+import 'package:weather_app/presentation/page/home/widgets/temperature_display.dart';
+import 'package:weather_app/presentation/page/home/widgets/weather_app_bar.dart';
 
 import '../../../data/model/weather/weather.dart';
 import '../../providers/theme_provider.dart';
-import '../../utils/weather_icon_mapper.dart';
+import '../../utils/weather_service.dart';
+import '../../utils/weather_ui_helper.dart';
 import 'bloc/home_bloc.dart';
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
@@ -28,18 +28,24 @@ class WeatherHomePage extends StatefulWidget {
 class _WeatherHomePageState extends State<WeatherHomePage> {
   final TextEditingController cityController = TextEditingController();
   bool isLocationPermissionDetermined = false;
+
   final List<String> popularCities = [
     'Hanoi',
     'Ho Chi Minh City',
     'Da Nang',
     'Hue',
     'Nha Trang',
+    'Tokyo',
+    'Bangkok',
+    'Singapore',
+    'London',
+    'New York',
   ];
 
   @override
   void initState() {
     super.initState();
-    _checkLocationPermission();
+    _initializeLocationService();
   }
 
   @override
@@ -48,65 +54,11 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
     super.dispose();
   }
 
-  Future<void> _checkLocationPermission() async {
-    final status = await Permission.locationWhenInUse.status;
-    setState(() {
-      isLocationPermissionDetermined = true;
-    });
-
-    if (status.isGranted) {
-      _getWeatherByCurrentLocation();
-    }
-  }
-
-  Future<void> _requestLocationPermission() async {
-    final status = await Permission.locationWhenInUse.request();
-
-    if (status.isGranted) {
-      _getWeatherByCurrentLocation();
-    } else {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('location_permission_denied'.tr()),
-            action: SnackBarAction(
-              label: 'settings'.tr(),
-              onPressed: () => openAppSettings(),
-            ),
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> _getWeatherByCurrentLocation() async {
-    try {
-      debugPrint('🔍 Getting current location...');
-      context.read<WeatherBloc>().add(const WeatherStartLoading());
-
-      final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low,
-        timeLimit: const Duration(seconds: 10),
-      );
-
-      debugPrint(
-        '📍 Position obtained: ${position.latitude}, ${position.longitude}',
-      );
-
-      if (context.mounted) {
-        debugPrint('🔄 Dispatching FetchWeatherByCoordinates event');
-        context.read<WeatherBloc>().add(
-          FetchWeatherByCoordinates(position.latitude, position.longitude),
-        );
-      }
-    } catch (e) {
-      debugPrint('❌ Error getting current location: $e');
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('location_error'.tr())));
-      }
-    }
+  Future<void> _initializeLocationService() async {
+    WeatherService.checkLocationPermission(
+      context,
+      (value) => setState(() => isLocationPermissionDetermined = value),
+    );
   }
 
   void _showCitySearchModal() {
@@ -125,6 +77,24 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
     );
   }
 
+  Future<void> _requestLocationPermission() async {
+    try {
+      await WeatherService.requestLocationPermission(context);
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('location_error'.tr()),
+            action: SnackBarAction(
+              label: 'settings'.tr(),
+              onPressed: () => openAppSettings(),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -136,29 +106,41 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
         body: BlocBuilder<WeatherBloc, WeatherState>(
           builder: (context, state) {
             if (state is WeatherLoading) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: isDarkMode ? Colors.white : Colors.blue,
-                ),
-              );
+              return _buildLoadingView(isDarkMode);
             } else if (state is WeatherLoaded) {
               return _buildWeatherDisplay(context, state.weather);
             } else if (state is WeatherError) {
-              return ErrorView(
-                message: state.message,
-                onRetry: _requestLocationPermission,
-                isDarkMode: isDarkMode,
-              );
+              return _buildErrorView(state.message, isDarkMode);
             } else {
-              return InitialView(
-                onLocationRequest: _requestLocationPermission,
-                onSearchCity: _showCitySearchModal,
-                isDarkMode: isDarkMode,
-              );
+              return _buildInitialView(isDarkMode);
             }
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildLoadingView(bool isDarkMode) {
+    return Center(
+      child: CircularProgressIndicator(
+        color: isDarkMode ? Colors.white : Colors.blue,
+      ),
+    );
+  }
+
+  Widget _buildErrorView(String message, bool isDarkMode) {
+    return ErrorView(
+      message: message,
+      onRetry: _requestLocationPermission,
+      isDarkMode: isDarkMode,
+    );
+  }
+
+  Widget _buildInitialView(bool isDarkMode) {
+    return InitialView(
+      onLocationRequest: _requestLocationPermission,
+      onSearchCity: _showCitySearchModal,
+      isDarkMode: isDarkMode,
     );
   }
 
@@ -167,7 +149,9 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
     final isDarkMode = themeProvider.isDarkMode;
 
     Color backgroundColor =
-        isDarkMode ? Colors.black : _getBackgroundColorByWeather(weather);
+        isDarkMode
+            ? Colors.black
+            : WeatherUIHelper.getBackgroundColorByWeather(weather);
     Color textColor = isDarkMode ? Colors.white : Colors.white;
 
     return Container(
@@ -175,246 +159,19 @@ class _WeatherHomePageState extends State<WeatherHomePage> {
       child: SafeArea(
         child: Column(
           children: [
-            _buildAppBar(weather.cityName, textColor),
-            _buildTemperatureSection(weather, textColor),
-            _buildOtherCitiesSection(textColor, isDarkMode),
-          ],
-        ),
-      ),
-    );
-  }
+            WeatherAppBar(cityName: weather.cityName, textColor: textColor),
 
-  Widget _buildAppBar(String cityName, Color textColor) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+            TemperatureDisplay(weather: weather, textColor: textColor),
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              cityName,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-
-          IconButton(
-            icon: Icon(Icons.language, color: textColor),
-            onPressed: () async {
-              if (context.locale == const Locale('en')) {
-                await context.setLocale(const Locale('vi'));
-                await _saveLanguagePreference('vi');
-                _refreshWeatherWithCurrentLanguage();
-              } else {
-                await context.setLocale(const Locale('en'));
-                await _saveLanguagePreference('en');
-                _refreshWeatherWithCurrentLanguage();
-              }
-            },
-            tooltip: 'change_language'.tr(),
-          ),
-
-          IconButton(
-            icon: Icon(
-              themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-              color: textColor,
-            ),
-            onPressed: () {
-              themeProvider.toggleTheme();
-            },
-            tooltip: 'toggle_theme'.tr(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTemperatureSection(Weather weather, Color textColor) {
-    final iconFileName = WeatherIconMapper.getIconByDescription(
-      weather.description,
-    );
-
-    return Expanded(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TweenAnimationBuilder(
-              tween: Tween<double>(begin: 0.0, end: 1.0),
-              duration: const Duration(milliseconds: 800),
-              builder: (context, value, child) {
-                return Transform.scale(
-                  scale: value,
-                  child: Opacity(
-                    opacity: value,
-                    child: child,
-                  ),
-                );
-              },
-              child: SvgPicture.asset(
-                'assets/weather_icons/$iconFileName',
-                height: 150,
-                width: 150,
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              '${weather.temperature.toInt()}°C',
-              style: TextStyle(
-                color: textColor,
-                fontSize: 80,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              capitalizeFirstLetter(weather.description),
-              style: TextStyle(color: textColor, fontSize: 24),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'H:${(weather.temperature + 2).toInt()}° L:${(weather.temperature - 2).toInt()}°',
-              style: TextStyle(color: textColor.withOpacity(0.7), fontSize: 16),
+            CityListSection(
+              popularCities: popularCities,
+              textColor: textColor,
+              isDarkMode: isDarkMode,
+              showSearchModal: _showCitySearchModal,
             ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildOtherCitiesSection(Color textColor, bool isDarkMode) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      color: isDarkMode ? Colors.grey[900] : Colors.black12,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'other_cities'.tr(),
-            style: TextStyle(
-              color: textColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children:
-                popularCities
-                    .map(
-                      (city) => CityCard(
-                        city: city,
-                        temperature:
-                            '${20 + (5 * popularCities.indexOf(city) % 3)}°',
-                        onTap: () {
-                          context.read<WeatherBloc>().add(
-                            FetchWeatherByCity(city),
-                          );
-                        },
-                        isDarkMode: isDarkMode,
-                      ),
-                    )
-                    .toList(),
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _showCitySearchModal,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: isDarkMode ? Colors.blue : Colors.amber,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              child: Text(
-                'change_location'.tr(),
-                style: TextStyle(
-                  color: isDarkMode ? Colors.white : Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Color _getBackgroundColorByWeather(Weather weather) {
-    final description = weather.description.toLowerCase();
-    final temperature = weather.temperature;
-
-    if (description.contains('night') || description.contains('đêm')) {
-      return const Color(0xFF1A237E);
-    }
-
-    if (description.contains('clear') ||
-        description.contains('sunny') ||
-        description.contains('quang đãng')) {
-      if (temperature > 30) {
-        return const Color(0xFFFFA000);
-      } else {
-        return const Color(0xFF2196F3);
-      }
-    }
-
-    if (description.contains('rain') ||
-        description.contains('shower') ||
-        description.contains('mưa')) {
-      return const Color(0xFF37474F);
-    }
-
-    if (description.contains('thunder') ||
-        description.contains('storm') ||
-        description.contains('giông')) {
-      return const Color(0xFF263238);
-    }
-
-    if (description.contains('snow') || description.contains('tuyết')) {
-      return const Color(0xFF90CAF9);
-    }
-
-    if (description.contains('mist') ||
-        description.contains('fog') ||
-        description.contains('haze') ||
-        description.contains('sương')) {
-      return const Color(0xFF78909C);
-    }
-
-    if (temperature > 30) {
-      return const Color(0xFFFFC107);
-    } else if (temperature > 20) {
-      return const Color(0xFF4FC3F7);
-    } else {
-      return const Color(0xFF78909C);
-    }
-  }
-
-  String capitalizeFirstLetter(String text) {
-    if (text.isEmpty) return text;
-    return text[0].toUpperCase() + text.substring(1);
-  }
-
-  Future<void> _saveLanguagePreference(String languageCode) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('language_code', languageCode);
-  }
-
-  Future<void> _refreshWeatherWithCurrentLanguage() async {
-    final state = context.read<WeatherBloc>().state;
-    if (state is WeatherLoaded) {
-      final currentCity = state.weather.cityName;
-      context.read<WeatherBloc>().add(FetchWeatherByCity(currentCity));
-    } else {
-      _getWeatherByCurrentLocation();
-    }
   }
 }
