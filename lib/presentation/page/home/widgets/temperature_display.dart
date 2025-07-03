@@ -24,10 +24,12 @@ class TemperatureDisplay extends StatelessWidget {
       weather.description,
     );
 
-    return Expanded(
-      child: Center(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             _buildWeatherIcon(iconFileName),
             const SizedBox(height: 20),

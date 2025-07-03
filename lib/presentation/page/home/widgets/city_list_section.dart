@@ -25,6 +25,7 @@ class CityListSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       color: isDarkMode ? Colors.grey[900] : Colors.black12,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
