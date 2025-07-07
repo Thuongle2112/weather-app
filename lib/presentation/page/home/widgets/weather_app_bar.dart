@@ -4,45 +4,51 @@ import 'package:provider/provider.dart';
 
 import '../../../providers/theme_provider.dart';
 import '../../../utils/preferences_util.dart';
+import '../../setting/notification_settings_page.dart';
 
-class WeatherAppBar extends StatelessWidget {
-  final String cityName;
-  final Color textColor;
-
-  const WeatherAppBar({
-    super.key,
-    required this.cityName,
-    required this.textColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+class WeatherAppBar {
+  static Widget buildSliverAppBar(BuildContext context, String cityName, Color textColor) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              cityName,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          _buildLanguageButton(context, textColor),
-          _buildThemeButton(context, themeProvider, textColor),
-        ],
+    return SliverAppBar(
+      pinned: true,
+      floating: false,
+      snap: false,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      title: Text(
+        cityName,
+        style: TextStyle(
+          color: textColor,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+        overflow: TextOverflow.ellipsis,
       ),
+      actions: [
+        _buildNotificationButton(context, textColor),
+        _buildLanguageButton(context, textColor),
+        _buildThemeButton(context, themeProvider, textColor),
+      ],
     );
   }
 
-  Widget _buildLanguageButton(BuildContext context, Color textColor) {
+  static Widget _buildNotificationButton(BuildContext context, Color textColor) {
+    return IconButton(
+      icon: Icon(Icons.notifications_outlined, color: textColor),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NotificationSettingsPage(),
+          ),
+        );
+      },
+      tooltip: 'notifications'.tr(),
+    );
+  }
+
+  static Widget _buildLanguageButton(BuildContext context, Color textColor) {
     return IconButton(
       icon: Icon(Icons.language, color: textColor),
       onPressed: () async {
@@ -59,11 +65,11 @@ class WeatherAppBar extends StatelessWidget {
     );
   }
 
-  Widget _buildThemeButton(
-    BuildContext context,
-    ThemeProvider themeProvider,
-    Color textColor,
-  ) {
+  static Widget _buildThemeButton(
+      BuildContext context,
+      ThemeProvider themeProvider,
+      Color textColor,
+      ) {
     return IconButton(
       icon: Icon(
         themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
