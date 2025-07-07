@@ -36,5 +36,9 @@
   "no_saved_cities": "No saved cities",
   "get_premium_1hour": "Get Premium for 1 Hour",
   "premium_activated": "Premium Activated",
-  "reward_ad_not_ready": "Reward ad not ready"
+  "reward_ad_not_ready": "Reward ad not ready",
+  "sunrise": "Sunrise",
+  "noon": "Noon",
+  "sunset": "Sunset",
+  "moonrise": "Moonrise"
 }

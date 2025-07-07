@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import '../../../core/services/push_notification_service.dart';
 import '../../providers/notification_settings_provider.dart';
 
 class NotificationSettingsPage extends StatelessWidget {

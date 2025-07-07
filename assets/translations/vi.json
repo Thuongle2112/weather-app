@@ -36,5 +36,9 @@
   "no_saved_cities": "Không có thành phố đã lưu",
   "get_premium_1hour": "Xem quảng cáo để nhận 1 giờ premium",
   "premium_activated": "Chế độ premium đã được kích hoạt!",
-  "reward_ad_not_ready": "Quảng cáo chưa sẵn sàng, hãy thử lại sau"
+  "reward_ad_not_ready": "Quảng cáo chưa sẵn sàng, hãy thử lại sau",
+  "sunrise": "Bình minh",
+  "noon": "Trưa",
+  "sunset": "Hoàng hôn",
+  "moonrise": "Trăng mọc"
 }

@@ -10,8 +10,10 @@ import 'package:weather_app/presentation/page/home/widgets/city_search_modal.dar
 import 'package:weather_app/presentation/page/home/widgets/error_view.dart';
 import 'package:weather_app/presentation/page/home/widgets/initial_view.dart';
 import 'package:weather_app/presentation/page/home/widgets/temperature_display.dart';
+import 'package:weather_app/presentation/page/home/widgets/time_progress_bar.dart';
 import 'package:weather_app/presentation/page/home/widgets/weather_app_bar.dart';
 
+import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
 import '../../providers/theme_provider.dart';
 import '../../utils/weather_service.dart';
@@ -275,6 +277,32 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     }
   }
 
+  int getCurrentTimeIndex(List<TimeMark> marks, DateTime currentTime) {
+    List<DateTime> times =
+        marks.map((mark) {
+          final parts = mark.time.split(':');
+          int hour = int.parse(parts[0]);
+          int minute = int.parse(parts[1]);
+          return DateTime(
+            currentTime.year,
+            currentTime.month,
+            currentTime.day,
+            hour,
+            minute,
+          );
+        }).toList();
+
+    if (currentTime.isBefore(times.first)) return 0;
+    if (currentTime.isAfter(times.last)) return times.length - 1;
+
+    for (int i = 0; i < times.length - 1; i++) {
+      if (currentTime.isAfter(times[i]) && currentTime.isBefore(times[i + 1])) {
+        return i;
+      }
+    }
+    return times.length - 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -328,6 +356,19 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     final themeProvider = Provider.of<ThemeProvider>(context);
     final isDarkMode = themeProvider.isDarkMode;
 
+    final now = DateTime.now();
+    final marks = [
+      TimeMark(label: tr('sunrise'), time: '05:19', icon: Icons.wb_sunny),
+      TimeMark(label: tr('noon'), time: '12:00', icon: Icons.wb_sunny_outlined),
+      TimeMark(label: tr('sunset'), time: '18:42', icon: Icons.wb_twilight),
+      TimeMark(
+        label: tr('moonrise'),
+        time: '20:00',
+        icon: Icons.nightlight_round,
+      ),
+    ];
+    final currentIndex = getCurrentTimeIndex(marks, now);
+
     Color backgroundColor =
         isDarkMode
             ? Colors.black
@@ -359,6 +400,12 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                       textColor: textColor,
                       isDarkMode: isDarkMode,
                       showSearchModal: _showCitySearchModal,
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: TimeProgressBar(
+                      marks: marks,
+                      currentTime: DateTime.now(),
                     ),
                   ),
                   if (!_isPremium)
