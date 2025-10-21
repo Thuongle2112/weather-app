@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,7 @@ class WeatherAppBar {
         cityName,
         style: TextStyle(
           color: textColor,
-          fontSize: 24,
+          fontSize: 24.sp,
           fontWeight: FontWeight.bold,
         ),
         overflow: TextOverflow.ellipsis,
@@ -35,7 +36,7 @@ class WeatherAppBar {
 
   static Widget _buildNotificationButton(BuildContext context, Color textColor) {
     return IconButton(
-      icon: Icon(Icons.notifications_outlined, color: textColor),
+      icon: Icon(Icons.notifications_outlined, color: textColor, size: 24.sp),
       onPressed: () {
         Navigator.push(
           context,
@@ -50,7 +51,7 @@ class WeatherAppBar {
 
   static Widget _buildLanguageButton(BuildContext context, Color textColor) {
     return IconButton(
-      icon: Icon(Icons.language, color: textColor),
+      icon: Icon(Icons.language, color: textColor, size: 24.sp),
       onPressed: () async {
         if (context.locale == const Locale('en')) {
           await context.setLocale(const Locale('vi'));
@@ -74,6 +75,7 @@ class WeatherAppBar {
       icon: Icon(
         themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
         color: textColor,
+        size: 24.sp,
       ),
       onPressed: themeProvider.toggleTheme,
       tooltip: 'toggle_theme'.tr(),

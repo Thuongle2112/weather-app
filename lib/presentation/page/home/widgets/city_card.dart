@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CityCard extends StatelessWidget {
   final String city;
@@ -20,23 +21,26 @@ class CityCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         color: isDarkMode ? Colors.grey[800] : Colors.black26,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(12.w),
           child: Column(
             children: [
-              const Icon(Icons.wb_sunny, color: Colors.yellow, size: 32),
-              const SizedBox(height: 8),
+              Icon(Icons.wb_sunny, color: Colors.yellow, size: 32.sp),
+              SizedBox(height: 8.h),
               Text(
                 city,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
+                style: TextStyle(color: Colors.white, fontSize: 14.sp),
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
                 temperature,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

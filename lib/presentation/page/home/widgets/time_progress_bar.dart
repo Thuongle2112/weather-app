@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../data/model/weather/time_mark.dart';
 
 class TimeProgressBar extends StatefulWidget {
@@ -19,7 +20,6 @@ class _TimeProgressBarState extends State<TimeProgressBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-
   late int leftIndex;
   late int rightIndex;
   late double percent;
@@ -120,12 +120,12 @@ class _TimeProgressBarState extends State<TimeProgressBar>
     final rightMark = widget.marks[rightIndex];
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.8),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         child: Column(
           children: [
@@ -133,9 +133,9 @@ class _TimeProgressBarState extends State<TimeProgressBar>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [_buildLabel(leftMark), _buildLabel(rightMark)],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             SizedBox(
-              height: 32,
+              height: 32.h,
               child: LayoutBuilder(
                 builder: (context, constraints) {
                   return AnimatedBuilder(
@@ -147,26 +147,26 @@ class _TimeProgressBarState extends State<TimeProgressBar>
                         alignment: Alignment.centerLeft,
                         children: [
                           Container(
-                            height: 6,
+                            height: 6.h,
                             width: width,
                             decoration: BoxDecoration(
                               color: Colors.white24,
-                              borderRadius: BorderRadius.circular(3),
+                              borderRadius: BorderRadius.circular(3.r),
                             ),
                           ),
                           Positioned(
-                            left: pos - 16,
+                            left: pos - 16.w,
                             child: Container(
-                              width: 32,
-                              height: 32,
+                              width: 32.w,
+                              height: 32.w,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.deepPurple,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.nightlight_round,
                                 color: Colors.white,
-                                size: 24,
+                                size: 24.sp,
                               ),
                             ),
                           ),
@@ -177,17 +177,17 @@ class _TimeProgressBarState extends State<TimeProgressBar>
                 },
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   leftMark.time,
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
                 ),
                 Text(
                   rightMark.time,
-                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
                 ),
               ],
             ),
@@ -200,9 +200,12 @@ class _TimeProgressBarState extends State<TimeProgressBar>
   Widget _buildLabel(TimeMark mark) {
     return Row(
       children: [
-        Icon(mark.icon, color: Colors.white, size: 20),
-        const SizedBox(width: 4),
-        Text(mark.label, style: const TextStyle(color: Colors.white)),
+        Icon(mark.icon, color: Colors.white, size: 20.sp),
+        SizedBox(width: 4.w),
+        Text(
+          mark.label,
+          style: TextStyle(color: Colors.white, fontSize: 14.sp),
+        ),
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class InitialView extends StatelessWidget {
@@ -31,39 +32,40 @@ class InitialView extends StatelessWidget {
           children: [
             Icon(
                 Icons.cloud_outlined,
-                size: 100,
+                size: 100.sp,
                 color: isDarkMode ? Colors.blue : Colors.white
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             Text(
               'weather_app_title'.tr(),
               style: TextStyle(
-                fontSize: 32,
+                fontSize: 32.sp,
                 fontWeight: FontWeight.bold,
                 color: isDarkMode ? Colors.white : Colors.white,
               ),
             ),
-            const SizedBox(height: 48),
+            SizedBox(height: 48.h),
             ElevatedButton.icon(
               onPressed: onLocationRequest,
-              icon: const Icon(Icons.my_location),
-              label: Text('use_my_location'.tr()),
+              icon: Icon(Icons.my_location, size: 24.sp),
+              label: Text('use_my_location'.tr(), style: TextStyle(fontSize: 16.sp)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: isDarkMode ? Colors.blue : Colors.white,
                 foregroundColor: isDarkMode ? Colors.white : Colors.blue,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 12,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 24.w,
+                  vertical: 12.h,
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             TextButton(
               onPressed: onSearchCity,
               child: Text(
                 'search_for_city'.tr(),
                 style: TextStyle(
-                    color: isDarkMode ? Colors.blue : Colors.white
+                    color: isDarkMode ? Colors.blue : Colors.white,
+                    fontSize: 16.sp
                 ),
               ),
             ),

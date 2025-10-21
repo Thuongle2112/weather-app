@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -26,21 +27,21 @@ class TemperatureDisplay extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30.0),
+        padding: EdgeInsets.symmetric(vertical: 30.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildWeatherIcon(iconFileName),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             _buildTemperature(textColor),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             _buildDescription(textColor),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             _buildHighLowTemperature(textColor),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             _buildCurrentDate(textColor, context),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             _buildExtraWeatherInfo(textColor, context),
           ],
         ),
@@ -60,8 +61,8 @@ class TemperatureDisplay extends StatelessWidget {
       },
       child: SvgPicture.asset(
         'assets/weather_icons/$iconFileName',
-        height: 100,
-        width: 150,
+        height: 100.h,
+        width: 150.w,
       ),
     );
   }
@@ -80,7 +81,7 @@ class TemperatureDisplay extends StatelessWidget {
   Widget _buildDescription(Color textColor) {
     return Text(
       WeatherUIHelper.capitalizeFirstLetter(weather.description),
-      style: TextStyle(color: textColor, fontSize: 24),
+      style: TextStyle(color: textColor, fontSize: 24.sp),
     );
   }
 
@@ -98,7 +99,7 @@ class TemperatureDisplay extends StatelessWidget {
       formattedDate,
       style: TextStyle(
         color: textColor.withOpacity(0.8),
-        fontSize: 18,
+        fontSize: 18.sp,
         fontWeight: FontWeight.w300,
       ),
     );
@@ -107,15 +108,15 @@ class TemperatureDisplay extends StatelessWidget {
   Widget _buildHighLowTemperature(Color textColor) {
     return Text(
       'H:${(weather.temperature + 2).toInt()}° L:${(weather.temperature - 2).toInt()}°',
-      style: TextStyle(color: textColor.withOpacity(0.7), fontSize: 16),
+      style: TextStyle(color: textColor.withOpacity(0.7), fontSize: 16.sp),
     );
   }
 
   Widget _buildExtraWeatherInfo(Color textColor, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
@@ -161,7 +162,7 @@ class TemperatureDisplay extends StatelessWidget {
     required Color textColor,
   }) {
     return Container(
-      constraints: const BoxConstraints(minWidth: 80),
+      constraints: BoxConstraints(minWidth: 80.w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

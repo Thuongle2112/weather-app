@@ -12,6 +12,7 @@ import 'package:weather_app/presentation/page/home/widgets/initial_view.dart';
 import 'package:weather_app/presentation/page/home/widgets/temperature_display.dart';
 import 'package:weather_app/presentation/page/home/widgets/time_progress_bar.dart';
 import 'package:weather_app/presentation/page/home/widgets/weather_app_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
@@ -330,8 +331,13 @@ class _WeatherHomePageState extends State<WeatherHomePage>
 
   Widget _buildLoadingView(bool isDarkMode) {
     return Center(
-      child: CircularProgressIndicator(
-        color: isDarkMode ? Colors.white : Colors.blue,
+      child: SizedBox(
+        width: 48.w,
+        height: 48.w,
+        child: CircularProgressIndicator(
+          color: isDarkMode ? Colors.white : Colors.blue,
+          strokeWidth: 4.w,
+        ),
       ),
     );
   }
@@ -428,23 +434,25 @@ class _WeatherHomePageState extends State<WeatherHomePage>
 
   Widget _buildPremiumButton() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.w),
       child: ElevatedButton(
         onPressed: _showRewardedAd,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.amber,
           foregroundColor: Colors.black,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.star),
-            const SizedBox(width: 8),
+            Icon(Icons.star, size: 24.sp),
+            SizedBox(width: 8.w),
             Text(
               'get_premium_1hour'.tr(),
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
             ),
           ],
         ),

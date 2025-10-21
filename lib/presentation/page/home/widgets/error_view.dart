@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ErrorView extends StatelessWidget {
@@ -30,14 +31,14 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 80, color: Colors.white),
-            const SizedBox(height: 16),
+            Icon(Icons.error_outline, size: 80.sp, color: Colors.white),
+            SizedBox(height: 16.h),
             Text(
               message,
-              style: const TextStyle(fontSize: 20, color: Colors.white),
+              style: TextStyle(fontSize: 20.sp, color: Colors.white),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             ElevatedButton(
               onPressed: onRetry,
               style: ElevatedButton.styleFrom(

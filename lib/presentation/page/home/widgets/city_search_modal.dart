@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/theme_provider.dart';
@@ -73,16 +74,16 @@ class CitySearchModal extends StatelessWidget {
     };
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: 0.8.sh,
       decoration: BoxDecoration(
         color: isDarkMode ? Colors.grey[900] : Colors.white,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(25.0),
-          topRight: Radius.circular(25.0),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.r),
+          topRight: Radius.circular(25.r),
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
