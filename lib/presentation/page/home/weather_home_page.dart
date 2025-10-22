@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:weather_app/presentation/page/home/widgets/city_list_section.dart';
 import 'package:weather_app/presentation/page/home/widgets/city_search_modal.dart';
 import 'package:weather_app/presentation/page/home/widgets/error_view.dart';
+import 'package:weather_app/presentation/page/home/widgets/floating_button.dart';
+import 'package:weather_app/presentation/page/home/widgets/halloween_effect.dart';
 import 'package:weather_app/presentation/page/home/widgets/initial_view.dart';
 import 'package:weather_app/presentation/page/home/widgets/temperature_display.dart';
 import 'package:weather_app/presentation/page/home/widgets/time_progress_bar.dart';
 import 'package:weather_app/presentation/page/home/widgets/weather_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shake/shake.dart';
+import 'package:weather_app/presentation/page/home/widgets/weather_share_button.dart';
+import 'package:weather_app/presentation/page/home/widgets/weather_share_view.dart';
 
 import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
@@ -34,7 +41,8 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     with WidgetsBindingObserver {
   final TextEditingController cityController = TextEditingController();
   bool isLocationPermissionDetermined = false;
-
+  bool _showFloatingHalloween = true;
+  final GlobalKey _shareKey = GlobalKey();
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
   RewardedAd? _rewardedAd;
@@ -44,6 +52,12 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   int _searchCount = 0;
   bool _isPremium = false;
   final int _maxAdLoadAttempts = 3;
+  bool _showBoo = false;
+
+  late ShakeDetector _shakeDetector;
+  int _shakeCount = 0;
+  bool _showMoneyRain = false;
+  DateTime? _lastShakeTime;
 
   late final String _bannerAdUnitId;
   late final String _interstitialAdUnitId;
@@ -71,6 +85,38 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     _loadBannerAd();
     _loadInterstitialAd();
     _loadRewardedAd();
+
+    _shakeDetector = ShakeDetector.autoStart(
+      onPhoneShake: (event) {
+        final now = DateTime.now();
+        // Nếu lắc liên tục trong 3 giây, tăng count
+        if (_lastShakeTime == null ||
+            now.difference(_lastShakeTime!) > Duration(seconds: 3)) {
+          _shakeCount = 1;
+        } else {
+          _shakeCount++;
+        }
+        _lastShakeTime = now;
+
+        // Nếu lắc >= 5 lần liên tục, hiện hiệu ứng tiền rơi
+        if (_shakeCount >= 5) {
+          setState(() {
+            _showMoneyRain = true;
+          });
+          Future.delayed(const Duration(seconds: 3), () {
+            if (mounted) setState(() => _showMoneyRain = false);
+          });
+          _shakeCount = 0;
+        } else {
+          setState(() {
+            _showBoo = true;
+          });
+          Future.delayed(const Duration(seconds: 2), () {
+            if (mounted) setState(() => _showBoo = false);
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -312,18 +358,83 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     return Theme(
       data: isDarkMode ? ThemeData.dark() : ThemeData.light(),
       child: Scaffold(
-        body: BlocBuilder<WeatherBloc, WeatherState>(
-          builder: (context, state) {
-            if (state is WeatherLoading) {
-              return _buildLoadingView(isDarkMode);
-            } else if (state is WeatherLoaded) {
-              return _buildWeatherDisplay(context, state.weather);
-            } else if (state is WeatherError) {
-              return _buildErrorView(state.message, isDarkMode);
-            } else {
-              return _buildInitialView(isDarkMode);
-            }
-          },
+        body: Stack(
+          children: [
+            BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                if (state is WeatherLoading) {
+                  return _buildLoadingView(isDarkMode);
+                } else if (state is WeatherLoaded) {
+                  // return _buildWeatherDisplay(context, state.weather);
+                  return Stack(
+                    children: [
+                      _buildWeatherDisplay(context, state.weather),
+                      if (themeProvider.showHalloweenEffect)
+                        HalloweenEffect(
+                          onCompleted: () {
+                            themeProvider.hideHalloweenEffect();
+                          },
+                        ),
+                      if (_showFloatingHalloween)
+                        FloatingButton(
+                          onPressed: () {
+                            Provider.of<ThemeProvider>(
+                              context,
+                              listen: false,
+                            ).toggleTheme();
+                          },
+                          onHide: () {
+                            setState(() {
+                              _showFloatingHalloween = false;
+                            });
+                          },
+                        ),
+                      if (_showBoo)
+                        Center(
+                          child: Lottie.asset(
+                            'assets/animations/halloween_effect.json',
+                            fit: BoxFit.contain,
+                            repeat: false,
+                          ),
+                        ),
+                      if (_showMoneyRain)
+                        Positioned.fill(
+                          child: Lottie.asset(
+                            'assets/animations/money_rain.json',
+                            fit: BoxFit.cover,
+                            repeat: false,
+                          ),
+                        ),
+                    ],
+                  );
+                } else if (state is WeatherError) {
+                  return _buildErrorView(state.message, isDarkMode);
+                } else {
+                  return _buildInitialView(isDarkMode);
+                }
+              },
+            ),
+            if (themeProvider.showHalloweenEffect)
+              HalloweenEffect(
+                onCompleted: () {
+                  themeProvider.hideHalloweenEffect();
+                },
+              ),
+            // if (_showFloatingHalloween)
+            //   FloatingButton(
+            //     onPressed: () {
+            //       Provider.of<ThemeProvider>(
+            //         context,
+            //         listen: false,
+            //       ).toggleTheme();
+            //     },
+            //     onHide: () {
+            //       setState(() {
+            //         _showFloatingHalloween = false;
+            //       });
+            //     },
+            //   ),
+          ],
         ),
       ),
     );
@@ -332,11 +443,13 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   Widget _buildLoadingView(bool isDarkMode) {
     return Center(
       child: SizedBox(
-        width: 48.w,
-        height: 48.w,
-        child: CircularProgressIndicator(
-          color: isDarkMode ? Colors.white : Colors.blue,
-          strokeWidth: 4.w,
+        width: 150.w,
+        height: 150.w,
+        child: Lottie.asset(
+          'assets/animations/ghost_loading.json',
+          fit: BoxFit.cover,
+          repeat: true,
+          animate: true,
         ),
       ),
     );
@@ -375,14 +488,17 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     ];
     final currentIndex = getCurrentTimeIndex(marks, now);
 
-    Color backgroundColor =
-        isDarkMode
-            ? Colors.black
-            : WeatherUIHelper.getBackgroundColorByWeather(weather);
+    // Color backgroundColor =
+    //     isDarkMode
+    //         ? Colors.black
+    //         : WeatherUIHelper.getBackgroundColorByWeather(weather);
     Color textColor = isDarkMode ? Colors.white : Colors.white;
 
     return Container(
-      decoration: BoxDecoration(color: backgroundColor),
+      // decoration: BoxDecoration(color: backgroundColor),
+      decoration: WeatherUIHelper.getBackgroundImageByTheme(
+        isDarkMode: isDarkMode,
+      ),
       child: SafeArea(
         child: Column(
           children: [
@@ -409,9 +525,27 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: TimeProgressBar(
-                      marks: marks,
-                      currentTime: DateTime.now(),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16.h),
+                        TimeProgressBar(
+                          marks: marks,
+                          currentTime: DateTime.now(),
+                        ),
+                        SizedBox(height: 16.h),
+                        // WeatherShareView(
+                        //   key: _shareKey,
+                        //   weather: weather,
+                        //   isDarkMode: isDarkMode,
+                        // ),
+                        // SizedBox(height: 8.h),
+                        // WeatherShareButton(
+                        //   onPressed: () async {
+                        //     await (_shareKey.currentState as dynamic)
+                        //         ?.shareScreenshot();
+                        //   },
+                        // ),
+                      ],
                     ),
                   ),
                   if (!_isPremium)
@@ -435,26 +569,46 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   Widget _buildPremiumButton() {
     return Padding(
       padding: EdgeInsets.all(16.w),
-      child: ElevatedButton(
-        onPressed: _showRewardedAd,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.amber,
-          foregroundColor: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.r),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFD5B5B), Color(0xFF3A1C71), Color(0xFFF9A602)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          padding: EdgeInsets.symmetric(vertical: 12.h),
+          borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.star, size: 24.sp),
-            SizedBox(width: 8.w),
-            Text(
-              'get_premium_1hour'.tr(),
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        child: ElevatedButton(
+          onPressed: _showRewardedAd,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
             ),
-          ],
+            padding: EdgeInsets.symmetric(vertical: 12.h),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/svgs/halloween/halloween_bingo.svg',
+                width: 24.w,
+                height: 24.w,
+                color: Colors.white,
+              ),
+              SizedBox(width: 8.w),
+              Text(
+                'get_premium_1hour'.tr(),
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/theme_provider.dart';
@@ -8,15 +9,25 @@ import '../../../utils/preferences_util.dart';
 import '../../setting/notification_settings_page.dart';
 
 class WeatherAppBar {
-  static Widget buildSliverAppBar(BuildContext context, String cityName, Color textColor) {
+  static Widget buildSliverAppBar(
+    BuildContext context,
+    String cityName,
+    Color textColor,
+  ) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return SliverAppBar(
-      pinned: true,
-      floating: false,
-      snap: false,
+      pinned: false,
+      floating: true,
+      snap: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Image.asset(
+          'assets/images/halloween_bg_appbar.jpg',
+          fit: BoxFit.cover,
+        ),
+      ),
       title: Text(
         cityName,
         style: TextStyle(
@@ -34,7 +45,10 @@ class WeatherAppBar {
     );
   }
 
-  static Widget _buildNotificationButton(BuildContext context, Color textColor) {
+  static Widget _buildNotificationButton(
+    BuildContext context,
+    Color textColor,
+  ) {
     return IconButton(
       icon: Icon(Icons.notifications_outlined, color: textColor, size: 24.sp),
       onPressed: () {
@@ -67,10 +81,10 @@ class WeatherAppBar {
   }
 
   static Widget _buildThemeButton(
-      BuildContext context,
-      ThemeProvider themeProvider,
-      Color textColor,
-      ) {
+    BuildContext context,
+    ThemeProvider themeProvider,
+    Color textColor,
+  ) {
     return IconButton(
       icon: Icon(
         themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,

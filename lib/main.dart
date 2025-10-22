@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weather_app/presentation/app_router.dart';
 import 'package:weather_app/presentation/providers/notification_settings_provider.dart';
 import 'package:weather_app/presentation/providers/theme_provider.dart';
 
@@ -18,6 +19,13 @@ import 'presentation/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+    ),
+  );
 
   await MobileAds.instance.initialize();
   await SystemChrome.setPreferredOrientations([
@@ -79,17 +87,18 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
+        return MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          title: 'Weather App',
+          title: 'Thời tiết (Halloween)',
+          routerConfig: appRouter,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           themeMode: themeProvider.themeMode,
           theme: AppTheme.lightTheme(),
           darkTheme: AppTheme.darkTheme(),
-          home: const WeatherHomePage(),
-          navigatorKey: ServiceLocator.instance.navigatorKey,
+          // home: const WeatherHomePage(),
+          // navigatorKey: ServiceLocator.instance.navigatorKey,
         );
       },
     );
