@@ -24,7 +24,20 @@ class CityListSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 16.h),
-      color: isDarkMode ? Colors.grey[900] : Colors.black12,
+      // color: isDarkMode ? Colors.grey[900] : Colors.black12,
+      decoration: BoxDecoration(
+        color: isDarkMode ? Colors.grey[900] : Colors.black12,
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/images/halloween_bg.jpg',
+          ),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Colors.black.withOpacity(0.3),
+            BlendMode.darken,
+          ),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +70,11 @@ class CityListSection extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        Icon(Icons.arrow_forward, color: textColor.withOpacity(0.5), size: 18.sp),
+        Icon(
+          Icons.arrow_forward,
+          color: textColor.withOpacity(0.5),
+          size: 18.sp,
+        ),
       ],
     );
   }
@@ -100,21 +117,39 @@ class CityListSection extends StatelessWidget {
   Widget _buildChangeLocationButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => showSearchModal(),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isDarkMode ? Colors.blue : Colors.lightBlue,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          elevation: 2,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient:
+              isDarkMode
+                  ? LinearGradient(
+                    colors: [Color(0xFFFF6F00), Color(0xFF6A1B9A)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                  : LinearGradient(
+                    colors: [Color(0xFFFF6F00), Color(0xFF6A1B9A)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+          borderRadius: BorderRadius.circular(30),
         ),
-        child: Text(
-          'change_location'.tr(),
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+        child: ElevatedButton(
+          onPressed: () => showSearchModal(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            padding: EdgeInsets.symmetric(vertical: 16.h),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            elevation: 2,
+          ),
+          child: Text(
+            'change_location'.tr(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

@@ -54,4 +54,17 @@ class WeatherUIHelper {
     if (text.isEmpty) return text;
     return text[0].toUpperCase() + text.substring(1);
   }
+
+  static Decoration getBackgroundImageByTheme({required bool isDarkMode}) {
+    return BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage(
+          isDarkMode
+              ? 'assets/images/halloween_bg_dark.jpg'
+              : 'assets/images/halloween_bg_light.jpg',
+        ),
+        fit: BoxFit.cover,
+      ),
+    );
+  }
 }

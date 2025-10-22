@@ -40,5 +40,6 @@
   "sunrise": "Sunrise",
   "noon": "Noon",
   "sunset": "Sunset",
-  "moonrise": "Moonrise"
+  "moonrise": "Moonrise",
+"halloween_error": "Oh no — the network is haunted! Please connect to continue."
 }

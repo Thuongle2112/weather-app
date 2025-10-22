@@ -30,7 +30,7 @@ class _TimeProgressBarState extends State<TimeProgressBar>
     _calculateIndicesAndPercent();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(minutes: 2),
+      duration: const Duration(seconds: 60),
     );
     _animation = Tween<double>(
       begin: 0,
@@ -126,6 +126,14 @@ class _TimeProgressBarState extends State<TimeProgressBar>
         decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.8),
           borderRadius: BorderRadius.circular(16.r),
+          image: DecorationImage(
+            image: AssetImage('assets/images/halloween_time_progress_bg.jpg'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.5),
+              BlendMode.darken,
+            ),
+          ),
         ),
         child: Column(
           children: [

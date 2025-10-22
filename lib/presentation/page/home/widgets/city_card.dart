@@ -20,7 +20,7 @@ class CityCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: isDarkMode ? Colors.grey[800] : Colors.black26,
+        color: isDarkMode ? Colors.black26 : Colors.black26,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),
