@@ -18,12 +18,11 @@ import 'package:weather_app/presentation/page/home/widgets/time_progress_bar.dar
 import 'package:weather_app/presentation/page/home/widgets/weather_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shake/shake.dart';
-import 'package:weather_app/presentation/page/home/widgets/weather_share_button.dart';
-import 'package:weather_app/presentation/page/home/widgets/weather_share_view.dart';
 
 import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
 import '../../providers/theme_provider.dart';
+import '../../utils/halloween_message_helper.dart';
 import '../../utils/weather_service.dart';
 import '../../utils/weather_ui_helper.dart';
 import 'bloc/home_bloc.dart';
@@ -42,7 +41,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   final TextEditingController cityController = TextEditingController();
   bool isLocationPermissionDetermined = false;
   bool _showFloatingHalloween = true;
-  final GlobalKey _shareKey = GlobalKey();
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
   RewardedAd? _rewardedAd;
@@ -54,6 +52,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   final int _maxAdLoadAttempts = 3;
   bool _showBoo = false;
 
+bool _hasShownHalloweenDialog = false; 
   late ShakeDetector _shakeDetector;
   int _shakeCount = 0;
   bool _showMoneyRain = false;
@@ -366,6 +365,19 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                   return _buildLoadingView(isDarkMode);
                 } else if (state is WeatherLoaded) {
                   // return _buildWeatherDisplay(context, state.weather);
+                  if (!_hasShownHalloweenDialog) {
+                    _hasShownHalloweenDialog = true; 
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      final message = HalloweenMessageHelper.getTodayMessage(context);
+                      if (message.isNotEmpty) {
+                        HalloweenMessageHelper.showMessageDialog(
+                          context,
+                          message,
+                          autoDismissDuration: const Duration(seconds: 30),
+                        );
+                      }
+                    });
+                  }
                   return Stack(
                     children: [
                       _buildWeatherDisplay(context, state.weather),
@@ -532,19 +544,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                           marks: marks,
                           currentTime: DateTime.now(),
                         ),
-                        SizedBox(height: 16.h),
-                        // WeatherShareView(
-                        //   key: _shareKey,
-                        //   weather: weather,
-                        //   isDarkMode: isDarkMode,
-                        // ),
-                        // SizedBox(height: 8.h),
-                        // WeatherShareButton(
-                        //   onPressed: () async {
-                        //     await (_shareKey.currentState as dynamic)
-                        //         ?.shareScreenshot();
-                        //   },
-                        // ),
                       ],
                     ),
                   ),
