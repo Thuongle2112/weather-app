@@ -41,5 +41,14 @@
   "noon": "Noon",
   "sunset": "Sunset",
   "moonrise": "Moonrise",
-"halloween_error": "Oh no — the network is haunted! Please connect to continue."
+  "halloween_error": "Oh no — the network is haunted! Please connect to continue.",
+  "halloween_messages": {
+    "0": "Be careful tonight, thick fog may hide something 👀",
+    "1": "A perfect full moon night to… guard your pumpkins 🌕🎃",
+    "2": "Mysterious laughter echoes in the cold wind tonight…",
+    "3": "Don’t forget to close your window, ghosts love midnight visits 👻",
+    "4": "If you hear strange footsteps, check under your bed!",
+    "5": "Glowing pumpkins signal a magical Halloween night 🎃✨",
+    "6": "Wishing you a night full of surprises and joy!"
+  }
 }
