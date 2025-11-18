@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 import '../../core/services/push_notification_service.dart';
 
@@ -106,15 +107,15 @@ class NotificationSettingsProvider with ChangeNotifier {
         await _scheduleMorningNotification();
       }
 
-      if (_currentLocationEnabled) {
-        await _scheduleLocationBasedNotifications();
-      }
+      // if (_currentLocationEnabled) {
+      //   await _scheduleLocationBasedNotifications();
+      // }
 
-      await _scheduleCityNotifications();
+      // await _scheduleCityNotifications();
 
-      if (_severeWeatherAlertsEnabled || _rainAlertsEnabled) {
-        await _scheduleWeatherAlertCheck();
-      }
+      // if (_severeWeatherAlertsEnabled || _rainAlertsEnabled) {
+      //   await _scheduleWeatherAlertCheck();
+      // }
     } catch (e) {
       debugPrint('Error applying notification settings: $e');
     }
@@ -122,112 +123,147 @@ class NotificationSettingsProvider with ChangeNotifier {
 
   Future<void> _scheduleMorningNotification() async {
     try {
-      final timeParts = _morningTime.split(':');
-      final hour = int.parse(timeParts[0]);
-      final minute = int.parse(timeParts[1]);
+      if (!_morningForecastEnabled) {
+        debugPrint('Morning forecast disabled, cancelling task');
+        await Workmanager().cancelByUniqueName('daily_weather_100');
+        return;
+      }
 
       final now = DateTime.now();
-      var scheduledTime = DateTime(now.year, now.month, now.day, hour, minute);
-
-      if (scheduledTime.isBefore(now)) {
-        scheduledTime = scheduledTime.add(const Duration(days: 1));
-      }
-
-      String title = 'Daily Weather Forecast';
-      String body = 'Your morning weather update is ready';
-
-      final enabledCities = _savedCities
-          .where((city) => _cityEnabledMap[city] == true)
-          .take(2);
-
-      if (enabledCities.isNotEmpty) {
-        body = 'Weather forecast for ${enabledCities.join(", ")}';
-
-        if (enabledCities.length == 1) {
-          title = 'Weather in ${enabledCities.first}';
-        } else {
-          title = 'Weather Updates';
-        }
-      }
-
-      await _notificationService.scheduleDailyWeatherNotification(
-        title: title,
-        body: body,
-        scheduledTime: scheduledTime,
-        id: 0,
+      final scheduledDateTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        _morningTimeObj.hour,
+        _morningTimeObj.minute,
       );
 
-      debugPrint(
-        'Scheduled morning notification for ${scheduledTime.toString()}',
-      );
+      debugPrint('Scheduling morning notification for: $_morningTime');
+
+      final success = await _notificationService
+          .scheduleDailyWeatherNotification(
+            scheduledTime: scheduledDateTime,
+            id: 100,
+          );
+
+      if (success) {
+        debugPrint('Morning notification scheduled successfully');
+      } else {
+        debugPrint('Failed to schedule morning notification');
+      }
     } catch (e) {
       debugPrint('Error scheduling morning notification: $e');
     }
   }
 
-  Future<void> _scheduleCityNotifications() async {
-    final enabledCities =
-        _savedCities.where((city) => _cityEnabledMap[city] == true).toList();
+  // Future<void> _scheduleMorningNotification() async {
+  //   try {
+  //     final timeParts = _morningTime.split(':');
+  //     final hour = int.parse(timeParts[0]);
+  //     final minute = int.parse(timeParts[1]);
 
-    if (enabledCities.isEmpty) return;
+  //     final now = DateTime.now();
+  //     var scheduledTime = DateTime(now.year, now.month, now.day, hour, minute);
 
-    final now = DateTime.now();
-    var baseTime = DateTime(now.year, now.month, now.day, 16, 0);
+  //     if (scheduledTime.isBefore(now)) {
+  //       scheduledTime = scheduledTime.add(const Duration(days: 1));
+  //     }
 
-    if (baseTime.isBefore(now)) {
-      baseTime = baseTime.add(const Duration(days: 1));
-    }
+  //     String title = 'Daily Weather Forecast';
+  //     String body = 'Your morning weather update is ready';
 
-    for (int i = 0; i < enabledCities.length; i++) {
-      final city = enabledCities[i];
-      final scheduledTime = baseTime.add(Duration(minutes: i * 5));
+  //     final enabledCities = _savedCities
+  //         .where((city) => _cityEnabledMap[city] == true)
+  //         .take(2);
 
-      try {
-        await _notificationService.scheduleDailyWeatherNotification(
-          title: 'Weather Update for $city',
-          body: 'Tap to see the latest weather conditions in $city',
-          scheduledTime: scheduledTime,
-          id: i + 1,
-        );
+  //     if (enabledCities.isNotEmpty) {
+  //       body = 'Weather forecast for ${enabledCities.join(", ")}';
 
-        debugPrint(
-          'Scheduled notification for $city at ${scheduledTime.toString()}',
-        );
-      } catch (e) {
-        debugPrint('Error scheduling notification for $city: $e');
-      }
-    }
-  }
+  //       if (enabledCities.length == 1) {
+  //         title = 'Weather in ${enabledCities.first}';
+  //       } else {
+  //         title = 'Weather Updates';
+  //       }
+  //     }
 
-  Future<void> _scheduleWeatherAlertCheck() async {
-    if (!_severeWeatherAlertsEnabled && !_rainAlertsEnabled) return;
+  //     await _notificationService.scheduleDailyWeatherNotification(
+  //       title: title,
+  //       body: body,
+  //       scheduledTime: scheduledTime,
+  //       id: 0,
+  //     );
 
-    try {
-      final now = DateTime.now();
-      var alertCheckTime = DateTime(now.year, now.month, now.day, 9, 0);
+  //     debugPrint(
+  //       'Scheduled morning notification for ${scheduledTime.toString()}',
+  //     );
+  //   } catch (e) {
+  //     debugPrint('Error scheduling morning notification: $e');
+  //   }
+  // }
 
-      if (alertCheckTime.isBefore(now)) {
-        alertCheckTime = alertCheckTime.add(const Duration(days: 1));
-      }
+  // Future<void> _scheduleCityNotifications() async {
+  //   final enabledCities =
+  //       _savedCities.where((city) => _cityEnabledMap[city] == true).toList();
 
-      List<String> alertTypes = [];
-      if (_severeWeatherAlertsEnabled) alertTypes.add('severe weather');
-      if (_rainAlertsEnabled) alertTypes.add('rain');
+  //   if (enabledCities.isEmpty) return;
 
-      await _notificationService.scheduleDailyWeatherNotification(
-        title: 'Weather Alert Check',
-        body: 'We\'ll check for ${alertTypes.join(" and ")} alerts today',
-        scheduledTime: alertCheckTime,
-        id: 100,
-      );
+  //   final now = DateTime.now();
+  //   var baseTime = DateTime(now.year, now.month, now.day, 16, 0);
 
-      debugPrint(
-        'Scheduled alert check notification for ${alertCheckTime.toString()}',
-      );
-    } catch (e) {
-      debugPrint('Error scheduling alert check: $e');
-    }
-  }
+  //   if (baseTime.isBefore(now)) {
+  //     baseTime = baseTime.add(const Duration(days: 1));
+  //   }
+
+  //   for (int i = 0; i < enabledCities.length; i++) {
+  //     final city = enabledCities[i];
+  //     final scheduledTime = baseTime.add(Duration(minutes: i * 5));
+
+  //     try {
+  //       await _notificationService.scheduleDailyWeatherNotification(
+  //         title: 'Weather Update for $city',
+  //         body: 'Tap to see the latest weather conditions in $city',
+  //         scheduledTime: scheduledTime,
+  //         id: i + 1,
+  //       );
+
+  //       debugPrint(
+  //         'Scheduled notification for $city at ${scheduledTime.toString()}',
+  //       );
+  //     } catch (e) {
+  //       debugPrint('Error scheduling notification for $city: $e');
+  //     }
+  //   }
+  // }
+
+  // Future<void> _scheduleWeatherAlertCheck() async {
+  //   if (!_severeWeatherAlertsEnabled && !_rainAlertsEnabled) return;
+
+  //   try {
+  //     final now = DateTime.now();
+  //     var alertCheckTime = DateTime(now.year, now.month, now.day, 9, 0);
+
+  //     if (alertCheckTime.isBefore(now)) {
+  //       alertCheckTime = alertCheckTime.add(const Duration(days: 1));
+  //     }
+
+  //     List<String> alertTypes = [];
+  //     if (_severeWeatherAlertsEnabled) alertTypes.add('severe weather');
+  //     if (_rainAlertsEnabled) alertTypes.add('rain');
+
+  //     await _notificationService.scheduleDailyWeatherNotification(
+  //       title: 'Weather Alert Check',
+  //       body: 'We\'ll check for ${alertTypes.join(" and ")} alerts today',
+  //       scheduledTime: alertCheckTime,
+  //       id: 100,
+  //     );
+
+  //     debugPrint(
+  //       'Scheduled alert check notification for ${alertCheckTime.toString()}',
+  //     );
+  //   } catch (e) {
+  //     debugPrint('Error scheduling alert check: $e');
+  //   }
+  // }
 
   void setMorningForecastEnabled(bool value) {
     if (_morningForecastEnabled != value) {
@@ -297,44 +333,53 @@ class NotificationSettingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Future<bool> sendTestNotification() async {
+  //   try {
+  //     return await _notificationService.showWeatherAlert(
+  //       title: 'Weather Test Notification',
+  //       body:
+  //           'This is a test notification to confirm your settings are working correctly. Current time: ${DateTime.now().toString().substring(0, 16)}',
+  //     );
+  //   } catch (e) {
+  //     debugPrint('Error sending test notification: $e');
+  //     return false;
+  //   }
+  // }
+
   Future<bool> sendTestNotification() async {
     try {
-      return await _notificationService.showWeatherAlert(
-        title: 'Weather Test Notification',
-        body:
-            'This is a test notification to confirm your settings are working correctly. Current time: ${DateTime.now().toString().substring(0, 16)}',
-      );
+      return await _notificationService.sendImmediateWeatherNotification();
     } catch (e) {
       debugPrint('Error sending test notification: $e');
       return false;
     }
   }
 
-  Future<void> _scheduleLocationBasedNotifications() async {
-    if (!_currentLocationEnabled) return;
+  // Future<void> _scheduleLocationBasedNotifications() async {
+  //   if (!_currentLocationEnabled) return;
 
-    try {
-      final now = DateTime.now();
-      var locationTime = DateTime(now.year, now.month, now.day, 12, 0);
+  //   try {
+  //     final now = DateTime.now();
+  //     var locationTime = DateTime(now.year, now.month, now.day, 12, 0);
 
-      if (locationTime.isBefore(now)) {
-        locationTime = locationTime.add(const Duration(days: 1));
-      }
+  //     if (locationTime.isBefore(now)) {
+  //       locationTime = locationTime.add(const Duration(days: 1));
+  //     }
 
-      await _notificationService.scheduleDailyWeatherNotification(
-        title: 'Weather at Your Location',
-        body: 'Tap to see current weather conditions for your location',
-        scheduledTime: locationTime,
-        id: 50,
-      );
+  //     await _notificationService.scheduleDailyWeatherNotification(
+  //       title: 'Weather at Your Location',
+  //       body: 'Tap to see current weather conditions for your location',
+  //       scheduledTime: locationTime,
+  //       id: 50,
+  //     );
 
-      debugPrint(
-        'Scheduled location-based notification for ${locationTime.toString()}',
-      );
-    } catch (e) {
-      debugPrint('Error scheduling location notification: $e');
-    }
-  }
+  //     debugPrint(
+  //       'Scheduled location-based notification for ${locationTime.toString()}',
+  //     );
+  //   } catch (e) {
+  //     debugPrint('Error scheduling location notification: $e');
+  //   }
+  // }
 
   Future<void> checkNotificationPermissions() async {
     try {
