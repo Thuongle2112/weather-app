@@ -34,7 +34,7 @@ import 'package:flutter/material.dart';
          return Scaffold(
            body: SizedBox.expand(
              child: Lottie.asset(
-               'assets/animations/halloween_splash_screen.json',
+               'assets/animations/noel_splash_screen.json',
                controller: _controller,
                fit: BoxFit.cover,
                onLoaded: (composition) {

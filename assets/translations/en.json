@@ -37,18 +37,19 @@
   "get_premium_1hour": "Get Premium for 1 Hour",
   "premium_activated": "Premium Activated",
   "reward_ad_not_ready": "Reward ad not ready",
+  "see_all": "See all",
   "sunrise": "Sunrise",
   "noon": "Noon",
   "sunset": "Sunset",
   "moonrise": "Moonrise",
   "halloween_error": "Oh no — the network is haunted! Please connect to continue.",
-  "halloween_messages": {
-    "0": "Be careful tonight, thick fog may hide something 👀",
-    "1": "A perfect full moon night to… guard your pumpkins 🌕🎃",
-    "2": "Mysterious laughter echoes in the cold wind tonight…",
-    "3": "Don’t forget to close your window, ghosts love midnight visits 👻",
-    "4": "If you hear strange footsteps, check under your bed!",
-    "5": "Glowing pumpkins signal a magical Halloween night 🎃✨",
-    "6": "Wishing you a night full of surprises and joy!"
+  "christmas_messages": {
+    "0": "🎅 Ho ho ho! Merry Christmas is coming! May your days be filled with joy and warmth!",
+    "1": "🎄 The Christmas tree is sparkling! Wishing you a magical holiday season with loved ones!",
+    "2": "⛄ Build a snowman today! May the winter wonderland bring you happiness and fun!",
+    "3": "🎁 Santa is preparing gifts! Have you been nice this year? Good things are coming!",
+    "4": "🔔 Jingle bells, jingle bells! Feel the Christmas spirit in the air!",
+    "5": "❄️ Let it snow, let it snow! Christmas Eve is here - enjoy the magic!",
+    "6": "🎅 Merry Christmas! May your heart be filled with love, peace, and joy today and always!"
   }
 }

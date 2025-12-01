@@ -60,8 +60,8 @@ class WeatherUIHelper {
       image: DecorationImage(
         image: AssetImage(
           isDarkMode
-              ? 'assets/images/halloween_bg_dark.jpg'
-              : 'assets/images/halloween_bg_light.jpg',
+              ? 'assets/images/noel_bg_dark.jpg'
+              : 'assets/images/noel_bg_light.jpg',
         ),
         fit: BoxFit.cover,
       ),
