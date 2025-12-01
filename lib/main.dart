@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/presentation/app_router.dart';
 import 'package:weather_app/presentation/providers/notification_settings_provider.dart';
 import 'package:weather_app/presentation/providers/theme_provider.dart';
+import 'core/constants/language_constants.dart';
 import 'core/di/service_locator.dart';
 import 'core/services/push_notification_service.dart';
 import 'data/datasource/preferences_manager.dart';
@@ -56,7 +57,7 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('vi')],
+      supportedLocales: LanguageConstants.supportedLocales,
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: savedLocale,
@@ -81,13 +82,13 @@ class MyApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // iPhone X size, change if needed
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
-          title: 'Thời tiết (Halloween)',
+          title: 'Thời tiết',
           routerConfig: appRouter,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
@@ -95,8 +96,6 @@ class MyApp extends StatelessWidget {
           themeMode: themeProvider.themeMode,
           theme: AppTheme.lightTheme(),
           darkTheme: AppTheme.darkTheme(),
-          // home: const WeatherHomePage(),
-          // navigatorKey: ServiceLocator.instance.navigatorKey,
         );
       },
     );
