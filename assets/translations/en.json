@@ -51,5 +51,27 @@
     "4": "🔔 Jingle bells, jingle bells! Feel the Christmas spirit in the air!",
     "5": "❄️ Let it snow, let it snow! Christmas Eve is here - enjoy the magic!",
     "6": "🎅 Merry Christmas! May your heart be filled with love, peace, and joy today and always!"
-  }
+  },
+  "select_language": "Select Language",
+    "weather_clear_sky": "Clear Sky",
+  "weather_few_clouds": "Few Clouds",
+  "weather_scattered_clouds": "Scattered Clouds",
+  "weather_broken_clouds": "Broken Clouds",
+  "weather_overcast_clouds": "Overcast Clouds",
+  "weather_shower_rain": "Shower Rain",
+  "weather_rain": "Rain",
+  "weather_light_rain": "Light Rain",
+  "weather_moderate_rain": "Moderate Rain",
+  "weather_heavy_rain": "Heavy Rain",
+  "weather_thunderstorm": "Thunderstorm",
+  "weather_snow": "Snow",
+  "weather_light_snow": "Light Snow",
+  "weather_heavy_snow": "Heavy Snow",
+  "weather_mist": "Mist",
+  "weather_fog": "Fog",
+  "weather_haze": "Haze",
+  "weather_smoke": "Smoke",
+  "weather_dust": "Dust",
+  "weather_sand": "Sand",
+  "weather_tornado": "Tornado"
 }

@@ -51,5 +51,27 @@
     "4": "🔔 Jingle bells, jingle bells! Hãy cảm nhận không khí Giáng sinh trong không gian!",
     "5": "❄️ Tuyết rơi rồi! Đêm Giáng sinh đã đến - tận hưởng điều kỳ diệu nhé!",
     "6": "🎅 Giáng sinh vui vẻ! Cầu mong trái tim bạn tràn đầy yêu thương, bình an và niềm vui!"
-  }
+  },
+  "select_language": "Chọn ngôn ngữ",
+    "weather_clear_sky": "Trời quang đãng",
+  "weather_few_clouds": "Ít mây",
+  "weather_scattered_clouds": "Mây rải rác",
+  "weather_broken_clouds": "Nhiều mây",
+  "weather_overcast_clouds": "Mây u ám",
+  "weather_shower_rain": "Mưa rào",
+  "weather_rain": "Mưa",
+  "weather_light_rain": "Mưa nhỏ",
+  "weather_moderate_rain": "Mưa vừa",
+  "weather_heavy_rain": "Mưa to",
+  "weather_thunderstorm": "Dông bão",
+  "weather_snow": "Tuyết",
+  "weather_light_snow": "Tuyết nhỏ",
+  "weather_heavy_snow": "Tuyết lớn",
+  "weather_mist": "Sương mù nhẹ",
+  "weather_fog": "Sương mù",
+  "weather_haze": "Sương khói",
+  "weather_smoke": "Khói",
+  "weather_dust": "Bụi",
+  "weather_sand": "Cát",
+  "weather_tornado": "Lốc xoáy"
 }
