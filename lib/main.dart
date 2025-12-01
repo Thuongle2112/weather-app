@@ -9,12 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/presentation/app_router.dart';
 import 'package:weather_app/presentation/providers/notification_settings_provider.dart';
 import 'package:weather_app/presentation/providers/theme_provider.dart';
-
 import 'core/di/service_locator.dart';
 import 'core/services/push_notification_service.dart';
 import 'data/datasource/preferences_manager.dart';
 import 'firebase_options.dart';
-import 'presentation/page/home/weather_home_page.dart';
 import 'presentation/theme/app_theme.dart';
 
 void main() async {

@@ -37,18 +37,19 @@
   "get_premium_1hour": "Xem quảng cáo để nhận 1 giờ premium",
   "premium_activated": "Chế độ premium đã được kích hoạt!",
   "reward_ad_not_ready": "Quảng cáo chưa sẵn sàng, hãy thử lại sau",
+  "see_all": "Xem tất cả",
   "sunrise": "Bình minh",
   "noon": "Trưa",
   "sunset": "Hoàng hôn",
   "moonrise": "Trăng mọc",
   "halloween_error": "Ôi không, mạng bị ám! Hãy kết nối để tiếp tục...",
-  "halloween_messages": {
-    "0": "Cẩn thận đêm nay, sương mù dày đặc có thể che giấu điều gì đó 👀",
-    "1": "Một đêm trăng rằm tuyệt vời để… canh gác bí đỏ 🌕🎃",
-    "2": "Tiếng cười bí ẩn vang vọng trong gió lạnh tối nay…",
-    "3": "Đừng quên đóng cửa sổ, những bóng ma thích ghé thăm lúc nửa đêm 👻",
-    "4": "Nếu nghe tiếng bước chân lạ, hãy kiểm tra dưới gầm giường nhé!",
-    "5": "Bí ngô phát sáng rực rỡ, báo hiệu một đêm Halloween kỳ bí 🎃✨",
-    "6": "Chúc bạn một đêm Halloween đầy bất ngờ và niềm vui!"
+  "christmas_messages": {
+    "0": "🎅 Ho ho ho! Giáng sinh đang đến gần! Chúc bạn những ngày tràn đầy niềm vui và ấm áp!",
+    "1": "🎄 Cây thông Noel đang lấp lánh! Chúc bạn một mùa lễ hội thần kỳ bên người thân yêu!",
+    "2": "⛄ Hãy nặn người tuyết hôm nay! Cầu chúc xứ sở băng giá mang đến hạnh phúc cho bạn!",
+    "3": "🎁 Ông già Noel đang chuẩn bị quà! Bạn đã ngoan năm nay chưa? Điều tốt đẹp sắp đến!",
+    "4": "🔔 Jingle bells, jingle bells! Hãy cảm nhận không khí Giáng sinh trong không gian!",
+    "5": "❄️ Tuyết rơi rồi! Đêm Giáng sinh đã đến - tận hưởng điều kỳ diệu nhé!",
+    "6": "🎅 Giáng sinh vui vẻ! Cầu mong trái tim bạn tràn đầy yêu thương, bình an và niềm vui!"
   }
 }

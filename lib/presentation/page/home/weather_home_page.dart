@@ -1,33 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:weather_app/presentation/page/home/widgets/city_list_section.dart';
-import 'package:weather_app/presentation/page/home/widgets/city_search_modal.dart';
-import 'package:weather_app/presentation/page/home/widgets/error_view.dart';
-import 'package:weather_app/presentation/page/home/widgets/floating_button.dart';
-import 'package:weather_app/presentation/page/home/widgets/halloween_effect.dart';
-import 'package:weather_app/presentation/page/home/widgets/initial_view.dart';
-import 'package:weather_app/presentation/page/home/widgets/temperature_display.dart';
-import 'package:weather_app/presentation/page/home/widgets/time_progress_bar.dart';
-import 'package:weather_app/presentation/page/home/widgets/weather_app_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shake/shake.dart';
+import 'package:weather_app/presentation/page/home/widgets/effects/event_effect.dart';
 
+import '../../../core/services/ad_service.dart';
+import '../../../core/services/shake_detector_service.dart';
 import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
 import '../../providers/theme_provider.dart';
-import '../../utils/halloween_message_helper.dart';
+import '../../utils/event_message_helper.dart';
 import '../../utils/weather_service.dart';
 import '../../utils/weather_ui_helper.dart';
 import 'bloc/home_bloc.dart';
 import 'bloc/home_event.dart';
 import 'bloc/home_state.dart';
+import 'widgets/buttons/premium_button.dart';
+import 'widgets/city/city_list_section.dart';
+import 'widgets/city/city_search_modal.dart';
+import 'widgets/effects/floating_button.dart';
+import 'widgets/states/error_view.dart';
+import 'widgets/states/initial_view.dart';
+import 'widgets/states/loading_view.dart';
+import 'widgets/weather/temperature_display.dart';
+import 'widgets/weather/time_progress_bar.dart';
+import 'widgets/weather/weather_app_bar.dart';
 
 class WeatherHomePage extends StatefulWidget {
   const WeatherHomePage({super.key});
@@ -38,31 +40,22 @@ class WeatherHomePage extends StatefulWidget {
 
 class _WeatherHomePageState extends State<WeatherHomePage>
     with WidgetsBindingObserver {
-  final TextEditingController cityController = TextEditingController();
-  bool isLocationPermissionDetermined = false;
+  // Controllers
+  final TextEditingController _cityController = TextEditingController();
+
+  // Services
+  late AdService _adService;
+  late ShakeDetectorService _shakeService;
+
+  // State
   bool _showFloatingHalloween = true;
-  BannerAd? _bannerAd;
-  InterstitialAd? _interstitialAd;
-  RewardedAd? _rewardedAd;
-  bool _isAdLoaded = false;
-  int _interstitialLoadAttempts = 0;
-  int _rewardedLoadAttempts = 0;
-  int _searchCount = 0;
-  bool _isPremium = false;
-  final int _maxAdLoadAttempts = 3;
+  bool _hasShownHalloweenDialog = false;
   bool _showBoo = false;
-
-bool _hasShownHalloweenDialog = false; 
-  late ShakeDetector _shakeDetector;
-  int _shakeCount = 0;
   bool _showMoneyRain = false;
-  DateTime? _lastShakeTime;
+  int _searchCount = 0;
 
-  late final String _bannerAdUnitId;
-  late final String _interstitialAdUnitId;
-  late final String _rewardedAdUnitId;
-
-  final List<String> popularCities = [
+  // Data
+  final List<String> _popularCities = [
     'Hanoi',
     'Ho Chi Minh City',
     'Da Nang',
@@ -79,231 +72,52 @@ bool _hasShownHalloweenDialog = false;
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _initAdIds();
-    _initializeLocationService();
-    _loadBannerAd();
-    _loadInterstitialAd();
-    _loadRewardedAd();
-
-    _shakeDetector = ShakeDetector.autoStart(
-      onPhoneShake: (event) {
-        final now = DateTime.now();
-        // Nếu lắc liên tục trong 3 giây, tăng count
-        if (_lastShakeTime == null ||
-            now.difference(_lastShakeTime!) > Duration(seconds: 3)) {
-          _shakeCount = 1;
-        } else {
-          _shakeCount++;
-        }
-        _lastShakeTime = now;
-
-        // Nếu lắc >= 5 lần liên tục, hiện hiệu ứng tiền rơi
-        if (_shakeCount >= 5) {
-          setState(() {
-            _showMoneyRain = true;
-          });
-          Future.delayed(const Duration(seconds: 3), () {
-            if (mounted) setState(() => _showMoneyRain = false);
-          });
-          _shakeCount = 0;
-        } else {
-          setState(() {
-            _showBoo = true;
-          });
-          Future.delayed(const Duration(seconds: 2), () {
-            if (mounted) setState(() => _showBoo = false);
-          });
-        }
-      },
-    );
+    _initializeServices();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _bannerAd?.dispose();
-    _interstitialAd?.dispose();
-    _rewardedAd?.dispose();
-    cityController.dispose();
+    _adService.dispose();
+    _shakeService.dispose();
+    _cityController.dispose();
     super.dispose();
   }
 
-  void _initAdIds() {
-    _bannerAdUnitId = dotenv.env['ADMOB_BANNER_ID'] ?? '';
-    _interstitialAdUnitId = dotenv.env['ADMOB_INTERSTITIAL_ID'] ?? '';
-    _rewardedAdUnitId = dotenv.env['ADMOB_REWARDED_ID'] ?? '';
-  }
-
-  void _loadBannerAd() {
-    if (_isPremium) return;
-
-    _bannerAd = BannerAd(
-      adUnitId: _bannerAdUnitId,
-      size: AdSize.banner,
-      request: const AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          debugPrint('Banner ad loaded successfully');
-          setState(() {
-            _isAdLoaded = true;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          debugPrint('Banner ad failed to load: $error');
-          ad.dispose();
-          _bannerAd = null;
-        },
-      ),
-    );
-    _bannerAd?.load();
-  }
-
-  void _loadInterstitialAd() {
-    if (_isPremium) return;
-    if (_interstitialAd != null) return;
-
-    InterstitialAd.load(
-      adUnitId: _interstitialAdUnitId,
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          _interstitialAd = ad;
-          _interstitialLoadAttempts = 0;
-          debugPrint('Interstitial ad loaded successfully');
-        },
-        onAdFailedToLoad: (error) {
-          debugPrint('Interstitial ad failed to load: $error');
-          _interstitialLoadAttempts++;
-          _interstitialAd = null;
-          if (_interstitialLoadAttempts <= _maxAdLoadAttempts) {
-            _loadInterstitialAd();
-          }
-        },
-      ),
-    );
-  }
-
-  void _showInterstitialAd() {
-    if (_interstitialAd == null) {
-      debugPrint('Attempting to show interstitial before loaded');
-      return;
-    }
-
-    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdDismissedFullScreenContent: (ad) {
-        ad.dispose();
-        _loadInterstitialAd();
-      },
-      onAdFailedToShowFullScreenContent: (ad, error) {
-        debugPrint('Failed to show interstitial: $error');
-        ad.dispose();
-        _loadInterstitialAd();
-      },
+  void _initializeServices() {
+    // Initialize Ad Service
+    _adService = AdService(
+      bannerAdUnitId: dotenv.env['ADMOB_BANNER_ID'] ?? '',
+      interstitialAdUnitId: dotenv.env['ADMOB_INTERSTITIAL_ID'] ?? '',
+      rewardedAdUnitId: dotenv.env['ADMOB_REWARDED_ID'] ?? '',
     );
 
-    _interstitialAd!.show();
-    _interstitialAd = null;
-  }
+    _adService.loadBannerAd(() => setState(() {}));
+    _adService.loadInterstitialAd();
+    _adService.loadRewardedAd();
 
-  void _loadRewardedAd() {
-    if (_rewardedAd != null) return;
-
-    RewardedAd.load(
-      adUnitId: _rewardedAdUnitId,
-      request: const AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (ad) {
-          _rewardedAd = ad;
-          _rewardedLoadAttempts = 0;
-          debugPrint('Rewarded ad loaded successfully');
-        },
-        onAdFailedToLoad: (error) {
-          debugPrint('Rewarded ad failed to load: $error');
-          _rewardedLoadAttempts++;
-          _rewardedAd = null;
-          if (_rewardedLoadAttempts <= _maxAdLoadAttempts) {
-            _loadRewardedAd();
-          }
-        },
-      ),
-    );
-  }
-
-  void _showRewardedAd() {
-    if (_rewardedAd == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('reward_ad_not_ready'.tr())));
-      return;
-    }
-
-    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdDismissedFullScreenContent: (ad) {
-        ad.dispose();
-        _loadRewardedAd();
-      },
-      onAdFailedToShowFullScreenContent: (ad, error) {
-        debugPrint('Failed to show rewarded ad: $error');
-        ad.dispose();
-        _loadRewardedAd();
-      },
-    );
-
-    _rewardedAd!.setImmersiveMode(true);
-    _rewardedAd!.show(
-      onUserEarnedReward: (_, reward) {
-        setState(() {
-          _isPremium = true;
-          _bannerAd?.dispose();
-          _bannerAd = null;
-          _isAdLoaded = false;
+    // Initialize Shake Service
+    _shakeService = ShakeDetectorService();
+    _shakeService.initialize(
+      onBooEffect: () {
+        setState(() => _showBoo = true);
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) setState(() => _showBoo = false);
         });
-
-        Future.delayed(const Duration(hours: 1), () {
-          if (mounted) {
-            setState(() {
-              _isPremium = false;
-              _loadBannerAd();
-            });
-          }
+      },
+      onMoneyRain: () {
+        setState(() => _showMoneyRain = true);
+        Future.delayed(const Duration(seconds: 3), () {
+          if (mounted) setState(() => _showMoneyRain = false);
         });
-
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('premium_activated'.tr())));
       },
     );
-    _rewardedAd = null;
+
+    // Initialize Location Service
+    _initializeLocationService();
   }
 
-  Future<void> _initializeLocationService() async {
-    WeatherService.checkLocationPermission(
-      context,
-      (value) => setState(() => isLocationPermissionDetermined = value),
-    );
-  }
-
-  void _showCitySearchModal() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder:
-          (context) => CitySearchModal(
-            cityController: cityController,
-            popularCities: popularCities,
-            onCitySelected: (city) {
-              context.read<WeatherBloc>().add(FetchWeatherByCity(city));
-
-              _searchCount++;
-
-              if (!_isPremium && _searchCount % 3 == 0) {
-                _showInterstitialAd();
-              }
-            },
-          ),
-    );
-  }
+  Future<void> _initializeLocationService() async {}
 
   Future<void> _requestLocationPermission() async {
     try {
@@ -323,30 +137,47 @@ bool _hasShownHalloweenDialog = false;
     }
   }
 
-  int getCurrentTimeIndex(List<TimeMark> marks, DateTime currentTime) {
-    List<DateTime> times =
-        marks.map((mark) {
-          final parts = mark.time.split(':');
-          int hour = int.parse(parts[0]);
-          int minute = int.parse(parts[1]);
-          return DateTime(
-            currentTime.year,
-            currentTime.month,
-            currentTime.day,
-            hour,
-            minute,
-          );
-        }).toList();
+  void _showCitySearchModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder:
+          (context) => CitySearchModal(
+            cityController: _cityController,
+            popularCities: _popularCities,
+            onCitySelected: (city) {
+              context.read<WeatherBloc>().add(FetchWeatherByCity(city));
+              _searchCount++;
 
-    if (currentTime.isBefore(times.first)) return 0;
-    if (currentTime.isAfter(times.last)) return times.length - 1;
+              // Show interstitial every 3 searches
+              if (!_adService.isPremium && _searchCount % 3 == 0) {
+                _adService.showInterstitialAd();
+              }
+            },
+          ),
+    );
+  }
 
-    for (int i = 0; i < times.length - 1; i++) {
-      if (currentTime.isAfter(times[i]) && currentTime.isBefore(times[i + 1])) {
-        return i;
-      }
-    }
-    return times.length - 1;
+  void _handleRewardedAd() {
+    _adService.showRewardedAd(
+      context,
+      onRewardEarned: () {
+        _adService.activatePremium(
+          () {
+            setState(() {});
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text('premium_activated'.tr())));
+          },
+          () {
+            setState(() {});
+            _adService.loadBannerAd(() => setState(() {}));
+          },
+        );
+      },
+      onAdDismissed: () {},
+    );
   }
 
   @override
@@ -362,132 +193,52 @@ bool _hasShownHalloweenDialog = false;
             BlocBuilder<WeatherBloc, WeatherState>(
               builder: (context, state) {
                 if (state is WeatherLoading) {
-                  return _buildLoadingView(isDarkMode);
+                  return const LoadingView();
                 } else if (state is WeatherLoaded) {
-                  // return _buildWeatherDisplay(context, state.weather);
-                  if (!_hasShownHalloweenDialog) {
-                    _hasShownHalloweenDialog = true; 
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      final message = HalloweenMessageHelper.getTodayMessage(context);
-                      if (message.isNotEmpty) {
-                        HalloweenMessageHelper.showMessageDialog(
-                          context,
-                          message,
-                          autoDismissDuration: const Duration(seconds: 30),
-                        );
-                      }
-                    });
-                  }
-                  return Stack(
-                    children: [
-                      _buildWeatherDisplay(context, state.weather),
-                      if (themeProvider.showHalloweenEffect)
-                        HalloweenEffect(
-                          onCompleted: () {
-                            themeProvider.hideHalloweenEffect();
-                          },
-                        ),
-                      if (_showFloatingHalloween)
-                        FloatingButton(
-                          onPressed: () {
-                            Provider.of<ThemeProvider>(
-                              context,
-                              listen: false,
-                            ).toggleTheme();
-                          },
-                          onHide: () {
-                            setState(() {
-                              _showFloatingHalloween = false;
-                            });
-                          },
-                        ),
-                      if (_showBoo)
-                        Center(
-                          child: Lottie.asset(
-                            'assets/animations/halloween_effect.json',
-                            fit: BoxFit.contain,
-                            repeat: false,
-                          ),
-                        ),
-                      if (_showMoneyRain)
-                        Positioned.fill(
-                          child: Lottie.asset(
-                            'assets/animations/money_rain.json',
-                            fit: BoxFit.cover,
-                            repeat: false,
-                          ),
-                        ),
-                    ],
-                  );
+                  _showHalloweenDialogIfNeeded();
+                  return _buildWeatherContent(state.weather, themeProvider);
                 } else if (state is WeatherError) {
-                  return _buildErrorView(state.message, isDarkMode);
+                  return ErrorView(
+                    message: state.message,
+                    onRetry: _requestLocationPermission,
+                    isDarkMode: isDarkMode,
+                  );
                 } else {
-                  return _buildInitialView(isDarkMode);
+                  return InitialView(
+                    onLocationRequest: _requestLocationPermission,
+                    onSearchCity: _showCitySearchModal,
+                    isDarkMode: isDarkMode,
+                  );
                 }
               },
             ),
-            if (themeProvider.showHalloweenEffect)
-              HalloweenEffect(
-                onCompleted: () {
-                  themeProvider.hideHalloweenEffect();
-                },
-              ),
-            // if (_showFloatingHalloween)
-            //   FloatingButton(
-            //     onPressed: () {
-            //       Provider.of<ThemeProvider>(
-            //         context,
-            //         listen: false,
-            //       ).toggleTheme();
-            //     },
-            //     onHide: () {
-            //       setState(() {
-            //         _showFloatingHalloween = false;
-            //       });
-            //     },
-            //   ),
+            _buildOverlayEffects(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLoadingView(bool isDarkMode) {
-    return Center(
-      child: SizedBox(
-        width: 150.w,
-        height: 150.w,
-        child: Lottie.asset(
-          'assets/animations/ghost_loading.json',
-          fit: BoxFit.cover,
-          repeat: true,
-          animate: true,
-        ),
-      ),
-    );
+  void _showHalloweenDialogIfNeeded() {
+    if (!_hasShownHalloweenDialog) {
+      _hasShownHalloweenDialog = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final message = ChristmasMessageHelper.getTodayMessage(context);
+        if (message.isNotEmpty) {
+          ChristmasMessageHelper.showMessageDialog(
+            context,
+            message,
+            autoDismissDuration: const Duration(seconds: 30),
+          );
+        }
+      });
+    }
   }
 
-  Widget _buildErrorView(String message, bool isDarkMode) {
-    return ErrorView(
-      message: message,
-      onRetry: _requestLocationPermission,
-      isDarkMode: isDarkMode,
-    );
-  }
-
-  Widget _buildInitialView(bool isDarkMode) {
-    return InitialView(
-      onLocationRequest: _requestLocationPermission,
-      onSearchCity: _showCitySearchModal,
-      isDarkMode: isDarkMode,
-    );
-  }
-
-  Widget _buildWeatherDisplay(BuildContext context, Weather weather) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+  Widget _buildWeatherContent(Weather weather, ThemeProvider themeProvider) {
     final isDarkMode = themeProvider.isDarkMode;
+    final textColor = isDarkMode ? Colors.white : Colors.white;
 
-    final now = DateTime.now();
     final marks = [
       TimeMark(label: tr('sunrise'), time: '05:19', icon: Icons.wb_sunny),
       TimeMark(label: tr('noon'), time: '12:00', icon: Icons.wb_sunny_outlined),
@@ -498,118 +249,104 @@ bool _hasShownHalloweenDialog = false;
         icon: Icons.nightlight_round,
       ),
     ];
-    final currentIndex = getCurrentTimeIndex(marks, now);
 
-    // Color backgroundColor =
-    //     isDarkMode
-    //         ? Colors.black
-    //         : WeatherUIHelper.getBackgroundColorByWeather(weather);
-    Color textColor = isDarkMode ? Colors.white : Colors.white;
-
-    return Container(
-      // decoration: BoxDecoration(color: backgroundColor),
-      decoration: WeatherUIHelper.getBackgroundImageByTheme(
-        isDarkMode: isDarkMode,
-      ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  WeatherAppBar.buildSliverAppBar(
-                    context,
-                    weather.cityName,
-                    textColor,
-                  ),
-                  SliverToBoxAdapter(
-                    child: TemperatureDisplay(
-                      weather: weather,
-                      textColor: textColor,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: CityListSection(
-                      popularCities: popularCities,
-                      textColor: textColor,
-                      isDarkMode: isDarkMode,
-                      showSearchModal: _showCitySearchModal,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 16.h),
-                        TimeProgressBar(
-                          marks: marks,
-                          currentTime: DateTime.now(),
+    return Stack(
+      children: [
+        Container(
+          decoration: WeatherUIHelper.getBackgroundImageByTheme(
+            isDarkMode: isDarkMode,
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: CustomScrollView(
+                    slivers: [
+                      WeatherAppBar.buildSliverAppBar(
+                        context,
+                        weather.cityName,
+                        textColor,
+                      ),
+                      SliverToBoxAdapter(
+                        child: TemperatureDisplay(
+                          weather: weather,
+                          textColor: textColor,
                         ),
-                      ],
-                    ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: CityListSection(
+                          popularCities: _popularCities,
+                          textColor: textColor,
+                          isDarkMode: isDarkMode,
+                          showSearchModal: _showCitySearchModal,
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 16.h),
+                            TimeProgressBar(
+                              marks: marks,
+                              currentTime: DateTime.now(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (!_adService.isPremium)
+                        SliverToBoxAdapter(
+                          child: PremiumButton(onPressed: _handleRewardedAd),
+                        ),
+                    ],
                   ),
-                  if (!_isPremium)
-                    SliverToBoxAdapter(child: _buildPremiumButton()),
-                ],
-              ),
+                ),
+                if (_adService.isAdLoaded &&
+                    !_adService.isPremium &&
+                    _adService.bannerAd != null)
+                  Container(
+                    alignment: Alignment.center,
+                    width: _adService.bannerAd!.size.width.toDouble(),
+                    height: _adService.bannerAd!.size.height.toDouble(),
+                    child: AdWidget(ad: _adService.bannerAd!),
+                  ),
+              ],
             ),
-            if (_isAdLoaded && !_isPremium)
-              Container(
-                alignment: Alignment.center,
-                width: _bannerAd!.size.width.toDouble(),
-                height: _bannerAd!.size.height.toDouble(),
-                child: AdWidget(ad: _bannerAd!),
-              ),
-          ],
+          ),
         ),
-      ),
+        if (themeProvider.showHalloweenEffect)
+          EventEffect(
+            onCompleted: () => themeProvider.hideHalloweenEffect(),
+          ),
+        if (_showFloatingHalloween)
+          FloatingButton(
+            onPressed: () {
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+            },
+            onHide: () => setState(() => _showFloatingHalloween = false),
+          ),
+      ],
     );
   }
 
-  Widget _buildPremiumButton() {
-    return Padding(
-      padding: EdgeInsets.all(16.w),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFFD5B5B), Color(0xFF3A1C71), Color(0xFFF9A602)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: ElevatedButton(
-          onPressed: _showRewardedAd,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r),
+  Widget _buildOverlayEffects(BuildContext context) {
+    return Stack(
+      children: [
+        if (_showBoo)
+          Center(
+            child: Lottie.asset(
+              'assets/animations/christmas_floating_button.json',
+              fit: BoxFit.contain,
+              repeat: false,
             ),
-            padding: EdgeInsets.symmetric(vertical: 12.h),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/svgs/halloween/halloween_bingo.svg',
-                width: 24.w,
-                height: 24.w,
-                color: Colors.white,
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                'get_premium_1hour'.tr(),
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+        if (_showMoneyRain)
+          Positioned.fill(
+            child: Lottie.asset(
+              'assets/animations/snow_rain.json',
+              fit: BoxFit.cover,
+              repeat: false,
+            ),
           ),
-        ),
-      ),
+      ],
     );
   }
 }
