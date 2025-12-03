@@ -28,7 +28,7 @@ class TemperatureDisplay extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 30.h),
+        padding: EdgeInsets.symmetric(vertical: 16.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -145,7 +145,10 @@ class TemperatureDisplay extends StatelessWidget {
     try {
       switch (locale) {
         case 'vi':
-          formattedDate = DateFormat("EEEE, 'ngày' dd 'tháng' MM", locale).format(now);
+          formattedDate = DateFormat(
+            "EEEE, 'ngày' dd 'tháng' MM",
+            locale,
+          ).format(now);
           break;
         case 'ja':
           formattedDate = DateFormat('M月d日 (EEEE)', locale).format(now);
@@ -192,25 +195,19 @@ class TemperatureDisplay extends StatelessWidget {
   Widget _buildHighLowTemperature(Color textColor) {
     return Text(
       'H:${(weather.temperature + 2).toInt()}° L:${(weather.temperature - 2).toInt()}°',
-      style: TextStyle(
-        color: textColor.withOpacity(0.7),
-        fontSize: 16.sp,
-      ),
+      style: TextStyle(color: textColor.withOpacity(0.7), fontSize: 16.sp),
     );
   }
 
   Widget _buildExtraWeatherInfo(Color textColor, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.2),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -218,7 +215,8 @@ class TemperatureDisplay extends StatelessWidget {
             Expanded(
               child: _buildWeatherInfoItem(
                 icon: Icons.air,
-                value: '${weather.windSpeed != null ? weather.windSpeed!.toInt() : 0} ${'km_per_hour'.tr()}',
+                value:
+                    '${weather.windSpeed != null ? weather.windSpeed!.toInt() : 0} ${'km_per_hour'.tr()}',
                 label: 'wind'.tr(),
                 textColor: textColor,
               ),

@@ -77,5 +77,7 @@
   "weather_smoke": "ควัน",
   "weather_dust": "ฝุ่น",
   "weather_sand": "ทราย",
-  "weather_tornado": "พายุทอร์นาโด"
+  "weather_tornado": "พายุทอร์นาโด",
+  "5-day-forecast": "พยากรณ์อากาศ 5 วัน",
+  "hourly-forecast": "พยากรณ์อากาศรายชั่วโมง"
 }

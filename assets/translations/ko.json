@@ -77,5 +77,7 @@
   "weather_smoke": "연기",
   "weather_dust": "먼지",
   "weather_sand": "모래",
-  "weather_tornado": "토네이도"
+  "weather_tornado": "토네이도",
+  "5-day-forecast": "5일 예보",
+  "hourly-forecast": "시간별 예보"
 }

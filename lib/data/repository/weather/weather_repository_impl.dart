@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../domain/repository/weather/weather_repository.dart';
 
 import '../../datasource/weather_remote_data_source.dart';
+import '../../model/weather/daily_forecast.dart';
+import '../../model/weather/forecast_item.dart';
 import '../../model/weather/weather.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {
@@ -36,6 +38,48 @@ class WeatherRepositoryImpl implements WeatherRepository {
       return result;
     } catch (e) {
       debugPrint('❌ Repository: getWeatherByCoordinates failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<ForecastItem>> getHourlyForecast({
+    double? lat,
+    double? lon,
+    String? cityName,
+  }) async {
+    debugPrint('🔄 Repository: getHourlyForecast called');
+    try {
+      final result = await remoteDataSource.getHourlyForecast(
+        lat: lat,
+        lon: lon,
+        cityName: cityName,
+      );
+      debugPrint('✅ Repository: getHourlyForecast completed successfully');
+      return result;
+    } catch (e) {
+      debugPrint('❌ Repository: getHourlyForecast failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<DailyForecast>> getDailyForecast({
+    double? lat,
+    double? lon,
+    String? cityName,
+  }) async {
+    debugPrint('🔄 Repository: getDailyForecast called');
+    try {
+      final result = await remoteDataSource.getDailyForecast(
+        lat: lat,
+        lon: lon,
+        cityName: cityName,
+      );
+      debugPrint('✅ Repository: getDailyForecast completed successfully');
+      return result;
+    } catch (e) {
+      debugPrint('❌ Repository: getDailyForecast failed: $e');
       rethrow;
     }
   }

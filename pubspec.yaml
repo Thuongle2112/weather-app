@@ -92,7 +92,6 @@ flutter:
     - assets/translations/
     - assets/weather_icons/
     - assets/animations/
-    - assets/svgs/halloween/
     - assets/images/
     - assets/readme_screenshots/
 

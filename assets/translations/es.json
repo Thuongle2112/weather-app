@@ -77,5 +77,7 @@
   "weather_smoke": "Humo",
   "weather_dust": "Polvo",
   "weather_sand": "Arena",
-  "weather_tornado": "Tornado"
+  "weather_tornado": "Tornado",
+    "5-day-forecast": "Pronóstico de 5 días",
+  "hourly-forecast": "Pronóstico por hora"
 }

@@ -73,5 +73,7 @@
   "weather_smoke": "Khói",
   "weather_dust": "Bụi",
   "weather_sand": "Cát",
-  "weather_tornado": "Lốc xoáy"
+  "weather_tornado": "Lốc xoáy",
+  "5-day-forecast": "Dự báo 5 ngày",
+  "hourly-forecast": "Dự báo theo giờ"
 }

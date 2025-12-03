@@ -77,5 +77,7 @@
   "weather_smoke": "煙",
   "weather_dust": "砂塵",
   "weather_sand": "砂",
-  "weather_tornado": "竜巻"
+  "weather_tornado": "竜巻",
+  "5-day-forecast": "5日間の予報",
+  "hourly-forecast": "時間ごとの予報"
 }

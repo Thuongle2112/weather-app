@@ -73,5 +73,7 @@
   "weather_smoke": "Smoke",
   "weather_dust": "Dust",
   "weather_sand": "Sand",
-  "weather_tornado": "Tornado"
+  "weather_tornado": "Tornado",
+  "5-day-forecast": "5-Day Forecast",
+  "hourly-forecast": "Hourly Forecast"
 }
