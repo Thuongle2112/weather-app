@@ -97,7 +97,7 @@ class _CityListSectionState extends State<CityListSection>
         ),
         const Spacer(),
         Container(
-          padding: EdgeInsets.all(8.w),
+          padding: EdgeInsets.all(2.w),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -199,7 +199,7 @@ class _CityListSectionState extends State<CityListSection>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(12.r),
                 boxShadow: [
                   BoxShadow(
                     color: const Color(0xFFD32F2F).withOpacity(0.3),
@@ -223,10 +223,16 @@ class _CityListSectionState extends State<CityListSection>
                 child: Text(
                   'change_location'.tr(),
                   style: TextStyle(
-                    // color: Colors.blue.shade900,
-                    color: Color(0xFF212121),
+                    color: Colors.white.withOpacity(0.9),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(0, 2),
+                        blurRadius: 6,
+                        color: Colors.black.withOpacity(0.45),
+                      ),
+                    ],
                   ),
                 ),
               ),

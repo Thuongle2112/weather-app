@@ -22,7 +22,7 @@ class PremiumButton extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: ElevatedButton(
           onPressed: onPressed,
@@ -31,7 +31,7 @@ class PremiumButton extends StatelessWidget {
             shadowColor: Colors.transparent,
             foregroundColor: Colors.blue.shade900,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.r),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             padding: EdgeInsets.symmetric(vertical: 12.h),
           ),
@@ -43,9 +43,16 @@ class PremiumButton extends StatelessWidget {
               Text(
                 'get_premium_1hour'.tr(),
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  color: Colors.white.withOpacity(0.9),
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF212121),
+                  fontSize: 16,
+                  shadows: [
+                    Shadow(
+                      offset: Offset(0, 2),
+                      blurRadius: 6,
+                      color: Colors.black.withOpacity(0.45),
+                    ),
+                  ],
                 ),
               ),
             ],

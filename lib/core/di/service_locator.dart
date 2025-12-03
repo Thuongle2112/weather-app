@@ -7,6 +7,8 @@ import 'package:provider/single_child_widget.dart';
 
 import '../../data/datasource/weather_remote_data_source.dart';
 import '../../data/repository/weather/weather_repository_impl.dart';
+import '../../domain/usecase/weather/get_daily_forecast.dart';
+import '../../domain/usecase/weather/get_hourly_forecast.dart';
 import '../../domain/usecase/weather/get_weather_by_city.dart';
 import '../../domain/usecase/weather/get_weather_by_coordinates.dart';
 import '../../presentation/page/home/bloc/home_bloc.dart';
@@ -29,8 +31,14 @@ class ServiceLocator {
       WeatherRepositoryImpl(weatherRemoteDataSource);
 
   GetWeatherByCity get getWeatherByCity => GetWeatherByCity(weatherRepository);
+
   GetWeatherByCoordinates get getWeatherByCoordinates =>
       GetWeatherByCoordinates(weatherRepository);
+
+  GetHourlyForecast get getHourlyForecast =>
+      GetHourlyForecast(weatherRepository);
+
+  GetDailyForecast get getDailyForecast => GetDailyForecast(weatherRepository);
 
   List<SingleChildWidget> get providers => [
     ChangeNotifierProvider(create: (_) => ThemeProvider()),
@@ -39,6 +47,8 @@ class ServiceLocator {
           (context) => WeatherBloc(
             getWeatherByCity: getWeatherByCity,
             getWeatherByCoordinates: getWeatherByCoordinates,
+            getHourlyForecast: getHourlyForecast,
+            getDailyForecast: getDailyForecast,
           ),
     ),
   ];

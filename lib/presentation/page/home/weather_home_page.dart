@@ -23,7 +23,9 @@ import 'bloc/home_state.dart';
 import 'widgets/buttons/premium_button.dart';
 import 'widgets/city/city_list_section.dart';
 import 'widgets/city/city_search_modal.dart';
+import 'widgets/daily_forecast_section.dart';
 import 'widgets/effects/floating_button.dart';
+import 'widgets/hourly_forecast_section.dart';
 import 'widgets/states/error_view.dart';
 import 'widgets/states/initial_view.dart';
 import 'widgets/states/loading_view.dart';
@@ -239,6 +241,11 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     final isDarkMode = themeProvider.isDarkMode;
     final textColor = isDarkMode ? Colors.white : Colors.white;
 
+    // Get forecast data from BLoC state
+    final state = context.read<WeatherBloc>().state;
+    final hourlyForecast = state is WeatherLoaded ? state.hourlyForecast : null;
+    final dailyForecast = state is WeatherLoaded ? state.dailyForecast : null;
+
     final marks = [
       TimeMark(label: tr('sunrise'), time: '05:19', icon: Icons.wb_sunny),
       TimeMark(label: tr('noon'), time: '12:00', icon: Icons.wb_sunny_outlined),
@@ -273,6 +280,25 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                           textColor: textColor,
                         ),
                       ),
+
+                      // Hourly Forecast Section
+                      if (hourlyForecast != null && hourlyForecast.isNotEmpty)
+                        SliverToBoxAdapter(
+                          child: HourlyForecastSection(
+                            hourlyForecast: hourlyForecast,
+                            textColor: textColor,
+                          ),
+                        ),
+
+                      // Daily Forecast Section
+                      if (dailyForecast != null && dailyForecast.isNotEmpty)
+                        SliverToBoxAdapter(
+                          child: DailyForecastSection(
+                            dailyForecast: dailyForecast,
+                            textColor: textColor,
+                          ),
+                        ),
+
                       SliverToBoxAdapter(
                         child: CityListSection(
                           popularCities: _popularCities,
@@ -313,9 +339,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
           ),
         ),
         if (themeProvider.showHalloweenEffect)
-          EventEffect(
-            onCompleted: () => themeProvider.hideHalloweenEffect(),
-          ),
+          EventEffect(onCompleted: () => themeProvider.hideHalloweenEffect()),
         if (_showFloatingHalloween)
           FloatingButton(
             onPressed: () {

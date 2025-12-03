@@ -77,5 +77,7 @@
   "weather_smoke": "Rauch",
   "weather_dust": "Staub",
   "weather_sand": "Sand",
-  "weather_tornado": "Tornado"
+  "weather_tornado": "Tornado",
+  "5-day-forecast": "5-Tage-Vorhersage",
+  "hourly-forecast": "Stündliche Vorhersage"
 }

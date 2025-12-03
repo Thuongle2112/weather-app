@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../data/model/weather/daily_forecast.dart';
+import '../../../../data/model/weather/forecast_item.dart';
 import '../../../../data/model/weather/weather.dart';
 
 abstract class WeatherState extends Equatable {
@@ -18,11 +20,13 @@ class WeatherLoading extends WeatherState {
 
 class WeatherLoaded extends WeatherState {
   final Weather weather;
+  final List<ForecastItem>? hourlyForecast;
+  final List<DailyForecast>? dailyForecast;
 
-  const WeatherLoaded(this.weather);
+  const WeatherLoaded(this.weather, {this.hourlyForecast, this.dailyForecast});
 
   @override
-  List<Object?> get props => [weather];
+  List<Object?> get props => [weather, hourlyForecast, dailyForecast];
 }
 
 class WeatherError extends WeatherState {
