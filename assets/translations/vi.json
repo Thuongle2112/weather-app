@@ -75,5 +75,12 @@
   "weather_sand": "Cát",
   "weather_tornado": "Lốc xoáy",
   "5-day-forecast": "Dự báo 5 ngày",
-  "hourly-forecast": "Dự báo theo giờ"
+  "hourly-forecast": "Dự báo theo giờ",
+  "gps_disabled": "GPS Bị Tắt",
+  "please_enable_gps": "Vui lòng bật GPS trong Cài đặt để xem thời tiết vị trí của bạn.",
+  "permission_denied": "Quyền định vị bị từ chối",
+  "permission_required": "Cần Quyền Truy Cập",
+  "permission_permanently_denied": "Quyền định vị bị từ chối vĩnh viễn. Vui lòng bật trong Cài đặt.",
+  "gps_timeout_using_last": "GPS hết thời gian. Dùng vị trí gần nhất.",
+  "gps_timeout_using_default": "GPS hết thời gian. Tải thời tiết mặc định."
 }

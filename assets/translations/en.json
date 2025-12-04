@@ -75,5 +75,12 @@
   "weather_sand": "Sand",
   "weather_tornado": "Tornado",
   "5-day-forecast": "5-Day Forecast",
-  "hourly-forecast": "Hourly Forecast"
+  "hourly-forecast": "Hourly Forecast",
+  "gps_disabled": "GPS Disabled",
+  "please_enable_gps": "Please enable GPS in Settings to get weather for your location.",
+  "permission_denied": "Location permission denied",
+  "permission_required": "Permission Required",
+  "permission_permanently_denied": "Location permission is permanently denied. Please enable it in Settings.",
+  "gps_timeout_using_last": "GPS timeout. Using last known location.",
+  "gps_timeout_using_default": "GPS timeout. Loading default city weather."
 }
