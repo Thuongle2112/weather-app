@@ -1,4 +1,5 @@
 class Weather {
+  final String icon;
   final String cityName;
   final double temperature;
   final String description;
@@ -8,6 +9,7 @@ class Weather {
   final int? rainChance;
 
   Weather({
+    required this.icon,
     required this.cityName,
     required this.temperature,
     required this.description,

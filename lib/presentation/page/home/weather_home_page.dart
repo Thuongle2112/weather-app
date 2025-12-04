@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app/presentation/page/home/widgets/effects/event_effect.dart';
 
 import '../../../core/services/ad_service.dart';
+import '../../../core/services/home_widget_service.dart';
 import '../../../core/services/shake_detector_service.dart';
 import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
@@ -257,6 +258,10 @@ class _WeatherHomePageState extends State<WeatherHomePage>
       ),
     ];
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateWidgetSafely(weather);
+    });
+
     return Stack(
       children: [
         Container(
@@ -372,5 +377,14 @@ class _WeatherHomePageState extends State<WeatherHomePage>
           ),
       ],
     );
+  }
+}
+
+Future<void> _updateWidgetSafely(Weather weather) async {
+  try {
+    await HomeWidgetService.updateWidget(weather);
+  } catch (e) {
+    debugPrint('❌ Widget update failed in home page: $e');
+    // Don't crash the app, just log the error
   }
 }

@@ -22,6 +22,8 @@ class ServiceLocator {
   final GetIt _getIt = GetIt.instance;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+  ServiceLocator._internal();
+
   Dio get dio => Dio();
 
   WeatherRemoteDataSource get weatherRemoteDataSource =>
@@ -57,6 +59,22 @@ class ServiceLocator {
     if (!_getIt.isRegistered<T>()) {
       _getIt.registerSingleton<T>(instance);
     }
+  }
+
+  void registerFactory<T extends Object>(T Function() factoryFunc) {
+    if (!_getIt.isRegistered<T>()) {
+      _getIt.registerFactory<T>(factoryFunc);
+    }
+  }
+
+  void registerLazySingleton<T extends Object>(T Function() factoryFunc) {
+    if (!_getIt.isRegistered<T>()) {
+      _getIt.registerLazySingleton<T>(factoryFunc);
+    }
+  }
+
+  bool isRegistered<T extends Object>() {
+    return _getIt.isRegistered<T>();
   }
 
   T get<T extends Object>() {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/widget_background">
+
+    <!-- City Name -->
+    <TextView
+        android:id="@+id/widget_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hanoi"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Temperature and Details -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widget_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25°"
+            android:textSize="48sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/widget_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear Sky"
+                android:textSize="14sp"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/widget_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity: 65% | Wind: 5 km/h"
+                android:textSize="12sp"
+                android:textColor="#CCFFFFFF"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Last Update -->
+    <TextView
+        android:id="@+id/widget_last_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Updated: 2 min ago"
+        android:textSize="10sp"
+        android:textColor="#99FFFFFF"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

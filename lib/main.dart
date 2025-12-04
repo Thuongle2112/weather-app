@@ -11,6 +11,7 @@ import 'package:weather_app/presentation/providers/notification_settings_provide
 import 'package:weather_app/presentation/providers/theme_provider.dart';
 import 'core/constants/language_constants.dart';
 import 'core/di/service_locator.dart';
+import 'core/services/home_widget_service.dart';
 import 'core/services/push_notification_service.dart';
 import 'data/datasource/preferences_manager.dart';
 import 'firebase_options.dart';
@@ -52,6 +53,16 @@ void main() async {
   Future.delayed(const Duration(seconds: 1), () {
     pushNotificationService.sendWelcomeNotification();
   });
+
+  try {
+    await HomeWidgetService.initialize();
+    await HomeWidgetService.setupPeriodicUpdates();
+    HomeWidgetService.registerInteractivity();
+    debugPrint('✅ Home Widget initialized successfully');
+  } catch (e) {
+    debugPrint('❌ Home Widget initialization failed: $e');
+    // Continue app execution even if widget fails
+  }
 
   final savedLocale = await PreferencesManager.getSavedLocale();
 

@@ -130,6 +130,7 @@ class WeatherRemoteDataSource {
     );
 
     final data = weatherResponse.data;
+    final icon = data['weather'][0]['icon'];
     final mainTemp = data['main']['temp'].toDouble();
     final desc = data['weather'][0]['description'];
     final windSpeed =
@@ -141,6 +142,7 @@ class WeatherRemoteDataSource {
     final rainChance = data['clouds']?['all'] as int?;
 
     return Weather(
+      icon: icon,
       cityName: locationName,
       temperature: mainTemp,
       description: desc,

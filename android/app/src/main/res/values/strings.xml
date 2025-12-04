@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Thời tiết</string>
+    <string name="widget_description">Weather information widget</string>
+</resources>
