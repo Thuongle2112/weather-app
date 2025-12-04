@@ -22,7 +22,11 @@ class WeatherWidgetProvider : AppWidgetProvider() {
     ) {
         Log.d(TAG, "onUpdate called for ${appWidgetIds.size} widgets")
         for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId)
+            try {
+                updateAppWidget(context, appWidgetManager, appWidgetId)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to update widget $appWidgetId", e)
+            }
         }
     }
 
@@ -31,92 +35,108 @@ class WeatherWidgetProvider : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetId: Int
     ) {
-        try {
-            val views = RemoteViews(context.packageName, R.layout.weather_widget)
+        Log.d(TAG, "Updating widget $appWidgetId")
+        
+        val views = try {
+            RemoteViews(context.packageName, R.layout.weather_widget)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to inflate layout: ${e.message}")
+            return
+        }
 
-            // Get data from shared preferences with null safety
+        try {
+            // Get data from shared preferences
             val widgetData = HomeWidgetPlugin.getData(context)
             
             val city = widgetData.getString("city", null) ?: "Loading..."
-            val temperature = widgetData.getInt("temperature", 25)
+            val temperature = widgetData.getInt("temperature", 0)
             val description = widgetData.getString("description", null) ?: "Tap to update"
             val humidity = widgetData.getInt("humidity", 0)
             val windSpeed = widgetData.getFloat("windSpeed", 0.0f)
             val lastUpdate = widgetData.getLong("lastUpdate", 0)
 
-            Log.d(TAG, "Widget data: $city $temperature° $description")
+            Log.d(TAG, "Widget data loaded: city=$city, temp=$temperature, desc=$description")
 
-            // Update UI with null-safe data
-            views.setTextViewText(R.id.widget_city, city)
-            views.setTextViewText(R.id.widget_temperature, "${temperature}°")
-            views.setTextViewText(R.id.widget_description, description)
-            views.setTextViewText(
-                R.id.widget_details,
-                "Humidity: ${humidity}% | Wind: ${windSpeed.toInt()} km/h"
-            )
+            // Update UI safely
+            try {
+                views.setTextViewText(R.id.widget_city, city)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to set city: ${e.message}")
+            }
+
+            try {
+                views.setTextViewText(R.id.widget_temperature, "${temperature}°")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to set temperature: ${e.message}")
+            }
+
+            try {
+                views.setTextViewText(R.id.widget_description, description)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to set description: ${e.message}")
+            }
+
+            try {
+                views.setTextViewText(
+                    R.id.widget_details,
+                    "💧 ${humidity}% | 💨 ${windSpeed.toInt()} km/h"
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to set details: ${e.message}")
+            }
             
             // Format last update time
-            val updateText = if (lastUpdate > 0) {
-                val diff = (System.currentTimeMillis() - lastUpdate) / 1000 / 60
-                when {
-                    diff < 1 -> "Just now"
-                    diff < 60 -> "Updated: ${diff}m ago"
-                    else -> "Updated: ${diff / 60}h ago"
+            try {
+                val updateText = if (lastUpdate > 0) {
+                    val diff = (System.currentTimeMillis() - lastUpdate) / 1000 / 60
+                    when {
+                        diff < 1 -> "Just now"
+                        diff < 60 -> "${diff}m ago"
+                        else -> "${diff / 60}h ago"
+                    }
+                } else {
+                    "Tap to update"
                 }
-            } else {
-                "Tap to update"
+                views.setTextViewText(R.id.widget_last_update, updateText)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to set update time: ${e.message}")
             }
-            views.setTextViewText(R.id.widget_last_update, updateText)
 
-            // Set click listener to open app
-            val intent = Intent(context, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            
-            val pendingIntent = PendingIntent.getActivity(
-                context,
-                appWidgetId, // Use unique request code
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-            
-            // Make entire widget clickable
-            views.setOnClickPendingIntent(R.id.widget_city, pendingIntent)
+            // Set click listener
+            try {
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    putExtra("launched_from", "widget")
+                }
+                
+                val pendingIntent = PendingIntent.getActivity(
+                    context,
+                    appWidgetId,
+                    intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+                
+                views.setOnClickPendingIntent(R.id.widget_root, pendingIntent)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to set click listener: ${e.message}")
+            }
 
+            // Apply update
             appWidgetManager.updateAppWidget(appWidgetId, views)
             Log.d(TAG, "Widget $appWidgetId updated successfully")
             
         } catch (e: Exception) {
-            Log.e(TAG, "Error updating widget $appWidgetId", e)
-            // Don't crash, just show error state
-            showErrorState(context, appWidgetManager, appWidgetId)
-        }
-    }
-
-    private fun showErrorState(
-        context: Context,
-        appWidgetManager: AppWidgetManager,
-        appWidgetId: Int
-    ) {
-        try {
-            val views = RemoteViews(context.packageName, R.layout.weather_widget)
-            views.setTextViewText(R.id.widget_city, "Error")
-            views.setTextViewText(R.id.widget_temperature, "--°")
-            views.setTextViewText(R.id.widget_description, "Tap to retry")
-            views.setTextViewText(R.id.widget_details, "")
-            views.setTextViewText(R.id.widget_last_update, "")
-            
-            appWidgetManager.updateAppWidget(appWidgetId, views)
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to show error state", e)
+            Log.e(TAG, "Error updating widget $appWidgetId: ${e.message}", e)
+            e.printStackTrace()
         }
     }
 
     override fun onEnabled(context: Context) {
-        Log.d(TAG, "Widget enabled (first widget added)")
+        Log.d(TAG, "Widget enabled")
     }
 
     override fun onDisabled(context: Context) {
-        Log.d(TAG, "Widget disabled (last widget removed)")
+        Log.d(TAG, "Widget disabled")
     }
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
