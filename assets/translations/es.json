@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "Aplicación del Tiempo",
+  "weather_app_title": "El Tiempo Hoy",
   "use_my_location": "Usar mi ubicación",
   "search_for_city": "Buscar ciudad",
   "search_city": "Buscar ciudad",
@@ -57,7 +57,7 @@
   "error_occurred": "Algo salió mal. Por favor, inténtelo de nuevo.",
   "retry": "Reintentar",
   "back_home": "Volver al inicio",
-    "weather_clear_sky": "Cielo despejado",
+  "weather_clear_sky": "Cielo despejado",
   "weather_few_clouds": "Pocas nubes",
   "weather_scattered_clouds": "Nubes dispersas",
   "weather_broken_clouds": "Nublado",
@@ -78,6 +78,20 @@
   "weather_dust": "Polvo",
   "weather_sand": "Arena",
   "weather_tornado": "Tornado",
-    "5-day-forecast": "Pronóstico de 5 días",
-  "hourly-forecast": "Pronóstico por hora"
+  "5-day-forecast": "Pronóstico de 5 días",
+  "hourly-forecast": "Pronóstico por hora",
+  "gps_disabled": "GPS desactivado",
+  "please_enable_gps": "Por favor, active el GPS en Configuración para obtener el clima de su ubicación.",
+  "permission_denied": "Permiso de ubicación denegado",
+  "permission_required": "Permiso requerido",
+  "permission_permanently_denied": "El permiso de ubicación está permanentemente denegado. Por favor, actívelo en Configuración.",
+  "gps_timeout_using_last": "Tiempo de espera del GPS. Usando la última ubicación conocida.",
+  "gps_timeout_using_default": "Tiempo de espera del GPS. Cargando el clima de la ciudad predeterminada.",
+  "appearance": "Apariencia",
+  "preferences": "Preferencias",
+  "theme": "Tema",
+  "dark_mode": "Modo oscuro",
+  "light_mode": "Modo claro",
+  "language": "Idioma",
+  "now": "Ahora"
 }

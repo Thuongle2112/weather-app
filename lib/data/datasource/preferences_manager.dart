@@ -36,8 +36,6 @@ class PreferencesManager {
     Function refreshCallback,
   ) async {
     await setLanguageCode(languageCode);
-    if (refreshCallback != null) {
-      refreshCallback();
-    }
+    refreshCallback();
   }
 }

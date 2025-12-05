@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "天气应用",
+  "weather_app_title": "今日天气",
   "use_my_location": "使用我的位置",
   "search_for_city": "搜索城市",
   "search_city": "搜索城市",
@@ -79,5 +79,19 @@
   "weather_sand": "沙",
   "weather_tornado": "龙卷风",
   "5-day-forecast": "5天天气预报",
-  "hourly-forecast": "每小时预报"
+  "hourly-forecast": "每小时预报",
+  "gps_disabled": "GPS 已禁用",
+  "please_enable_gps": "请在设置中启用 GPS 以获取您位置的天气。",
+  "permission_denied": "位置权限被拒绝",
+  "permission_required": "需要权限",
+  "permission_permanently_denied": "位置权限被永久拒绝。请在设置中启用。",
+  "gps_timeout_using_last": "GPS 超时。使用最后已知位置。",
+  "gps_timeout_using_default": "GPS 超时。加载默认城市天气。",
+  "appearance": "外观",
+  "preferences": "偏好设置",
+  "theme": "主题",
+  "dark_mode": "深色模式",
+  "light_mode": "浅色模式",
+  "language": "语言",
+  "now": "现在"
 }

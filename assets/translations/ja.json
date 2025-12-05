@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "天気アプリ",
+  "weather_app_title": "今日の天気",
   "use_my_location": "現在地を使用",
   "search_for_city": "都市を検索",
   "search_city": "都市を検索",
@@ -79,5 +79,19 @@
   "weather_sand": "砂",
   "weather_tornado": "竜巻",
   "5-day-forecast": "5日間の予報",
-  "hourly-forecast": "時間ごとの予報"
+  "hourly-forecast": "時間ごとの予報",
+    "gps_disabled": "GPSが無効です",
+  "please_enable_gps": "現在地の天気を取得するには、設定でGPSを有効にしてください。",
+  "permission_denied": "位置情報の許可が拒否されました",
+  "permission_required": "許可が必要です",
+  "permission_permanently_denied": "位置情報の許可が永久に拒否されています。設定で有効にしてください。",
+  "gps_timeout_using_last": "GPSのタイムアウト。最後に知られている位置を使用しています。",
+  "gps_timeout_using_default": "GPSのタイムアウト。デフォルトの都市の天気を読み込んでいます。",
+  "appearance": "外観",
+  "preferences": "設定",
+  "theme": "テーマ",
+  "dark_mode": "ダークモード",
+  "light_mode": "ライトモード",
+  "language": "言語",
+  "now": "現在"
 }

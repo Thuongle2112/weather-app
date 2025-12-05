@@ -23,7 +23,6 @@ class LanguageSelectorBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Handle bar
           Container(
             margin: EdgeInsets.only(top: 12.h),
             width: 40.w,
@@ -34,7 +33,6 @@ class LanguageSelectorBottomSheet extends StatelessWidget {
             ),
           ),
 
-          // Title
           Padding(
             padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
             child: Row(
@@ -59,7 +57,6 @@ class LanguageSelectorBottomSheet extends StatelessWidget {
 
           Divider(height: 1.h, color: Colors.grey.withOpacity(0.3)),
 
-          // Language list
           Flexible(
             child: ListView.builder(
               shrinkWrap: true,
@@ -106,30 +103,27 @@ class LanguageSelectorBottomSheet extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
-          color: isSelected
-              ? (isDarkMode
-                  ? const Color(0xFF2196F3).withOpacity(0.2)
-                  : const Color(0xFF2196F3).withOpacity(0.1))
-              : Colors.transparent,
+          color:
+              isSelected
+                  ? (isDarkMode
+                      ? const Color(0xFF2196F3).withOpacity(0.2)
+                      : const Color(0xFF2196F3).withOpacity(0.1))
+                  : Colors.transparent,
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: isSelected
-                ? const Color(0xFF2196F3)
-                : Colors.grey.withOpacity(0.2),
+            color:
+                isSelected
+                    ? const Color(0xFF2196F3)
+                    : Colors.grey.withOpacity(0.2),
             width: isSelected ? 2 : 1,
           ),
         ),
         child: Row(
           children: [
-            // Flag emoji
-            Text(
-              language.flag,
-              style: TextStyle(fontSize: 32.sp),
-            ),
+            Text(language.flag, style: TextStyle(fontSize: 32.sp)),
 
             SizedBox(width: 16.w),
 
-            // Language info
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,16 +139,12 @@ class LanguageSelectorBottomSheet extends StatelessWidget {
                   SizedBox(height: 2.h),
                   Text(
                     language.name,
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      color: Colors.grey,
-                    ),
+                    style: TextStyle(fontSize: 13.sp, color: Colors.grey),
                   ),
                 ],
               ),
             ),
 
-            // Selected indicator
             if (isSelected)
               Icon(
                 Icons.check_circle,

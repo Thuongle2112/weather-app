@@ -54,7 +54,6 @@ class _TimeProgressBarState extends State<TimeProgressBar>
     final marks = widget.marks;
     final now = widget.currentTime;
 
-    // Xây dựng danh sách DateTime, xử lý qua đêm
     List<DateTime> times = [];
     DateTime base = DateTime(now.year, now.month, now.day);
     int prevHour = 0;
@@ -65,7 +64,7 @@ class _TimeProgressBarState extends State<TimeProgressBar>
       final parts = marks[i].time.split(':');
       int hour = int.parse(parts[0]);
       int minute = int.parse(parts[1]);
-      // Nếu giờ giảm so với mốc trước, tăng ngày
+
       if (i > 0 &&
           (hour < prevHour || (hour == prevHour && minute < prevMinute))) {
         dayOffset += 1;
@@ -77,21 +76,20 @@ class _TimeProgressBarState extends State<TimeProgressBar>
       );
     }
 
-    // Nếu trước mốc đầu
     if (now.isBefore(times.first)) {
       leftIndex = 0;
       rightIndex = 1;
       percent = 0;
       return;
     }
-    // Nếu sau mốc cuối
+
     if (now.isAfter(times.last)) {
       leftIndex = times.length - 2;
       rightIndex = times.length - 1;
       percent = 1;
       return;
     }
-    // Tìm 2 mốc gần nhất
+
     for (int i = 0; i < times.length - 1; i++) {
       if (now.isAfter(times[i]) && now.isBefore(times[i + 1])) {
         leftIndex = i;
@@ -102,7 +100,7 @@ class _TimeProgressBarState extends State<TimeProgressBar>
         return;
       }
     }
-    // Nếu trùng mốc cuối
+
     leftIndex = times.length - 2;
     rightIndex = times.length - 1;
     percent = 1;

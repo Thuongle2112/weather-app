@@ -1,55 +1,45 @@
 class WeatherIconMapper {
-  // Icon mapping based on weather condition keywords (language-independent)
   static const Map<String, String> _conditionToIcon = {
-    // Clear conditions
-    'clear': '3D Ico_01.svg',
-    'sunny': '3D Ico_01.svg',
-    
-    // Cloudy conditions
-    'few_clouds': '3D Ico_01.svg',
-    'partly_cloudy': '3D Ico_01.svg',
-    'scattered_clouds': '3D Ico_01.svg',
-    'broken_clouds': '3D Ico_04.svg',
-    'overcast': '3D Ico_13.svg',
-    'cloudy': '3D Ico_04.svg',
-    
-    // Rain conditions
-    'light_rain': '3D Ico_07.svg',
-    'drizzle': '3D Ico_07.svg',
-    'moderate_rain': '3D Ico_07.svg',
-    'heavy_rain': '3D Ico_17.svg',
-    'rain': '3D Ico_17.svg',
-    'shower': '3D Ico_17.svg',
-    
-    // Thunderstorm conditions
-    'thunderstorm': '3D Ico_13.svg',
-    'thunder': '3D Ico_13.svg',
-    'lightning': '3D Ico_13.svg',
-    
-    // Snow conditions
-    'light_snow': '3D Ico_20.svg',
-    'snow': '3D Ico_05.svg',
-    'heavy_snow': '3D Ico_05.svg',
-    'blizzard': '3D Ico_05.svg',
-    'sleet': '3D Ico_27.svg',
-    
-    // Mist/Fog conditions
-    'mist': '3D Ico_32.svg',
-    'fog': '3D Ico_32.svg',
-    'haze': '3D Ico_32.svg',
-    'smoke': '3D Ico_32.svg',
-    'dust': '3D Ico_32.svg',
-    'sand': '3D Ico_32.svg',
-    
-    // Special conditions
-    'tornado': '3D Ico_13.svg',
-    'squall': '3D Ico_13.svg',
-    'ash': '3D Ico_32.svg',
+    'clear': 'clouds.svg',
+    'sunny': 'sun.svg',
+
+    'few_clouds': 'clouds.svg',
+    'partly_cloudy': 'clouds.svg',
+    'scattered_clouds': 'clouds.svg',
+    'broken_clouds': 'clouds.svg',
+    'overcast': 'clouds.svg',
+    'cloudy': 'clouds.svg',
+
+    'light_rain': 'rain.svg',
+    'drizzle': 'rain.svg',
+    'moderate_rain': 'rain.svg',
+    'heavy_rain': 'rain.svg',
+    'rain': 'rain.svg',
+    'shower': 'rain.svg',
+
+    'thunderstorm': 'lightning.svg',
+    'thunder': 'lightning.svg',
+    'lightning': 'lightning.svg',
+
+    'light_snow': 'clouds-snow.svg',
+    'snow': 'clouds-snow.svg',
+    'heavy_snow': 'clouds-snow.svg',
+    'blizzard': 'clouds-snow.svg',
+    'sleet': 'clouds-snow.svg',
+
+    'mist': 'clouds.svg',
+    'fog': 'clouds.svg',
+    'haze': 'clouds.svg',
+    'smoke': 'clouds.svg',
+    'dust': 'clouds.svg',
+    'sand': 'clouds.svg',
+
+    'tornado': 'lightning.svg',
+    'squall': 'lightning.svg',
+    'ash': 'clouds.svg',
   };
 
-  // Multilingual description to condition mapping
   static const Map<String, String> _descriptionToCondition = {
-    // English
     'clear sky': 'clear',
     'few clouds': 'few_clouds',
     'scattered clouds': 'scattered_clouds',
@@ -75,8 +65,7 @@ class WeatherIconMapper {
     'dust': 'dust',
     'sand': 'sand',
     'tornado': 'tornado',
-    
-    // Vietnamese
+
     'trời quang đãng': 'clear',
     'bầu trời quang đãng': 'clear',
     'ít mây': 'few_clouds',
@@ -112,8 +101,7 @@ class WeatherIconMapper {
     'bụi': 'dust',
     'cát': 'sand',
     'lốc xoáy': 'tornado',
-    
-    // Japanese
+
     '晴天': 'clear',
     '晴れ時々曇り': 'few_clouds',
     '薄曇り': 'scattered_clouds',
@@ -136,8 +124,7 @@ class WeatherIconMapper {
     '砂塵': 'dust',
     '砂': 'sand',
     '竜巻': 'tornado',
-    
-    // Korean
+
     '맑음': 'clear',
     '구름 조금': 'few_clouds',
     '구름 많음': 'scattered_clouds',
@@ -161,8 +148,7 @@ class WeatherIconMapper {
     '먼지': 'dust',
     '모래': 'sand',
     '토네이도': 'tornado',
-    
-    // Chinese
+
     '晴空': 'clear',
     '少云': 'few_clouds',
     '多云': 'scattered_clouds',
@@ -180,8 +166,7 @@ class WeatherIconMapper {
     '尘': 'dust',
     '沙': 'sand',
     '龙卷风': 'tornado',
-    
-    // Thai
+
     'ท้องฟ้าแจ่มใส': 'clear',
     'เมฆบางส่วน': 'few_clouds',
     'เมฆกระจาย': 'scattered_clouds',
@@ -205,8 +190,7 @@ class WeatherIconMapper {
     'ฝุ่น': 'dust',
     'ทราย': 'sand',
     'พายุทอร์นาโด': 'tornado',
-    
-    // French
+
     'ciel dégagé': 'clear',
     'quelques nuages': 'few_clouds',
     'nuages épars': 'scattered_clouds',
@@ -230,8 +214,7 @@ class WeatherIconMapper {
     'poussière': 'dust',
     'sable': 'sand',
     'tornade': 'tornado',
-    
-    // German
+
     'klarer himmel': 'clear',
     'wenige wolken': 'few_clouds',
     'vereinzelte wolken': 'scattered_clouds',
@@ -253,8 +236,7 @@ class WeatherIconMapper {
     'trübung': 'haze',
     'rauch': 'smoke',
     'staub': 'dust',
-    
-    // Spanish
+
     'cielo despejado': 'clear',
     'pocas nubes': 'few_clouds',
     'nubes dispersas': 'scattered_clouds',
@@ -279,105 +261,287 @@ class WeatherIconMapper {
     'arena': 'sand',
   };
 
-  /// Get weather icon by description (supports multiple languages)
   static String getIconByDescription(String description) {
     final lowercaseDesc = description.toLowerCase().trim();
 
-    // Try exact match first
     final condition = _descriptionToCondition[lowercaseDesc];
     if (condition != null) {
       return _conditionToIcon[condition] ?? _getDefaultIcon();
     }
 
-    // Try partial match by keywords
     return _getIconByKeywords(lowercaseDesc);
   }
 
-  /// Get icon by analyzing keywords in description
   static String _getIconByKeywords(String description) {
-    // Thunderstorm keywords
-    if (_containsAny(description, ['thunder', 'lightning', 'dông', 'giông', '雷', '뇌', '雷暴', 'ฟ้าคะนอง', 'orage', 'gewitter', 'tormenta'])) {
+    if (_containsAny(description, [
+      'thunder',
+      'lightning',
+      'dông',
+      'giông',
+      '雷',
+      '뇌',
+      '雷暴',
+      'ฟ้าคะนอง',
+      'orage',
+      'gewitter',
+      'tormenta',
+    ])) {
       return _conditionToIcon['thunderstorm']!;
     }
-    
-    // Heavy rain keywords
-    if (_containsAny(description, ['heavy rain', 'mưa to', 'mưa nặng', '大雨', '폭우', 'forte pluie', 'starker regen', 'lluvia intensa', 'ฝนหนัก'])) {
+
+    if (_containsAny(description, [
+      'heavy rain',
+      'mưa to',
+      'mưa nặng',
+      '大雨',
+      '폭우',
+      'forte pluie',
+      'starker regen',
+      'lluvia intensa',
+      'ฝนหนัก',
+    ])) {
       return _conditionToIcon['heavy_rain']!;
     }
-    
-    // Light rain/drizzle keywords
-    if (_containsAny(description, ['light rain', 'drizzle', 'mưa nhỏ', 'mưa phùn', '小雨', '霧雨', '가벼운 비', '이슬비', 'pluie légère', 'bruine', 'leichter regen', 'nieselregen', 'lluvia ligera', 'llovizna', 'ฝนเล็กน้อย'])) {
+
+    if (_containsAny(description, [
+      'light rain',
+      'drizzle',
+      'mưa nhỏ',
+      'mưa phùn',
+      '小雨',
+      '霧雨',
+      '가벼운 비',
+      '이슬비',
+      'pluie légère',
+      'bruine',
+      'leichter regen',
+      'nieselregen',
+      'lluvia ligera',
+      'llovizna',
+      'ฝนเล็กน้อย',
+    ])) {
       return _conditionToIcon['light_rain']!;
     }
-    
-    // Rain keywords (general)
-    if (_containsAny(description, ['rain', 'shower', 'mưa', '雨', '비', 'pluie', 'averses', 'regen', 'regenschauer', 'lluvia', 'chubascos', 'ฝน'])) {
+
+    if (_containsAny(description, [
+      'rain',
+      'shower',
+      'mưa',
+      '雨',
+      '비',
+      'pluie',
+      'averses',
+      'regen',
+      'regenschauer',
+      'lluvia',
+      'chubascos',
+      'ฝน',
+    ])) {
       return _conditionToIcon['rain']!;
     }
-    
-    // Snow keywords
-    if (_containsAny(description, ['snow', 'tuyết', '雪', '눈', 'neige', 'schnee', 'nieve', 'หิมะ'])) {
-      if (_containsAny(description, ['light', 'nhỏ', 'nhẹ', '小', '가벼운', 'légère', 'leichter', 'ligera', 'เล็กน้อย'])) {
+
+    if (_containsAny(description, [
+      'snow',
+      'tuyết',
+      '雪',
+      '눈',
+      'neige',
+      'schnee',
+      'nieve',
+      'หิมะ',
+    ])) {
+      if (_containsAny(description, [
+        'light',
+        'nhỏ',
+        'nhẹ',
+        '小',
+        '가벼운',
+        'légère',
+        'leichter',
+        'ligera',
+        'เล็กน้อย',
+      ])) {
         return _conditionToIcon['light_snow']!;
-      } else if (_containsAny(description, ['heavy', 'lớn', 'dày', '大', '폭', 'forte', 'starker', 'intensa', 'หนัก'])) {
+      } else if (_containsAny(description, [
+        'heavy',
+        'lớn',
+        'dày',
+        '大',
+        '폭',
+        'forte',
+        'starker',
+        'intensa',
+        'หนัก',
+      ])) {
         return _conditionToIcon['heavy_snow']!;
       }
       return _conditionToIcon['snow']!;
     }
-    
-    // Sleet keywords
-    if (_containsAny(description, ['sleet', 'mưa tuyết', 'みぞれ', '진눈깨비', '雨夹雪', 'ลูกเห็บ', 'grésil', 'schneeregen', 'aguanieve'])) {
+
+    if (_containsAny(description, [
+      'sleet',
+      'mưa tuyết',
+      'みぞれ',
+      '진눈깨비',
+      '雨夹雪',
+      'ลูกเห็บ',
+      'grésil',
+      'schneeregen',
+      'aguanieve',
+    ])) {
       return _conditionToIcon['sleet']!;
     }
-    
-    // Clear sky keywords
-    if (_containsAny(description, ['clear', 'sunny', 'quang', '晴', '맑', 'dégagé', 'klar', 'despejado', 'แจ่มใส'])) {
+
+    if (_containsAny(description, [
+      'clear',
+      'sunny',
+      'quang',
+      '晴',
+      '맑',
+      'dégagé',
+      'klar',
+      'despejado',
+      'แจ่มใส',
+    ])) {
       return _conditionToIcon['clear']!;
     }
-    
-    // Overcast keywords
-    if (_containsAny(description, ['overcast', 'u ám', 'どんより', '阴沉', '매우 흐림', 'ครึ้มมาก', 'couvert', 'bedeckt', 'cubierto'])) {
+
+    if (_containsAny(description, [
+      'overcast',
+      'u ám',
+      'どんより',
+      '阴沉',
+      '매우 흐림',
+      'ครึ้มมาก',
+      'couvert',
+      'bedeckt',
+      'cubierto',
+    ])) {
       return _conditionToIcon['overcast']!;
     }
-    
-    // Cloudy keywords (general)
-    if (_containsAny(description, ['cloud', 'mây', '雲', '구름', '云', 'เมฆ', 'nuage', 'wolke', 'nube'])) {
-      if (_containsAny(description, ['few', 'ít', 'thưa', 'ばかり', '조금', '少', 'บางส่วน', 'quelques', 'wenige', 'pocas'])) {
+
+    if (_containsAny(description, [
+      'cloud',
+      'mây',
+      '雲',
+      '구름',
+      '云',
+      'เมฆ',
+      'nuage',
+      'wolke',
+      'nube',
+    ])) {
+      if (_containsAny(description, [
+        'few',
+        'ít',
+        'thưa',
+        'ばかり',
+        '조금',
+        '少',
+        'บางส่วน',
+        'quelques',
+        'wenige',
+        'pocas',
+      ])) {
         return _conditionToIcon['few_clouds']!;
-      } else if (_containsAny(description, ['scattered', 'rải rác', '散', 'กระจาย', 'épars', 'vereinzelte', 'dispersas'])) {
+      } else if (_containsAny(description, [
+        'scattered',
+        'rải rác',
+        '散',
+        'กระจาย',
+        'épars',
+        'vereinzelte',
+        'dispersas',
+      ])) {
         return _conditionToIcon['scattered_clouds']!;
-      } else if (_containsAny(description, ['broken', 'nhiều', 'cụm', '多', 'มาก', 'nuageux', 'bewölkt', 'nublado'])) {
+      } else if (_containsAny(description, [
+        'broken',
+        'nhiều',
+        'cụm',
+        '多',
+        'มาก',
+        'nuageux',
+        'bewölkt',
+        'nublado',
+      ])) {
         return _conditionToIcon['broken_clouds']!;
       }
       return _conditionToIcon['cloudy']!;
     }
-    
-    // Fog/Mist/Haze keywords
-    if (_containsAny(description, ['fog', 'mist', 'haze', 'sương', '霧', 'もや', '안개', '雾', '霾', 'หมอก', 'ฝุ่นหมอก', 'brume', 'brouillard', 'dunst', 'nebel', 'neblina', 'niebla', 'calina'])) {
+
+    if (_containsAny(description, [
+      'fog',
+      'mist',
+      'haze',
+      'sương',
+      '霧',
+      'もや',
+      '안개',
+      '雾',
+      '霾',
+      'หมอก',
+      'ฝุ่นหมอก',
+      'brume',
+      'brouillard',
+      'dunst',
+      'nebel',
+      'neblina',
+      'niebla',
+      'calina',
+    ])) {
       return _conditionToIcon['fog']!;
     }
-    
-    // Smoke/Dust/Sand keywords
-    if (_containsAny(description, ['smoke', 'dust', 'sand', 'khói', 'bụi', 'cát', '煙', '砂塵', '연기', '먼지', '모래', '烟', '尘', '沙', 'ควัน', 'ฝุ่น', 'ทราย', 'fumée', 'poussière', 'rauch', 'staub', 'humo', 'polvo', 'arena'])) {
+
+    if (_containsAny(description, [
+      'smoke',
+      'dust',
+      'sand',
+      'khói',
+      'bụi',
+      'cát',
+      '煙',
+      '砂塵',
+      '연기',
+      '먼지',
+      '모래',
+      '烟',
+      '尘',
+      '沙',
+      'ควัน',
+      'ฝุ่น',
+      'ทราย',
+      'fumée',
+      'poussière',
+      'rauch',
+      'staub',
+      'humo',
+      'polvo',
+      'arena',
+    ])) {
       return _conditionToIcon['smoke']!;
     }
-    
-    // Tornado/Squall keywords
-    if (_containsAny(description, ['tornado', 'squall', 'lốc xoáy', '竜巻', '토네이도', '龙卷风', 'พายุทอร์นาโด', 'tornade'])) {
+
+    if (_containsAny(description, [
+      'tornado',
+      'squall',
+      'lốc xoáy',
+      '竜巻',
+      '토네이도',
+      '龙卷风',
+      'พายุทอร์นาโด',
+      'tornade',
+    ])) {
       return _conditionToIcon['tornado']!;
     }
 
-    // Default icon if nothing matches
     return _getDefaultIcon();
   }
 
-  /// Check if description contains any of the keywords
   static bool _containsAny(String text, List<String> keywords) {
     return keywords.any((keyword) => text.contains(keyword.toLowerCase()));
   }
 
-  /// Get default weather icon
   static String _getDefaultIcon() {
-    return '3D Ico_35.svg'; // Default/Unknown weather icon
+    return 'clouds.svg';
   }
 }

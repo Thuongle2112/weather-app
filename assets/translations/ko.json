@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "날씨 앱",
+  "weather_app_title": "오늘의 날씨",
   "use_my_location": "내 위치 사용",
   "search_for_city": "도시 검색",
   "search_city": "도시 검색",
@@ -79,5 +79,19 @@
   "weather_sand": "모래",
   "weather_tornado": "토네이도",
   "5-day-forecast": "5일 예보",
-  "hourly-forecast": "시간별 예보"
+  "hourly-forecast": "시간별 예보",
+  "gps_disabled": "GPS 비활성화됨",
+  "please_enable_gps": "설정에서 GPS를 활성화하여 현재 위치의 날씨를 확인하세요.",
+  "permission_denied": "위치 권한이 거부되었습니다",
+  "permission_required": "권한 필요",
+  "permission_permanently_denied": "위치 권한이 영구적으로 거부되었습니다. 설정에서 활성화하세요.",
+  "gps_timeout_using_last": "GPS 시간 초과. 마지막 알려진 위치를 사용합니다.",
+  "gps_timeout_using_default": "GPS 시간 초과. 기본 도시의 날씨를 불러오는 중입니다.",
+  "appearance": "외관",
+  "preferences": "설정",
+  "theme": "테마",
+  "dark_mode": "다크 모드",
+  "light_mode": "라이트 모드",
+  "language": "언어",
+  "now": "지금"
 }

@@ -137,7 +137,6 @@ class WeatherRemoteDataSource {
             ? (data['wind']['speed'] * 3.6).toDouble()
             : null;
     final humidity = data['main']['humidity'] as int?;
-    // final rainChance = data['pop'] != null ? (data['pop'] * 100).toInt() : null;
     final rainChance = data['clouds']?['all'] as int?;
 
     return Weather(
@@ -151,7 +150,6 @@ class WeatherRemoteDataSource {
     );
   }
 
-  /// Fetch 5-day/3-hour forecast
   Future<List<ForecastItem>> getHourlyForecast({
     double? lat,
     double? lon,
@@ -161,17 +159,17 @@ class WeatherRemoteDataSource {
     if (apiKey == null) {
       throw Exception('API key not found');
     }
-
+  
     final languageCode = await _getCurrentLanguage();
     debugPrint('🔍 Fetching hourly forecast with language: $languageCode');
-
+  
     try {
       Map<String, dynamic> queryParams = {
         'appid': apiKey,
         'units': 'metric',
         'lang': languageCode,
       };
-
+  
       if (cityName != null) {
         queryParams['q'] = cityName;
       } else if (lat != null && lon != null) {
@@ -180,62 +178,135 @@ class WeatherRemoteDataSource {
       } else {
         throw Exception('Either cityName or coordinates must be provided');
       }
-
+  
       final response = await dio.get(
         'https://api.openweathermap.org/data/2.5/forecast',
         queryParameters: queryParams,
       );
-
+  
       debugPrint('✅ Hourly forecast API response: ${response.statusCode}');
-
+  
       final List<dynamic> list = response.data['list'];
-      return list.map((item) => ForecastItem.fromJson(item)).toList();
+      final now = DateTime.now();
+  
+      final allForecasts =
+          list.map((item) => ForecastItem.fromJson(item)).toList();
+  
+       
+      final currentIndex = allForecasts.indexWhere(
+        (item) =>
+            item.dateTime.isAfter(now) ||
+            item.dateTime.difference(now).abs().inMinutes < 90,
+      );
+  
+      final startIndex = currentIndex > 0 ? currentIndex - 1 : 0;
+  
+       
+      return allForecasts.skip(startIndex).take(9).toList();
     } catch (e) {
       debugPrint('❌ Error fetching hourly forecast: $e');
       throw Exception('Failed to fetch hourly forecast: $e');
     }
   }
-
-  /// Fetch 5-day daily forecast (grouped by day)
+  
+   
+  Future<List<ForecastItem>> _getAllForecast({
+    double? lat,
+    double? lon,
+    String? cityName,
+  }) async {
+    final apiKey = dotenv.env['OPENWEATHER_API_KEY'];
+    if (apiKey == null) {
+      throw Exception('API key not found');
+    }
+  
+    final languageCode = await _getCurrentLanguage();
+  
+    try {
+      Map<String, dynamic> queryParams = {
+        'appid': apiKey,
+        'units': 'metric',
+        'lang': languageCode,
+      };
+  
+      if (cityName != null) {
+        queryParams['q'] = cityName;
+      } else if (lat != null && lon != null) {
+        queryParams['lat'] = lat;
+        queryParams['lon'] = lon;
+      } else {
+        throw Exception('Either cityName or coordinates must be provided');
+      }
+  
+      final response = await dio.get(
+        'https://api.openweathermap.org/data/2.5/forecast',
+        queryParameters: queryParams,
+      );
+  
+      final List<dynamic> list = response.data['list'];
+      
+       
+      return list.map((item) => ForecastItem.fromJson(item)).toList();
+    } catch (e) {
+      debugPrint('❌ Error fetching all forecast: $e');
+      throw Exception('Failed to fetch forecast: $e');
+    }
+  }
+  
   Future<List<DailyForecast>> getDailyForecast({
     double? lat,
     double? lon,
     String? cityName,
   }) async {
-    final hourlyForecast = await getHourlyForecast(
+     
+    final allForecasts = await _getAllForecast(
       lat: lat,
       lon: lon,
       cityName: cityName,
     );
-
-    // Group by day and calculate daily averages
+  
+    debugPrint('📊 Total forecast items received: ${allForecasts.length}');
+  
     final Map<String, List<ForecastItem>> groupedByDay = {};
-
-    for (var item in hourlyForecast) {
-      final dateKey =
-          '${item.dateTime.year}-${item.dateTime.month}-${item.dateTime.day}';
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+  
+    for (var item in allForecasts) {
+       
+      final itemDate = DateTime(
+        item.dateTime.year,
+        item.dateTime.month,
+        item.dateTime.day,
+      );
+      
+      if (itemDate.isBefore(today)) {
+        continue;  
+      }
+  
+      final dateKey = '${item.dateTime.year}-${item.dateTime.month}-${item.dateTime.day}';
       groupedByDay.putIfAbsent(dateKey, () => []);
       groupedByDay[dateKey]!.add(item);
     }
-
+  
+    debugPrint('📅 Days grouped: ${groupedByDay.length}');
+  
     final List<DailyForecast> dailyForecasts = [];
-
+  
     groupedByDay.forEach((dateKey, items) {
       if (items.isEmpty) return;
-
+  
       final date = items.first.dateTime;
       final temps = items.map((e) => e.temperature).toList();
       final tempDay = temps.reduce((a, b) => a + b) / temps.length;
       final tempMin = temps.reduce((a, b) => a < b ? a : b);
       final tempMax = temps.reduce((a, b) => a > b ? a : b);
-
-      // Get most common weather condition
+  
       final descriptions = items.map((e) => e.description).toList();
       final mostCommonDesc = _getMostCommon(descriptions);
-
+  
       final icons = items.map((e) => e.icon).toList();
       final mostCommonIcon = _getMostCommon(icons);
-
+  
       final humidity =
           (items.map((e) => e.humidity).reduce((a, b) => a + b) / items.length)
               .round();
@@ -247,7 +318,7 @@ class WeatherRemoteDataSource {
                       items.length)
                   .round()
               : null;
-
+  
       dailyForecasts.add(
         DailyForecast(
           date: date,
@@ -262,12 +333,19 @@ class WeatherRemoteDataSource {
         ),
       );
     });
-
-    // Sort by date and take first 5 days
+  
+     
     dailyForecasts.sort((a, b) => a.date.compareTo(b.date));
-    return dailyForecasts.take(5).toList();
+    final result = dailyForecasts.take(5).toList();
+    
+    debugPrint('✅ Daily forecasts generated: ${result.length} days');
+    for (var forecast in result) {
+      debugPrint('  📆 ${forecast.date}: ${forecast.tempMin}°-${forecast.tempMax}° ${forecast.description}');
+    }
+    
+    return result;
   }
-
+  
   String _getMostCommon(List<String> items) {
     final counts = <String, int>{};
     for (var item in items) {

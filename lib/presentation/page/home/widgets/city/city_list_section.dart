@@ -3,10 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:lottie/lottie.dart';
-import '../../bloc/home_bloc.dart';
-import '../../bloc/home_event.dart';
-import 'city_card.dart';
-import '../buttons/snow_button_painter.dart';
+
+import '../../bloc/bloc.dart';
+import '../widgets.dart';
 
 class CityListSection extends StatefulWidget {
   final List<String> popularCities;
@@ -101,8 +100,8 @@ class _CityListSectionState extends State<CityListSection>
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFFD32F2F).withOpacity(0.2), // Đỏ Noel nhạt
-                const Color(0xFF1B5E20).withOpacity(0.2), // Xanh lá nhạt
+                const Color(0xFFD32F2F).withOpacity(0.2),
+                const Color(0xFF1B5E20).withOpacity(0.2),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -179,7 +178,6 @@ class _CityListSectionState extends State<CityListSection>
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            // Button gradient background
             Container(
               width: double.infinity,
               decoration: BoxDecoration(

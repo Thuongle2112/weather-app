@@ -5,11 +5,10 @@ import 'package:lottie/lottie.dart';
 import 'dart:async';
 
 class ChristmasMessageHelper {
-  // Christmas period: Dec 20 - Dec 26
   static String getTodayMessage(BuildContext context, {DateTime? testDate}) {
     final now = testDate ?? DateTime.now();
     if (now.month == 12 && now.day >= 20 && now.day <= 26) {
-      final index = now.day - 20; // 0-6 for 7 days
+      final index = now.day - 20;
       final message = tr('christmas_messages.$index', context: context);
       return message;
     }
@@ -24,10 +23,11 @@ class ChristmasMessageHelper {
     showDialog(
       context: context,
       barrierDismissible: true,
-      builder: (dialogContext) => _AutoDismissDialog(
-        message: message,
-        autoDismissDuration: autoDismissDuration,
-      ),
+      builder:
+          (dialogContext) => _AutoDismissDialog(
+            message: message,
+            autoDismissDuration: autoDismissDuration,
+          ),
     );
   }
 }
@@ -75,17 +75,14 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFFD32F2F).withOpacity(0.95), // Đỏ Santa
-                const Color(0xFF1B5E20).withOpacity(0.95), // Xanh lá thông
+                const Color(0xFFD32F2F).withOpacity(0.95),
+                const Color(0xFF1B5E20).withOpacity(0.95),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.5),
-              width: 3,
-            ),
+            border: Border.all(color: Colors.white.withOpacity(0.5), width: 3),
             boxShadow: [
               BoxShadow(
                 color: Colors.white.withOpacity(0.3),
@@ -97,7 +94,6 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Santa/Christmas animation
               Lottie.asset(
                 'assets/animations/christmas_santa.json',
                 width: 120.w,
@@ -106,8 +102,7 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
                 repeat: true,
               ),
               SizedBox(height: 16.h),
-              
-              // Title
+
               Text(
                 '🎄 Merry Christmas! 🎅',
                 style: TextStyle(
@@ -124,10 +119,9 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              
+
               SizedBox(height: 12.h),
-              
-              // Message
+
               Container(
                 padding: EdgeInsets.all(16.w),
                 decoration: BoxDecoration(
@@ -149,27 +143,22 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              
+
               SizedBox(height: 20.h),
-              
-              // Decorative snowflakes
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
                   5,
-                  (index) => Text(
-                    '❄️',
-                    style: TextStyle(fontSize: 20.sp),
-                  ),
+                  (index) => Text('❄️', style: TextStyle(fontSize: 20.sp)),
                 ),
               ),
-              
+
               SizedBox(height: 16.h),
-              
-              // OK button
+
               ElevatedButton(
-                onPressed: () =>
-                    Navigator.of(context, rootNavigator: true).maybePop(),
+                onPressed:
+                    () => Navigator.of(context, rootNavigator: true).maybePop(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: const Color(0xFFD32F2F),
@@ -194,10 +183,7 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    Text(
-                      '🎁',
-                      style: TextStyle(fontSize: 18.sp),
-                    ),
+                    Text('🎁', style: TextStyle(fontSize: 18.sp)),
                   ],
                 ),
               ),

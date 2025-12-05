@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "Ứng dụng Thời tiết",
+  "weather_app_title": "Thời Tiết Hôm Nay",
   "use_my_location": "Sử dụng vị trí của tôi",
   "search_for_city": "Tìm kiếm thành phố",
   "search_city": "Tìm kiếm thành phố",
@@ -53,7 +53,7 @@
     "6": "🎅 Giáng sinh vui vẻ! Cầu mong trái tim bạn tràn đầy yêu thương, bình an và niềm vui!"
   },
   "select_language": "Chọn ngôn ngữ",
-    "weather_clear_sky": "Trời quang đãng",
+  "weather_clear_sky": "Trời quang đãng",
   "weather_few_clouds": "Ít mây",
   "weather_scattered_clouds": "Mây rải rác",
   "weather_broken_clouds": "Nhiều mây",
@@ -82,5 +82,12 @@
   "permission_required": "Cần Quyền Truy Cập",
   "permission_permanently_denied": "Quyền định vị bị từ chối vĩnh viễn. Vui lòng bật trong Cài đặt.",
   "gps_timeout_using_last": "GPS hết thời gian. Dùng vị trí gần nhất.",
-  "gps_timeout_using_default": "GPS hết thời gian. Tải thời tiết mặc định."
+  "gps_timeout_using_default": "GPS hết thời gian. Tải thời tiết mặc định.",
+  "appearance": "Giao diện",
+  "preferences": "Tùy chọn",
+  "theme": "Chủ đề",
+  "dark_mode": "Chế độ tối",
+  "light_mode": "Chế độ sáng",
+  "language": "Ngôn ngữ",
+  "now": "Bây giờ"
 }

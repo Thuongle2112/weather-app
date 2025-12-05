@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class PremiumButton extends StatelessWidget {
   final VoidCallback onPressed;
-
   const PremiumButton({super.key, required this.onPressed});
 
   @override
@@ -15,10 +13,7 @@ class PremiumButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [
-              Color(0xFFD32F2F), // Đỏ Santa
-              Color(0xFFFFFFFF),
-            ],
+            colors: [Color(0xFFD32F2F), Color(0xFFFFFFFF)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

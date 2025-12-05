@@ -1,37 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weather_app/presentation/page/home/widgets/effects/event_effect.dart';
 
 import '../../../core/services/ad_service.dart';
 import '../../../core/services/shake_detector_service.dart';
 import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
-import '../../providers/theme_provider.dart';
-import '../../utils/event_message_helper.dart';
-import '../../utils/weather_service.dart';
-import '../../utils/weather_ui_helper.dart';
-import 'bloc/home_bloc.dart';
-import 'bloc/home_event.dart';
-import 'bloc/home_state.dart';
-import 'widgets/buttons/premium_button.dart';
-import 'widgets/city/city_list_section.dart';
-import 'widgets/city/city_search_modal.dart';
-import 'widgets/daily_forecast_section.dart';
-import 'widgets/effects/floating_button.dart';
-import 'widgets/hourly_forecast_section.dart';
-import 'widgets/states/error_view.dart';
-import 'widgets/states/initial_view.dart';
-import 'widgets/states/loading_view.dart';
-import 'widgets/weather/temperature_display.dart';
-import 'widgets/weather/time_progress_bar.dart';
-import 'widgets/weather/weather_app_bar.dart';
+import '../../providers/providers.dart';
+import '../../utils/utils.dart';
+import 'bloc/bloc.dart';
+import 'widgets/widgets.dart';
 
 class WeatherHomePage extends StatefulWidget {
   const WeatherHomePage({super.key});
@@ -42,21 +26,17 @@ class WeatherHomePage extends StatefulWidget {
 
 class _WeatherHomePageState extends State<WeatherHomePage>
     with WidgetsBindingObserver {
-  // Controllers
   final TextEditingController _cityController = TextEditingController();
 
-  // Services
   late AdService _adService;
   late ShakeDetectorService _shakeService;
 
-  // State
   bool _showFloatingHalloween = true;
   bool _hasShownHalloweenDialog = false;
   bool _showBoo = false;
   bool _showMoneyRain = false;
   int _searchCount = 0;
 
-  // Data
   final List<String> _popularCities = [
     'Hanoi',
     'Ho Chi Minh City',
@@ -87,7 +67,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   }
 
   void _initializeServices() {
-    // Initialize Ad Service
     _adService = AdService(
       bannerAdUnitId: dotenv.env['ADMOB_BANNER_ID'] ?? '',
       interstitialAdUnitId: dotenv.env['ADMOB_INTERSTITIAL_ID'] ?? '',
@@ -98,7 +77,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     _adService.loadInterstitialAd();
     _adService.loadRewardedAd();
 
-    // Initialize Shake Service
     _shakeService = ShakeDetectorService();
     _shakeService.initialize(
       onBooEffect: () {
@@ -115,7 +93,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
       },
     );
 
-    // Initialize Location Service
     _initializeLocationService();
   }
 
@@ -152,7 +129,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
               context.read<WeatherBloc>().add(FetchWeatherByCity(city));
               _searchCount++;
 
-              // Show interstitial every 3 searches
               if (!_adService.isPremium && _searchCount % 3 == 0) {
                 _adService.showInterstitialAd();
               }
@@ -241,7 +217,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     final isDarkMode = themeProvider.isDarkMode;
     final textColor = isDarkMode ? Colors.white : Colors.white;
 
-    // Get forecast data from BLoC state
     final state = context.read<WeatherBloc>().state;
     final hourlyForecast = state is WeatherLoaded ? state.hourlyForecast : null;
     final dailyForecast = state is WeatherLoaded ? state.dailyForecast : null;
@@ -269,19 +244,14 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                 Expanded(
                   child: CustomScrollView(
                     slivers: [
-                      WeatherAppBar.buildSliverAppBar(
-                        context,
-                        weather.cityName,
-                        textColor,
-                      ),
                       SliverToBoxAdapter(
                         child: TemperatureDisplay(
+                          cityName: weather.cityName,
                           weather: weather,
                           textColor: textColor,
                         ),
                       ),
 
-                      // Hourly Forecast Section
                       if (hourlyForecast != null && hourlyForecast.isNotEmpty)
                         SliverToBoxAdapter(
                           child: HourlyForecastSection(
@@ -290,7 +260,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                           ),
                         ),
 
-                      // Daily Forecast Section
                       if (dailyForecast != null && dailyForecast.isNotEmpty)
                         SliverToBoxAdapter(
                           child: DailyForecastSection(

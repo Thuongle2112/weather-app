@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "แอปพยากรณ์อากาศ",
+  "weather_app_title": "สภาพอากาศวันนี้",
   "use_my_location": "ใช้ตำแหน่งของฉัน",
   "search_for_city": "ค้นหาเมือง",
   "search_city": "ค้นหาเมือง",
@@ -79,5 +79,19 @@
   "weather_sand": "ทราย",
   "weather_tornado": "พายุทอร์นาโด",
   "5-day-forecast": "พยากรณ์อากาศ 5 วัน",
-  "hourly-forecast": "พยากรณ์อากาศรายชั่วโมง"
+  "hourly-forecast": "พยากรณ์อากาศรายชั่วโมง",
+  "gps_disabled": "GPS ถูกปิดใช้งาน",
+  "please_enable_gps": "โปรดเปิดใช้งาน GPS ในการตั้งค่าเพื่อรับสภาพอากาศสำหรับตำแหน่งของคุณ",
+  "permission_denied": "การอนุญาตตำแหน่งถูกปฏิเสธ",
+  "permission_required": "ต้องการการอนุญาต",
+  "permission_permanently_denied": "การอนุญาตตำแหน่งถูกปฏิเสธอย่างถาวร โปรดเปิดใช้งานใน การตั้งค่า",
+  "gps_timeout_using_last": "หมดเวลาการตอบสนอง GPS กำลังใช้ตำแหน่งที่รู้จักล่าสุด",
+  "gps_timeout_using_default": "หมดเวลาการตอบสนอง GPS กำลังโหลดสภาพอากาศของเมืองเริ่มต้น",
+  "appearance": "ลักษณะ",
+  "preferences": "การตั้งค่า",
+  "theme": "ธีม",
+  "dark_mode": "โหมดมืด",
+  "light_mode": "โหมดสว่าง",
+  "language": "ภาษา",
+  "now": "ตอนนี้"
 }

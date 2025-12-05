@@ -12,8 +12,7 @@ class ShakeDetectorService {
     _detector = ShakeDetector.autoStart(
       onPhoneShake: (event) {
         final now = DateTime.now();
-        
-        // Reset count nếu lắc sau 3 giây
+
         if (_lastShakeTime == null ||
             now.difference(_lastShakeTime!) > const Duration(seconds: 3)) {
           _shakeCount = 1;
@@ -22,7 +21,6 @@ class ShakeDetectorService {
         }
         _lastShakeTime = now;
 
-        // Nếu lắc >= 5 lần → money rain
         if (_shakeCount >= 5) {
           onMoneyRain();
           _shakeCount = 0;

@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "Application Météo",
+  "weather_app_title": "Météo Aujourd'hui",
   "use_my_location": "Utiliser ma position",
   "search_for_city": "Rechercher une ville",
   "search_city": "Rechercher une ville",
@@ -79,5 +79,19 @@
   "weather_sand": "Sable",
   "weather_tornado": "Tornade",
   "5-day-forecast": "Prévisions sur 5 jours",
-  "hourly-forecast": "Prévisions horaires"
+  "hourly-forecast": "Prévisions horaires",
+    "gps_disabled": "GPS désactivé",
+  "please_enable_gps": "Veuillez activer le GPS dans les paramètres pour obtenir la météo de votre position.",
+  "permission_denied": "Permission de localisation refusée",
+  "permission_required": "Permission requise",
+  "permission_permanently_denied": "La permission de localisation est définitivement refusée. Veuillez l'activer dans les paramètres.",
+  "gps_timeout_using_last": "Délai d'attente du GPS. Utilisation de la dernière position connue.",
+  "gps_timeout_using_default": "Délai d'attente du GPS. Chargement de la météo de la ville par défaut.",
+  "appearance": "Apparence",
+  "preferences": "Préférences",
+  "theme": "Thème",
+  "dark_mode": "Mode sombre",
+  "light_mode": "Mode clair",
+  "language": "Langue",
+  "now": "Maintenant"
 }

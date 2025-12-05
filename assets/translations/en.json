@@ -1,5 +1,5 @@
 {
-  "weather_app_title": "Weather App",
+  "weather_app_title": "Weather Today",
   "use_my_location": "Use my location",
   "search_for_city": "Search for a city",
   "search_city": "Search City",
@@ -82,5 +82,12 @@
   "permission_required": "Permission Required",
   "permission_permanently_denied": "Location permission is permanently denied. Please enable it in Settings.",
   "gps_timeout_using_last": "GPS timeout. Using last known location.",
-  "gps_timeout_using_default": "GPS timeout. Loading default city weather."
+  "gps_timeout_using_default": "GPS timeout. Loading default city weather.",
+  "appearance": "Appearance",
+  "preferences": "Preferences",
+  "theme": "Theme",
+  "dark_mode": "Dark Mode",
+  "light_mode": "Light Mode",
+  "language": "Language",
+  "now": "Now"
 }
