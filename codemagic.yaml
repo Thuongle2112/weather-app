@@ -96,7 +96,7 @@ workflows:
         notify:
           success: true
           failure: true
-          
+
   android-production:
     name: Android Production Release
     max_build_duration: 60
@@ -199,7 +199,6 @@ workflows:
         track: internal
         submit_as_draft: true
         changes_not_sent_for_review: false
-        rollout_fraction: 1.0
 
   android-beta:
     name: Android Beta Release
