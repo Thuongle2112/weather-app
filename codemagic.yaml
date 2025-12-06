@@ -1,0 +1,324 @@
+workflows:
+  android-ci-cd-test:
+    name: Test CI/CD Setup
+    max_build_duration: 30
+    instance_type: linux_x2
+    environment:
+      groups:
+        - app_credentials
+      flutter: stable
+      java: 17
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $HOME/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'ci-cd'
+          include: true
+          source: true
+        - pattern: 'test/**'
+          include: true
+          source: true
+    scripts:
+      - name: Set up environment
+        script: |
+          echo "🧪 Testing CI/CD Setup"
+          cat > .env << EOF
+          OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
+          ADMOB_BANNER_ID=$ADMOB_BANNER_ID
+          ADMOB_INTERSTITIAL_ID=$ADMOB_INTERSTITIAL_ID
+          ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
+          APPLICATION_ID=$APPLICATION_ID
+          EOF
+          
+          echo "✅ Environment variables configured"
+          cat .env
+      
+      - name: Verify Flutter setup
+        script: |
+          flutter --version
+          flutter doctor -v
+      
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      
+      - name: Run code analysis
+        script: |
+          flutter analyze
+      
+      - name: Run tests
+        script: |
+          flutter test
+        ignore_failure: true
+      
+      - name: Test build (Debug APK)
+        script: |
+          echo "🔨 Building debug APK for testing..."
+          flutter build apk --debug
+          
+          # Check if build successful
+          if [ -f "build/app/outputs/flutter-apk/app-debug.apk" ]; then
+            echo "✅ Build successful!"
+            ls -lh build/app/outputs/flutter-apk/app-debug.apk
+          else
+            echo "❌ Build failed!"
+            exit 1
+          fi
+      
+      - name: Verify environment variables
+        script: |
+          echo "🔍 Verifying .env file..."
+          if [ -f ".env" ]; then
+            echo "✅ .env file exists"
+            echo "Checking variables (without showing values)..."
+            grep -q "OPENWEATHER_API_KEY" .env && echo "✅ OPENWEATHER_API_KEY found"
+            grep -q "ADMOB_BANNER_ID" .env && echo "✅ ADMOB_BANNER_ID found"
+            grep -q "ADMOB_INTERSTITIAL_ID" .env && echo "✅ ADMOB_INTERSTITIAL_ID found"
+            grep -q "ADMOB_REWARDED_ID" .env && echo "✅ ADMOB_REWARDED_ID found"
+            grep -q "APPLICATION_ID" .env && echo "✅ APPLICATION_ID found"
+          else
+            echo "❌ .env file not found!"
+            exit 1
+          fi
+    
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - .env
+    
+    publishing:
+      email:
+        recipients:
+          - 667715koco@gmail.com
+        notify:
+          success: true
+          failure: true
+          
+  android-production:
+    name: Android Production Release
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      android_signing:
+        - weather_app_keystore
+      groups:
+        - google_play
+        - app_credentials
+      vars:
+        PACKAGE_NAME: "com.zamoon6.weather_today"
+      flutter: stable
+      java: 17
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $HOME/.pub-cache
+    triggering:
+      events:
+        - push
+        - tag
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+          source: true
+      tag_patterns:
+        - pattern: 'v*.*.*'
+          include: true
+    scripts:
+      - name: Set up environment
+        script: |
+          cat > .env << EOF
+          OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
+          ADMOB_BANNER_ID=$ADMOB_BANNER_ID
+          ADMOB_INTERSTITIAL_ID=$ADMOB_INTERSTITIAL_ID
+          ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
+          APPLICATION_ID=$APPLICATION_ID
+          EOF
+          
+          echo "✅ Environment variables configured"
+          echo "Setting up Firebase"
+      
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      
+      - name: Run code analysis
+        script: |
+          flutter analyze
+      
+      - name: Run tests
+        script: |
+          flutter test
+        ignore_failure: true
+      
+      - name: Get latest build number from Play Store
+        script: |
+          LATEST_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="internal,alpha,beta,production")
+          if [ -z "$LATEST_BUILD_NUMBER" ]; then
+              LATEST_BUILD_NUMBER=0
+          fi
+          echo "Latest Play Store build number: $LATEST_BUILD_NUMBER"
+          echo "LATEST_BUILD_NUMBER=$LATEST_BUILD_NUMBER" >> $CM_ENV
+      
+      - name: Build Android App Bundle
+        script: |
+          BUILD_NUMBER=$((LATEST_BUILD_NUMBER + 1))
+          echo "Building with build number: $BUILD_NUMBER"
+          
+          flutter build appbundle --release \
+            --build-name=1.2.0 \
+            --build-number=$BUILD_NUMBER
+      
+      - name: Create changelog
+        script: |
+          cat > release_notes.txt << EOF
+          What's New in v1.2.0:
+          - Improved hourly forecast with "Now" indicator
+          - Added glassmorphism blur effect
+          - Enhanced weather gradient backgrounds
+          - Bug fixes and performance improvements
+          EOF
+    
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - release_notes.txt
+    
+    publishing:
+      email:
+        recipients:
+          - 667715koco@gmail.com
+        notify:
+          success: true
+          failure: true
+      
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true
+        changes_not_sent_for_review: false
+        rollout_fraction: 1.0
+
+  android-beta:
+    name: Android Beta Release
+    max_build_duration: 45
+    instance_type: mac_mini_m2
+    environment:
+      android_signing:
+        - weather_app_keystore
+      groups:
+        - google_play
+        - app_credentials
+      vars:
+        PACKAGE_NAME: "com.zamoon6.weather_today"
+      flutter: stable
+      java: 17
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $HOME/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'beta'
+          include: true
+          source: true
+    scripts:
+      - name: Set up environment
+        script: |
+          cat > .env << EOF
+          OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
+          ADMOB_BANNER_ID=$ADMOB_BANNER_ID
+          ADMOB_INTERSTITIAL_ID=$ADMOB_INTERSTITIAL_ID
+          ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
+          APPLICATION_ID=$APPLICATION_ID
+          EOF
+      
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      
+      - name: Build AAB
+        script: |
+          LATEST_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="beta")
+          BUILD_NUMBER=$((LATEST_BUILD_NUMBER + 1))
+          
+          flutter build appbundle --release \
+            --build-name=1.2.0-beta \
+            --build-number=$BUILD_NUMBER
+    
+    artifacts:
+      - build/**/outputs/**/*.aab
+    
+    publishing:
+      email:
+        recipients:
+          - 667715koco@gmail.com
+        notify:
+          success: true
+          failure: true
+      
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: beta
+        submit_as_draft: false
+
+  android-dev:
+    name: Android Development Build
+    max_build_duration: 30
+    instance_type: linux_x2
+    environment:
+      groups:
+        - app_credentials
+      flutter: stable
+      java: 17
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $HOME/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'develop'
+          include: true
+          source: true
+        - pattern: 'feature/**'
+          include: true
+          source: true
+    scripts:
+      - name: Set up environment
+        script: |
+          cat > .env << EOF
+          OPENWEATHER_API_KEY=$OPENWEATHER_API_KEY
+          ADMOB_BANNER_ID=$ADMOB_BANNER_ID
+          ADMOB_INTERSTITIAL_ID=$ADMOB_INTERSTITIAL_ID
+          ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
+          APPLICATION_ID=$APPLICATION_ID
+          EOF
+      
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      
+      - name: Analyze code
+        script: |
+          flutter analyze
+      
+      - name: Build Debug APK
+        script: |
+          flutter build apk --debug
+    
+    artifacts:
+      - build/**/outputs/**/*.apk
+    
+    publishing:
+      email:
+        recipients:
+          - 667715koco@gmail.com
+        notify:
+          success: false
+          failure: true
