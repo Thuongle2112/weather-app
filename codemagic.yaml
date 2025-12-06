@@ -32,8 +32,13 @@ workflows:
           ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
           APPLICATION_ID=$APPLICATION_ID
           EOF
+
+          # ✅ Decode google-services.json
+          echo "📱 Setting up Firebase google-services.json"
+          echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json
           
           echo "✅ Environment variables configured"
+          echo "✅ google-services.json created"
           cat .env
       
       - name: Verify Flutter setup
@@ -134,8 +139,13 @@ workflows:
           ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
           APPLICATION_ID=$APPLICATION_ID
           EOF
+
+          # ✅ Decode google-services.json
+          echo "📱 Setting up Firebase google-services.json"
+          echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json
           
           echo "✅ Environment variables configured"
+          echo "✅ google-services.json created"
           echo "Setting up Firebase"
       
       - name: Get Flutter packages
@@ -232,6 +242,9 @@ workflows:
           ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
           APPLICATION_ID=$APPLICATION_ID
           EOF
+
+          # ✅ Decode google-services.json
+          echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json
       
       - name: Get Flutter packages
         script: |
@@ -294,6 +307,9 @@ workflows:
           ADMOB_REWARDED_ID=$ADMOB_REWARDED_ID
           APPLICATION_ID=$APPLICATION_ID
           EOF
+
+          # ✅ Decode google-services.json
+          echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json
       
       - name: Get Flutter packages
         script: |
