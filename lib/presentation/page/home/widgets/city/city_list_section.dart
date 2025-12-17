@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:lottie/lottie.dart';
-import '../../bloc/home_bloc.dart';
-import '../../bloc/home_event.dart';
-import 'city_card.dart';
-import '../buttons/snow_button_painter.dart';
+
+import '../../../../../data/model/weather/weather.dart';
+import '../../../../utils/utils.dart';
+import '../../bloc/bloc.dart';
+import '../widgets.dart';
 
 class CityListSection extends StatefulWidget {
   final List<String> popularCities;
@@ -29,6 +30,8 @@ class CityListSection extends StatefulWidget {
 class _CityListSectionState extends State<CityListSection>
     with SingleTickerProviderStateMixin {
   late AnimationController _snowController;
+  final Map<String, Weather?> _cityWeatherCache = {};
+  final Map<String, bool> _loadingStates = {};
 
   @override
   void initState() {
@@ -37,12 +40,48 @@ class _CityListSectionState extends State<CityListSection>
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
+
+    _fetchCitiesWeather();
   }
 
   @override
   void dispose() {
     _snowController.dispose();
     super.dispose();
+  }
+
+  Future<void> _fetchCitiesWeather() async {
+    // ✅ Get usecase from WeatherBloc
+    final weatherBloc = context.read<WeatherBloc>();
+    final getWeatherByCity = weatherBloc.getWeatherByCity;
+
+    for (final city in widget.popularCities) {
+      if (_cityWeatherCache.containsKey(city)) continue;
+
+      setState(() {
+        _loadingStates[city] = true;
+      });
+
+      try {
+        // ✅ Call usecase directly
+        final weather = await getWeatherByCity(city);
+        if (mounted) {
+          setState(() {
+            _cityWeatherCache[city] = weather;
+            _loadingStates[city] = false;
+          });
+        }
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            _cityWeatherCache[city] = null;
+            _loadingStates[city] = false;
+          });
+        }
+      }
+
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
   }
 
   @override
@@ -58,7 +97,7 @@ class _CityListSectionState extends State<CityListSection>
             image: const AssetImage('assets/images/noel_bg.jpg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.3),
+              Colors.black.withValues(alpha: 0.3),
               BlendMode.darken,
             ),
           ),
@@ -101,20 +140,20 @@ class _CityListSectionState extends State<CityListSection>
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFFD32F2F).withOpacity(0.2), // Đỏ Noel nhạt
-                const Color(0xFF1B5E20).withOpacity(0.2), // Xanh lá nhạt
+                const Color(0xFFD32F2F).withValues(alpha: 0.2),
+                const Color(0xFF1B5E20).withValues(alpha: 0.2),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 blurRadius: 8,
                 spreadRadius: 1,
               ),
@@ -148,11 +187,7 @@ class _CityListSectionState extends State<CityListSection>
             width: cardWidth.w,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: _buildCityCard(
-                context,
-                widget.popularCities[index],
-                index,
-              ),
+              child: _buildCityCard(context, widget.popularCities[index]),
             ),
           );
         },
@@ -160,10 +195,23 @@ class _CityListSectionState extends State<CityListSection>
     );
   }
 
-  Widget _buildCityCard(BuildContext context, String city, int index) {
+  Widget _buildCityCard(BuildContext context, String city) {
+    final weather = _cityWeatherCache[city];
+    final isLoading = _loadingStates[city] ?? false;
+
+    String? temperature;
+    String? weatherIcon;
+
+    if (weather != null) {
+      temperature = '${weather.temperature.round()}°';
+      weatherIcon = WeatherIconMapper.getIconByDescription(weather.description);
+    }
+
     return CityCard(
       city: city,
-      temperature: '${20 + (5 * index % 3)}°',
+      temperature: temperature,
+      weatherIcon: weatherIcon,
+      isLoading: isLoading,
       onTap: () {
         context.read<WeatherBloc>().add(FetchWeatherByCity(city));
       },
@@ -179,30 +227,28 @@ class _CityListSectionState extends State<CityListSection>
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            // Button gradient background
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors:
-                      widget.isDarkMode
-                          ? [
-                            const Color(0xFFD32F2F),
-                            const Color(0xFFFFFFFF),
-                            const Color(0xFF1B5E20),
-                          ]
-                          : [
-                            const Color(0xFFE53935),
-                            const Color(0xFFF5F5F5),
-                            const Color(0xFF2E7D32),
-                          ],
+                  colors: widget.isDarkMode
+                      ? [
+                          const Color(0xFFD32F2F),
+                          const Color(0xFFFFFFFF),
+                          const Color(0xFF1B5E20),
+                        ]
+                      : [
+                          const Color(0xFFE53935),
+                          const Color(0xFFF5F5F5),
+                          const Color(0xFF2E7D32),
+                        ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(12.r),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFD32F2F).withOpacity(0.3),
+                    color: const Color(0xFFD32F2F).withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -223,21 +269,20 @@ class _CityListSectionState extends State<CityListSection>
                 child: Text(
                   'change_location'.tr(),
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                     shadows: [
                       Shadow(
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                         blurRadius: 6,
-                        color: Colors.black.withOpacity(0.45),
+                        color: Colors.black.withValues(alpha: 0.45),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-
             Positioned.fill(
               child: IgnorePointer(
                 child: AnimatedBuilder(

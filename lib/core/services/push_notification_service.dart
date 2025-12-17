@@ -7,10 +7,9 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:workmanager/workmanager.dart';
 import '../../data/datasource/weather_remote_data_source.dart';
-import '../../data/repository/weather/weather_repository_impl.dart';
 import 'weather_notification_helper.dart';
 
-// Background task name
+ 
 const String weatherNotificationTask = 'weatherNotificationTask';
 
 @pragma('vm:entry-point')
@@ -24,7 +23,7 @@ void backgroundNotificationResponseHandler(NotificationResponse response) {
   debugPrint('Background notification response: ${response.payload}');
 }
 
-// Background callback for WorkManager
+ 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
@@ -32,15 +31,15 @@ void callbackDispatcher() {
       debugPrint('Background task started: $task');
 
       if (task == weatherNotificationTask) {
-        // FIX: Initialize dependencies properly
+         
         final dio = Dio();
         final weatherDataSource = WeatherRemoteDataSource(dio);
         final helper = WeatherNotificationHelper(weatherDataSource);
 
-        // Fetch weather data
+         
         final weatherData = await helper.fetchWeatherForNotification();
 
-        // Show notification with real weather data
+         
         final FlutterLocalNotificationsPlugin notificationsPlugin =
             FlutterLocalNotificationsPlugin();
 
@@ -63,7 +62,7 @@ void callbackDispatcher() {
         );
 
         await notificationsPlugin.show(
-          100, // Morning forecast ID
+          100,  
           weatherData['title']!,
           weatherData['body']!,
           notificationDetails,
@@ -111,13 +110,13 @@ class PushNotificationService {
     }
 
     try {
-      // Initialize timezone
+       
       tz_data.initializeTimeZones();
       final locationName = await _getLocalTimezoneName();
       tz.setLocalLocation(tz.getLocation(locationName));
       debugPrint('Timezone initialized: $locationName');
 
-      // Initialize WorkManager for background tasks
+       
       await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
       debugPrint('WorkManager initialized');
     } catch (e) {
@@ -266,7 +265,7 @@ class PushNotificationService {
     }
   }
 
-  /// Schedule daily weather notification with REAL weather data
+   
   Future<bool> scheduleDailyWeatherNotification({
     required DateTime scheduledTime,
     int id = 100,
@@ -276,10 +275,10 @@ class PushNotificationService {
         await initialize();
       }
 
-      // Cancel existing task
+       
       await Workmanager().cancelByUniqueName('daily_weather_$id');
 
-      // Calculate initial delay
+       
       final now = DateTime.now();
       var nextRun = DateTime(
         now.year,
@@ -300,7 +299,7 @@ class PushNotificationService {
       debugPrint('  Next run: $nextRun');
       debugPrint('  Initial delay: $initialDelay');
 
-      // Register periodic task with WorkManager
+       
       await Workmanager().registerPeriodicTask(
         'daily_weather_$id',
         weatherNotificationTask,
@@ -323,10 +322,10 @@ class PushNotificationService {
     }
   }
 
-  /// Send immediate weather notification with real data
+   
   Future<bool> sendImmediateWeatherNotification() async {
     try {
-      // FIX: Initialize dependencies properly
+       
       final dio = Dio();
       final weatherDataSource = WeatherRemoteDataSource(dio);
       final helper = WeatherNotificationHelper(weatherDataSource);

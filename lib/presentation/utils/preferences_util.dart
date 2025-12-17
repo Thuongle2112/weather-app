@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../page/home/bloc/home_bloc.dart';
-import '../page/home/bloc/home_event.dart';
-import '../page/home/bloc/home_state.dart';
-import 'weather_service.dart';
+import '../page/home/bloc/bloc.dart';
+import 'utils.dart';
 
 class PreferencesUtil {
   static Future<void> saveLanguagePreference(String languageCode) async {
@@ -13,7 +11,9 @@ class PreferencesUtil {
     await prefs.setString('language_code', languageCode);
   }
 
-  static Future<void> refreshWeatherWithCurrentLanguage(BuildContext context) async {
+  static Future<void> refreshWeatherWithCurrentLanguage(
+    BuildContext context,
+  ) async {
     final state = context.read<WeatherBloc>().state;
     if (state is WeatherLoaded) {
       final currentCity = state.weather.cityName;

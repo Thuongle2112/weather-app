@@ -32,7 +32,7 @@ class ForecastItem {
       description: json['weather'][0]['description'] as String,
       icon: json['weather'][0]['icon'] as String,
       humidity: json['main']['humidity'] as int,
-      windSpeed: (json['wind']['speed'] as num).toDouble() * 3.6, // Convert to km/h
+      windSpeed: (json['wind']['speed'] as num).toDouble() * 3.6,  
       clouds: json['clouds']?['all'] as int?,
       rain: json['rain']?['3h'] as double?,
     );

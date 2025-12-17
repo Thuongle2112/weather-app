@@ -70,7 +70,7 @@ class LanguageConstants {
   static LanguageModel getLanguageByCode(String code) {
     return supportedLanguages.firstWhere(
       (lang) => lang.code == code,
-      orElse: () => supportedLanguages[0], // Default to English
+      orElse: () => supportedLanguages[0],
     );
   }
 

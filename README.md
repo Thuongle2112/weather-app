@@ -419,20 +419,14 @@ The app collects and uses:
 
 ## Ảnh màn hình / Screenshots
 
-### Home Screen
-![Screenshot 1](assets/readme_screenshots/screen1.jpeg)
-
-### Hourly Forecast
-![Screenshot 2](assets/readme_screenshots/screen2.jpeg)
-
-### 5-Day Forecast
-![Screenshot 3](assets/readme_screenshots/screen3.jpeg)
-
-### City Search
-![Screenshot 4](assets/readme_screenshots/screen4.jpeg)
-
-### Dark Mode
-![Screenshot 5](assets/readme_screenshots/screen5.jpeg)
+<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px 0;">
+  <img src="assets/readme_screenshots/screen1.png" alt="Home1" width="200"/>
+  <img src="assets/readme_screenshots/screen2.png" alt="Home2" width="200"/>
+  <img src="assets/readme_screenshots/screen3.png" alt="Splash" width="200"/>
+  <img src="assets/readme_screenshots/screen4.png" alt="Location" width="200"/>
+  <img src="assets/readme_screenshots/screen5.png" alt="Hour-Daily" width="200"/>
+  <img src="assets/readme_screenshots/screen6.png" alt="Locale" width="200"/>
+</div>
 
 ## Đóng góp / Contributing
 

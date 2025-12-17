@@ -28,18 +28,34 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       emit(WeatherLoading());
       try {
         final weather = await getWeatherByCity(event.cityName);
+        final lat = weather.latitude;
+        final lon = weather.longitude;
 
         if (event.includeForecast) {
-          final hourlyForecast = await getHourlyForecast(cityName: event.cityName);
-          final dailyForecast = await getDailyForecast(cityName: event.cityName);
+          final hourlyForecast = await getHourlyForecast(
+            cityName: event.cityName,
+          );
+          final dailyForecast = await getDailyForecast(
+            cityName: event.cityName,
+          );
 
-          emit(WeatherLoaded(
-            weather,
-            hourlyForecast: hourlyForecast,
-            dailyForecast: dailyForecast,
-          ));
+          emit(
+            WeatherLoaded(
+              weather,
+              hourlyForecast: hourlyForecast,
+              dailyForecast: dailyForecast,
+              latitude: lat, // ✅ Add this
+              longitude: lon, // ✅ Add this
+            ),
+          );
         } else {
-          emit(WeatherLoaded(weather));
+          emit(
+            WeatherLoaded(
+              weather,
+              latitude: lat, // ✅ Add this
+              longitude: lon, // ✅ Add this
+            ),
+          );
         }
       } catch (e) {
         emit(WeatherError('City not found or API failed'));
@@ -51,8 +67,11 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       try {
         emit(WeatherLoading());
         debugPrint('🔄 Bloc: Calling getWeatherByCoordinates usecase');
-        
-        final weather = await getWeatherByCoordinates(event.latitude, event.longitude);
+
+        final weather = await getWeatherByCoordinates(
+          event.latitude,
+          event.longitude,
+        );
 
         if (event.includeForecast) {
           final hourlyForecast = await getHourlyForecast(
@@ -65,14 +84,24 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           );
 
           debugPrint('✅ Bloc: Weather and forecast fetched successfully');
-          emit(WeatherLoaded(
-            weather,
-            hourlyForecast: hourlyForecast,
-            dailyForecast: dailyForecast,
-          ));
+          emit(
+            WeatherLoaded(
+              weather,
+              hourlyForecast: hourlyForecast,
+              dailyForecast: dailyForecast,
+              latitude: event.latitude,
+              longitude: event.longitude,
+            ),
+          );
         } else {
           debugPrint('✅ Bloc: Weather fetched successfully');
-          emit(WeatherLoaded(weather));
+          emit(
+            WeatherLoaded(
+              weather,
+              latitude: event.latitude,
+              longitude: event.longitude,
+            ),
+          );
         }
       } catch (e) {
         debugPrint('❌ Bloc: Failed to get weather: $e');

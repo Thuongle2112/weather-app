@@ -11,14 +11,12 @@ class WeatherNotificationHelper {
 
   Future<Map<String, String>> fetchWeatherForNotification() async {
     try {
-      // Get current location
       Position position;
       try {
         position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.medium,
         );
       } catch (e) {
-        // Fallback to last known position
         position =
             await Geolocator.getLastKnownPosition() ??
             Position(
@@ -35,13 +33,11 @@ class WeatherNotificationHelper {
             );
       }
 
-      // Fetch weather data
       final weather = await _weatherDataSource.getWeatherByCoordinates(
         position.latitude,
         position.longitude,
       );
 
-      // Format notification content
       final title = _formatTitle(weather);
       final body = _formatBody(weather);
 
@@ -53,7 +49,7 @@ class WeatherNotificationHelper {
       };
     } catch (e) {
       debugPrint('Error fetching weather for notification: $e');
-      // Return fallback content
+
       return {
         'title': 'Weather Update',
         'body': 'Tap to view current weather conditions',

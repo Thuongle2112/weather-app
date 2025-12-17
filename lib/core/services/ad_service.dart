@@ -6,12 +6,12 @@ class AdService {
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
   RewardedAd? _rewardedAd;
-  
+
   bool _isAdLoaded = false;
   int _interstitialLoadAttempts = 0;
   int _rewardedLoadAttempts = 0;
   bool _isPremium = false;
-  
+
   final int maxAdLoadAttempts = 3;
   final String bannerAdUnitId;
   final String interstitialAdUnitId;
@@ -23,7 +23,6 @@ class AdService {
     required this.rewardedAdUnitId,
   });
 
-  // Getters
   bool get isAdLoaded => _isAdLoaded;
   bool get isPremium => _isPremium;
   BannerAd? get bannerAd => _bannerAd;
@@ -129,9 +128,9 @@ class AdService {
     required VoidCallback onAdDismissed,
   }) {
     if (_rewardedAd == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('reward_ad_not_ready'.tr())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('reward_ad_not_ready'.tr())));
       return;
     }
 
@@ -158,12 +157,15 @@ class AdService {
     _rewardedAd = null;
   }
 
-  void activatePremium(VoidCallback onPremiumActivated, VoidCallback onPremiumExpired) {
+  void activatePremium(
+    VoidCallback onPremiumActivated,
+    VoidCallback onPremiumExpired,
+  ) {
     _isPremium = true;
     _bannerAd?.dispose();
     _bannerAd = null;
     _isAdLoaded = false;
-    
+
     onPremiumActivated();
 
     Future.delayed(const Duration(hours: 1), () {
