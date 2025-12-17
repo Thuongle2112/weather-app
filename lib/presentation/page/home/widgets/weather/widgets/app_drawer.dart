@@ -77,15 +77,12 @@ class AppDrawer extends StatelessWidget {
   Widget _buildDrawerHeader(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.w),
-      child: GradientText(
-        text: 'weather_app_title'.tr(),
-        style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFFD32F2F), // Gold
-            Color(0xFFFFFFFF), // White
-            Color(0xFF1B5E20), // Sky blue
-          ],
+      child: Text(
+        'weather_app_title'.tr(),
+        style: TextStyle(
+          fontSize: 24.sp,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ),
     );
@@ -215,7 +212,7 @@ class AppDrawer extends StatelessWidget {
       ),
       subtitle: Text(
         'notification_settings'.tr(),
-        style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13.sp),
+        style: TextStyle(color: Colors.white.withOpacity(0.7), fontSize: 13.sp, overflow: TextOverflow.ellipsis),
       ),
       trailing: Icon(
         Icons.arrow_forward_ios,
@@ -243,6 +240,7 @@ class AppDrawer extends StatelessWidget {
           color: Colors.white,
           fontSize: 15.sp,
           fontWeight: FontWeight.w500,
+          overflow: TextOverflow.ellipsis
         ),
       ),
       subtitle: Text(
