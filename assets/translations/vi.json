@@ -89,5 +89,8 @@
   "dark_mode": "Chế độ tối",
   "light_mode": "Chế độ sáng",
   "language": "Ngôn ngữ",
-  "now": "Bây giờ"
+  "now": "Bây giờ",
+  "features": "Tính năng",
+  "weather_radar": "Bản đồ radar thời tiết",
+  "view_weather_radar": "Xem bản đồ radar thời tiết chi tiết"
 }

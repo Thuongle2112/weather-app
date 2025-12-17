@@ -93,5 +93,8 @@
   "dark_mode": "Dunkler Modus",
   "light_mode": "Heller Modus",
   "language": "Sprache",
-  "now": "Jetzt"
+  "now": "Jetzt",
+  "features": "Funktionen",
+  "weather_radar": "Wetterradar",
+  "view_weather_radar": "Detaillierte Wetterradarkarten anzeigen"
 }

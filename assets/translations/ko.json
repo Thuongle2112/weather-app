@@ -93,5 +93,8 @@
   "dark_mode": "다크 모드",
   "light_mode": "라이트 모드",
   "language": "언어",
-  "now": "지금"
+  "now": "지금",
+  "features": "기능",
+  "weather_radar": "날씨 레이더",
+  "view_weather_radar": "상세한 날씨 레이더 지도 보기"
 }

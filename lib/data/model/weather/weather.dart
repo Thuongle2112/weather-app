@@ -6,6 +6,8 @@ class Weather {
   final double? windSpeed;
   final int? humidity;
   final int? rainChance;
+  final double latitude;
+  final double longitude;
 
   Weather({
     required this.cityName,
@@ -15,5 +17,7 @@ class Weather {
     this.windSpeed,
     this.humidity,
     this.rainChance,
+    required this.latitude,
+    required this.longitude,
   });
 }

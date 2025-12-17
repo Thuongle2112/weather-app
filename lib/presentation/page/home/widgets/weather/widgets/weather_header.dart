@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../../../settings/settings_page.dart';
 
 class WeatherHeader extends StatelessWidget {
   final String cityName;
@@ -33,7 +32,7 @@ class WeatherHeader extends StatelessWidget {
             ],
           ),
         ),
-        _buildSettingsButton(context),
+        _buildMenuButton(context),
       ],
     );
   }
@@ -69,15 +68,12 @@ class WeatherHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingsButton(BuildContext context) {
+  Widget _buildMenuButton(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SettingsPage()),
-        );
+        Scaffold.of(context).openEndDrawer();
       },
-      icon: Icon(Icons.settings, color: Colors.white, size: 28.sp),
+      icon: Icon(Icons.menu, color: Colors.white, size: 28.sp),
       padding: EdgeInsets.all(12.w),
       constraints: const BoxConstraints(),
     );

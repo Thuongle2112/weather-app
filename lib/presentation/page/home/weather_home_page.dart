@@ -15,6 +15,7 @@ import '../../../data/model/weather/weather.dart';
 import '../../providers/providers.dart';
 import '../../utils/utils.dart';
 import 'bloc/bloc.dart';
+import 'widgets/weather/widgets/app_drawer.dart';
 import 'widgets/widgets.dart';
 
 class WeatherHomePage extends StatefulWidget {
@@ -166,6 +167,19 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     return Theme(
       data: isDarkMode ? ThemeData.dark() : ThemeData.light(),
       child: Scaffold(
+        endDrawer: BlocBuilder<WeatherBloc, WeatherState>(
+          builder: (context, state) {
+            double? lat;
+            double? lon;
+
+            if (state is WeatherLoaded) {
+              lat = state.latitude;
+              lon = state.longitude;
+            }
+
+            return AppDrawer(latitude: lat, longitude: lon);
+          },
+        ),
         body: Stack(
           children: [
             BlocBuilder<WeatherBloc, WeatherState>(

@@ -57,7 +57,7 @@
   "error_occurred": "エラーが発生しました。もう一度お試しください。",
   "retry": "再試行",
   "back_home": "ホームに戻る",
-    "weather_clear_sky": "晴天",
+  "weather_clear_sky": "晴天",
   "weather_few_clouds": "晴れ時々曇り",
   "weather_scattered_clouds": "薄曇り",
   "weather_broken_clouds": "曇り",
@@ -80,7 +80,7 @@
   "weather_tornado": "竜巻",
   "5-day-forecast": "5日間の予報",
   "hourly-forecast": "時間ごとの予報",
-    "gps_disabled": "GPSが無効です",
+  "gps_disabled": "GPSが無効です",
   "please_enable_gps": "現在地の天気を取得するには、設定でGPSを有効にしてください。",
   "permission_denied": "位置情報の許可が拒否されました",
   "permission_required": "許可が必要です",
@@ -93,5 +93,8 @@
   "dark_mode": "ダークモード",
   "light_mode": "ライトモード",
   "language": "言語",
-  "now": "現在"
+  "now": "現在",
+  "features": "機能",
+  "weather_radar": "天気レーダー",
+  "view_weather_radar": "詳細な天気レーダーマップを見る"
 }

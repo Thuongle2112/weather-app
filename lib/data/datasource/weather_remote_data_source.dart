@@ -147,6 +147,8 @@ class WeatherRemoteDataSource {
       windSpeed: windSpeed,
       humidity: humidity,
       rainChance: rainChance,
+      latitude: lat,
+      longitude: lon,
     );
   }
 

@@ -93,5 +93,8 @@
   "dark_mode": "深色模式",
   "light_mode": "浅色模式",
   "language": "语言",
-  "now": "现在"
+  "now": "现在",
+  "features": "功能",
+  "weather_radar": "天气雷达",
+  "view_weather_radar": "查看详细的天气雷达地图"
 }

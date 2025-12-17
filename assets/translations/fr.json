@@ -57,7 +57,7 @@
   "error_occurred": "Une erreur s'est produite. Veuillez réessayer.",
   "retry": "Réessayer",
   "back_home": "Retour à l'accueil",
-    "weather_clear_sky": "Ciel dégagé",
+  "weather_clear_sky": "Ciel dégagé",
   "weather_few_clouds": "Quelques nuages",
   "weather_scattered_clouds": "Nuages épars",
   "weather_broken_clouds": "Nuageux",
@@ -80,7 +80,7 @@
   "weather_tornado": "Tornade",
   "5-day-forecast": "Prévisions sur 5 jours",
   "hourly-forecast": "Prévisions horaires",
-    "gps_disabled": "GPS désactivé",
+  "gps_disabled": "GPS désactivé",
   "please_enable_gps": "Veuillez activer le GPS dans les paramètres pour obtenir la météo de votre position.",
   "permission_denied": "Permission de localisation refusée",
   "permission_required": "Permission requise",
@@ -93,5 +93,8 @@
   "dark_mode": "Mode sombre",
   "light_mode": "Mode clair",
   "language": "Langue",
-  "now": "Maintenant"
+  "now": "Maintenant",
+  "features": "Fonctionnalités",
+  "weather_radar": "Radar météo",
+  "view_weather_radar": "Voir des cartes radar météo détaillées"
 }

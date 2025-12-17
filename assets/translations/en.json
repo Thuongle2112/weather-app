@@ -89,5 +89,8 @@
   "dark_mode": "Dark Mode",
   "light_mode": "Light Mode",
   "language": "Language",
-  "now": "Now"
+  "now": "Now",
+  "features": "Features",
+  "weather_radar": "Weather Radar",
+  "view_weather_radar": "View detailed weather radar maps"
 }

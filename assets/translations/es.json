@@ -93,5 +93,8 @@
   "dark_mode": "Modo oscuro",
   "light_mode": "Modo claro",
   "language": "Idioma",
-  "now": "Ahora"
+  "now": "Ahora",
+  "features": "Funciones",
+  "weather_radar": "Radar meteorológico",
+  "view_weather_radar": "Ver mapas detallados del radar meteorológico"
 }

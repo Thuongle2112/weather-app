@@ -22,11 +22,13 @@ class WeatherLoaded extends WeatherState {
   final Weather weather;
   final List<ForecastItem>? hourlyForecast;
   final List<DailyForecast>? dailyForecast;
+  final double latitude;
+  final double longitude;
 
-  const WeatherLoaded(this.weather, {this.hourlyForecast, this.dailyForecast});
+  const WeatherLoaded(this.weather, {this.hourlyForecast, this.dailyForecast, required this.latitude, required this.longitude});
 
   @override
-  List<Object?> get props => [weather, hourlyForecast, dailyForecast];
+  List<Object?> get props => [weather, hourlyForecast, dailyForecast, latitude, longitude];
 }
 
 class WeatherError extends WeatherState {
