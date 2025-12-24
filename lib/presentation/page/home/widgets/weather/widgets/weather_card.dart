@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../data/model/weather/weather.dart';
 import '../../widgets.dart';
 
-
 class WeatherCard extends StatelessWidget {
   final Weather weather;
   final String iconFileName;
@@ -33,14 +32,14 @@ class WeatherCard extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(20.r),
           border: Border.all(color: Colors.white.withOpacity(0.3), width: 1.5),
-          boxShadow: [
-            BoxShadow(
-              color: gradientColors.first.withOpacity(0.3),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
-              spreadRadius: 2,
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: gradientColors.first.withOpacity(0.3),
+          //     blurRadius: 15,
+          //     offset: const Offset(0, 8),
+          //     spreadRadius: 2,
+          //   ),
+          // ],
         ),
         child: Column(
           children: [

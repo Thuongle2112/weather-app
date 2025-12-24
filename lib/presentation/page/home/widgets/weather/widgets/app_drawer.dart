@@ -8,7 +8,6 @@ import 'package:weather_app/presentation/providers/theme_provider.dart';
 import '../../../../settings/notification_settings_page.dart';
 import '../../../../weather_radar_page.dart';
 import '../../widgets.dart';
-import 'gradient_text.dart';
 
 class AppDrawer extends StatelessWidget {
   final double? latitude;
@@ -184,7 +183,7 @@ class AppDrawer extends StatelessWidget {
         ],
       ),
       onTap: () {
-        Navigator.pop(context); // Close drawer
+        Navigator.pop(context);
         showModalBottomSheet(
           context: context,
           backgroundColor: Colors.transparent,
@@ -220,7 +219,7 @@ class AppDrawer extends StatelessWidget {
         size: 14.sp,
       ),
       onTap: () {
-        Navigator.pop(context); // Close drawer
+        Navigator.pop(context);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -253,7 +252,7 @@ class AppDrawer extends StatelessWidget {
         size: 14.sp,
       ),
       onTap: () {
-        Navigator.pop(context); // Close drawer
+        Navigator.pop(context);
         Navigator.push(
           context,
           MaterialPageRoute(
