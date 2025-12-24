@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../data/model/weather/weather.dart';
 
@@ -60,11 +61,69 @@ class WeatherUIHelper {
       image: DecorationImage(
         image: AssetImage(
           isDarkMode
-              ? 'assets/images/noel_bg_dark.jpg'
-              : 'assets/images/noel_bg_light.jpg',
+              ? 'assets/images/new_year_bg_dark.jpeg'
+              : 'assets/images/new_year_bg_light.jpeg',
         ),
         fit: BoxFit.cover,
       ),
     );
+  }
+
+  static Decoration getSimpleBackgroundByTheme({required bool isDarkMode}) {
+    // return BoxDecoration(
+    //   color: isDarkMode ? const Color(0xFF121212) : const Color(0xFFF0FEFC),
+    // );
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors:
+            isDarkMode
+                ? [const Color(0xFF141E30), const Color(0xFF243B55)]
+                : [const Color(0xFFDFF3F0), const Color(0xFFE8EEF7)],
+        stops: const [0.0, 1.0],
+      ),
+    );
+  }
+
+  static String getLocalizedWeatherDescription(String description) {
+    final lowercaseDesc = description.toLowerCase();
+
+    if (lowercaseDesc.contains('clear')) {
+      return 'weather_clear'.tr();
+    } else if (lowercaseDesc.contains('cloud')) {
+      return 'weather_clouds'.tr();
+    } else if (lowercaseDesc.contains('rain') &&
+        !lowercaseDesc.contains('drizzle')) {
+      return 'weather_rain'.tr();
+    } else if (lowercaseDesc.contains('drizzle')) {
+      return 'weather_drizzle'.tr();
+    } else if (lowercaseDesc.contains('thunder') ||
+        lowercaseDesc.contains('storm')) {
+      return 'weather_thunderstorm'.tr();
+    } else if (lowercaseDesc.contains('snow')) {
+      return 'weather_snow'.tr();
+    } else if (lowercaseDesc.contains('mist')) {
+      return 'weather_mist'.tr();
+    } else if (lowercaseDesc.contains('fog')) {
+      return 'weather_fog'.tr();
+    } else if (lowercaseDesc.contains('haze')) {
+      return 'weather_haze'.tr();
+    } else if (lowercaseDesc.contains('smoke')) {
+      return 'weather_smoke'.tr();
+    } else if (lowercaseDesc.contains('dust')) {
+      return 'weather_dust'.tr();
+    } else if (lowercaseDesc.contains('sand')) {
+      return 'weather_sand'.tr();
+    } else if (lowercaseDesc.contains('ash')) {
+      return 'weather_ash'.tr();
+    } else if (lowercaseDesc.contains('squall')) {
+      return 'weather_squall'.tr();
+    } else if (lowercaseDesc.contains('tornado')) {
+      return 'weather_tornado'.tr();
+    }
+
+    // Fallback: capitalize first letter of original description
+    return capitalizeFirstLetter(description);
   }
 }

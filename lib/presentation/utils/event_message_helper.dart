@@ -4,12 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:async';
 
-class ChristmasMessageHelper {
+class NewYearMessageHelper {
   static String getTodayMessage(BuildContext context, {DateTime? testDate}) {
     final now = testDate ?? DateTime.now();
-    if (now.month == 12 && now.day >= 20 && now.day <= 26) {
-      final index = now.day - 20;
-      final message = tr('christmas_messages.$index', context: context);
+    // Show messages from Dec 29 to Jan 2 (inclusive)
+    if ((now.month == 12 && now.day >= 29) ||
+        (now.month == 1 && now.day <= 2)) {
+      // Index: 0 for Dec 29, 1 for Dec 30, 2 for Dec 31, 3 for Jan 1, 4 for Jan 2
+      int index;
+      if (now.month == 12) {
+        index = now.day - 29;
+      } else {
+        index = now.day + 2;
+      }
+      final message = tr('new_year_messages.$index', context: context);
       return message;
     }
     return '';
@@ -24,7 +32,7 @@ class ChristmasMessageHelper {
       context: context,
       barrierDismissible: true,
       builder:
-          (dialogContext) => _AutoDismissDialog(
+          (dialogContext) => _NewYearAutoDismissDialog(
             message: message,
             autoDismissDuration: autoDismissDuration,
           ),
@@ -32,21 +40,22 @@ class ChristmasMessageHelper {
   }
 }
 
-class _AutoDismissDialog extends StatefulWidget {
+class _NewYearAutoDismissDialog extends StatefulWidget {
   final String message;
   final Duration autoDismissDuration;
 
-  const _AutoDismissDialog({
+  const _NewYearAutoDismissDialog({
     Key? key,
     required this.message,
     required this.autoDismissDuration,
   }) : super(key: key);
 
   @override
-  _AutoDismissDialogState createState() => _AutoDismissDialogState();
+  State<_NewYearAutoDismissDialog> createState() =>
+      _NewYearAutoDismissDialogState();
 }
 
-class _AutoDismissDialogState extends State<_AutoDismissDialog> {
+class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
   Timer? _timer;
 
   @override
@@ -75,8 +84,8 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFFD32F2F).withOpacity(0.95),
-                const Color(0xFF1B5E20).withOpacity(0.95),
+                const Color(0xFF1976D2).withOpacity(0.95),
+                const Color(0xFFFFD600).withOpacity(0.95),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -95,7 +104,7 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Lottie.asset(
-                'assets/animations/christmas_santa.json',
+                'assets/animations/new_year_message.json',
                 width: 120.w,
                 height: 120.h,
                 fit: BoxFit.cover,
@@ -104,7 +113,7 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
               SizedBox(height: 16.h),
 
               Text(
-                '🎄 Merry Christmas! 🎅',
+                '🎆 Happy New Year! 🎉',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22.sp,
@@ -150,7 +159,7 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
                   5,
-                  (index) => Text('❄️', style: TextStyle(fontSize: 20.sp)),
+                  (index) => Text('🎇', style: TextStyle(fontSize: 20.sp)),
                 ),
               ),
 
@@ -161,7 +170,7 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
                     () => Navigator.of(context, rootNavigator: true).maybePop(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
-                  foregroundColor: const Color(0xFFD32F2F),
+                  foregroundColor: const Color(0xFF1976D2),
                   padding: EdgeInsets.symmetric(
                     horizontal: 32.w,
                     vertical: 12.h,
@@ -183,7 +192,7 @@ class _AutoDismissDialogState extends State<_AutoDismissDialog> {
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    Text('🎁', style: TextStyle(fontSize: 18.sp)),
+                    Text('🥂', style: TextStyle(fontSize: 18.sp)),
                   ],
                 ),
               ),

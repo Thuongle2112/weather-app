@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:lottie/lottie.dart';
+import 'package:weather_app/presentation/page/home/widgets/buttons/new-year-button-painter.dart';
 
 import '../../../../../data/model/weather/weather.dart';
 import '../../../../utils/utils.dart';
@@ -94,7 +94,7 @@ class _CityListSectionState extends State<CityListSection>
           color: widget.isDarkMode ? Colors.grey[900] : Colors.black12,
           borderRadius: BorderRadius.circular(16.r),
           image: DecorationImage(
-            image: const AssetImage('assets/images/noel_bg.jpg'),
+            image: const AssetImage('assets/images/new_year_bg.png'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Colors.black.withValues(alpha: 0.3),
@@ -128,45 +128,36 @@ class _CityListSectionState extends State<CityListSection>
       children: [
         Text(
           'other_cities'.tr(),
-          style: TextStyle(
-            color: textColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge!.copyWith(color: textColor),
         ),
+
         const Spacer(),
-        Container(
-          padding: EdgeInsets.all(2.w),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xFFD32F2F).withValues(alpha: 0.2),
-                const Color(0xFF1B5E20).withValues(alpha: 0.2),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.3),
-              width: 1.5,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.2),
-                blurRadius: 8,
-                spreadRadius: 1,
-              ),
-            ],
-          ),
-          child: Lottie.asset(
-            'assets/animations/horizontal_scroll.json',
-            width: 32.w,
-            height: 32.h,
-            fit: BoxFit.contain,
-            repeat: true,
-          ),
-        ),
+        // Container(
+        //   padding: EdgeInsets.all(2.w),
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(12.r),
+        //     border: Border.all(
+        //       color: Colors.white.withValues(alpha: 0.3),
+        //       width: 1.5,
+        //     ),
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: Colors.white.withValues(alpha: 0.2),
+        //         blurRadius: 8,
+        //         spreadRadius: 1,
+        //       ),
+        //     ],
+        //   ),
+        //   child: Lottie.asset(
+        //     'assets/animations/horizontal_scroll.json',
+        //     width: 32.w,
+        //     height: 32.h,
+        //     fit: BoxFit.contain,
+        //     repeat: true,
+        //   ),
+        // ),
       ],
     );
   }
@@ -231,28 +222,36 @@ class _CityListSectionState extends State<CityListSection>
               width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: widget.isDarkMode
-                      ? [
-                          const Color(0xFFD32F2F),
-                          const Color(0xFFFFFFFF),
-                          const Color(0xFF1B5E20),
-                        ]
-                      : [
-                          const Color(0xFFE53935),
-                          const Color(0xFFF5F5F5),
-                          const Color(0xFF2E7D32),
-                        ],
+                  colors:
+                  // widget.isDarkMode
+                  //     ? [
+                  //       const Color(0xFFFFD700), // Gold
+                  //       const Color(0xFFFF6B6B), // Red
+                  //       const Color(0xFF4ECDC4), // Cyan
+                  //       const Color(0xFFFFE66D), // Yellow
+                  //     ]
+                  //     : [
+                  //       const Color(0xFFFFE55C), // Light Gold
+                  //       const Color(0xFFF38181), // Light Red
+                  //       const Color(0xFF95E1D3), // Light Cyan
+                  //       const Color(0xFFFFD93D), // Light Yellow
+                  //     ],
+                  [
+                    const Color(0xFFFFB703),
+                    const Color(0xFFFB8500),
+                    const Color(0xFFE63946),
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(12.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFD32F2F).withValues(alpha: 0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: const Color(0xFFD32F2F).withValues(alpha: 0.3),
+                //     blurRadius: 8,
+                //     offset: const Offset(0, 4),
+                //   ),
+                // ],
               ),
               child: ElevatedButton(
                 onPressed: () => widget.showSearchModal(),
@@ -289,7 +288,11 @@ class _CityListSectionState extends State<CityListSection>
                   animation: _snowController,
                   builder: (context, child) {
                     return CustomPaint(
-                      painter: SnowButtonPainter(
+                      // painter: SnowButtonPainter(
+                      //   isDarkMode: widget.isDarkMode,
+                      //   animation: _snowController,
+                      // ),
+                      painter: NewYearButtonPainter(
                         isDarkMode: widget.isDarkMode,
                         animation: _snowController,
                       ),

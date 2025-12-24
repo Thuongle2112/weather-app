@@ -65,6 +65,34 @@ class LanguageConstants {
       countryCode: 'ES',
       flag: '🇪🇸',
     ),
+    LanguageModel(
+      code: 'it',
+      name: 'Italian',
+      nativeName: 'Italiano',
+      countryCode: 'IT',
+      flag: '🇮🇹',
+    ),
+    LanguageModel(
+      code: 'pt',
+      name: 'Portuguese',
+      nativeName: 'Português',
+      countryCode: 'PT',
+      flag: '🇵🇹',
+    ),
+    LanguageModel(
+      code: 'ru',
+      name: 'Russian',
+      nativeName: 'Русский',
+      countryCode: 'RU',
+      flag: '🇷🇺',
+    ),
+    LanguageModel(
+      code: 'hi',
+      name: 'India',
+      nativeName: 'हिन्दी',
+      countryCode: 'IN',
+      flag: '🇮🇳',
+    ),
   ];
 
   static LanguageModel getLanguageByCode(String code) {

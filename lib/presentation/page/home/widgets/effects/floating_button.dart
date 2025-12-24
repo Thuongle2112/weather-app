@@ -34,7 +34,7 @@ class FloatingButton extends StatelessWidget {
                   height: 100.w,
                   child: ClipOval(
                     child: Lottie.asset(
-                      'assets/animations/christmas_floating_button.json',
+                      'assets/animations/new_year_floating_button.json',
                       fit: BoxFit.contain,
                       repeat: true,
                     ),

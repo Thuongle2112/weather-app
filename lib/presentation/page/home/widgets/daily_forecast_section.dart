@@ -6,32 +6,52 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../data/model/weather/daily_forecast.dart';
+import '../../../utils/date_formatter.dart';
 import '../../../utils/weather_icon_mapper.dart';
 import '../../../utils/weather_ui_helper.dart';
+import 'buttons/new-year-button-painter.dart';
 
-class DailyForecastSection extends StatelessWidget {
+class DailyForecastSection extends StatefulWidget {
   final List<DailyForecast> dailyForecast;
-  final Color textColor;
 
-  const DailyForecastSection({
-    super.key,
-    required this.dailyForecast,
-    required this.textColor,
-  });
+  const DailyForecastSection({super.key, required this.dailyForecast});
+
+  @override
+  State<DailyForecastSection> createState() => _DailyForecastSectionState();
+}
+
+class _DailyForecastSectionState extends State<DailyForecastSection>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _fireworkController;
+
+  @override
+  void initState() {
+    super.initState();
+    _fireworkController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _fireworkController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.all(16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12.r),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
+      child: Stack(
+        children: [
+          Container(
             padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12.r),
+              color: Colors.white.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
                 color: Colors.white.withOpacity(0.3),
                 width: 1.5,
@@ -42,26 +62,39 @@ class DailyForecastSection extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(Icons.calendar_today, color: textColor, size: 20.sp),
-                    SizedBox(width: 8.w),
                     Text(
                       '5-day-forecast'.tr(),
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
                 ),
                 SizedBox(height: 16.h),
-                ...dailyForecast
-                    .map((day) => _buildDailyItem(context, day, textColor))
+                ...widget.dailyForecast
+                    .map((day) => _buildDailyItem(context, day, Colors.black))
                     .toList(),
               ],
             ),
           ),
-        ),
+
+          Positioned.fill(
+            child: IgnorePointer(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16.r),
+                child: AnimatedBuilder(
+                  animation: _fireworkController,
+                  builder: (context, child) {
+                    return CustomPaint(
+                      painter: NewYearButtonPainter(
+                        isDarkMode: isDarkMode,
+                        animation: _fireworkController,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -71,45 +104,10 @@ class DailyForecastSection extends StatelessWidget {
     DailyForecast day,
     Color textColor,
   ) {
-    final locale = context.locale.languageCode;
-
-    String formattedDate;
-    try {
-      switch (locale) {
-        case 'vi':
-          formattedDate = DateFormat("EEE, dd 'Th'M", locale).format(day.date);
-          break;
-        case 'ja':
-          formattedDate = DateFormat('EEE, M月d日', locale).format(day.date);
-          break;
-        case 'ko':
-          formattedDate = DateFormat('EEE, M월 d일', locale).format(day.date);
-          break;
-        case 'zh':
-          formattedDate = DateFormat('EEE, M月d日', locale).format(day.date);
-          break;
-        case 'th':
-          formattedDate = DateFormat('EEE, d MMM', locale).format(day.date);
-          break;
-        case 'fr':
-          formattedDate = DateFormat('EEE, d MMM', locale).format(day.date);
-          break;
-        case 'de':
-          formattedDate = DateFormat('EEE, d. MMM', locale).format(day.date);
-          break;
-        case 'es':
-          formattedDate = DateFormat('EEE, d MMM', locale).format(day.date);
-          break;
-        case 'en':
-        default:
-          formattedDate = DateFormat('EEE, MMM d', locale).format(day.date);
-          break;
-      }
-
-      formattedDate = WeatherUIHelper.capitalizeFirstLetter(formattedDate);
-    } catch (e) {
-      formattedDate = DateFormat('EEE, MMM d', 'en').format(day.date);
-    }
+    final formattedDate = DateFormatter.formatMediumDate(
+      day.date,
+      context.locale.languageCode,
+    );
 
     final iconFileName = WeatherIconMapper.getIconByDescription(
       day.description,
@@ -123,39 +121,28 @@ class DailyForecastSection extends StatelessWidget {
             width: 90.w,
             child: Text(
               formattedDate,
-              style: TextStyle(
-                color: textColor.withOpacity(0.9),
-                fontSize: 13.sp,
-              ),
+              style: Theme.of(context).textTheme.labelLarge,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-
           SvgPicture.asset(
             'assets/weather_icons/$iconFileName',
             height: 32.h,
             width: 32.w,
           ),
           SizedBox(width: 12.w),
-
           Expanded(
             child: Text(
-              WeatherUIHelper.capitalizeFirstLetter(day.description),
-              style: TextStyle(
-                color: textColor.withOpacity(0.8),
-                fontSize: 12.sp,
-              ),
+              WeatherUIHelper.getLocalizedWeatherDescription(day.description),
+              style: Theme.of(context).textTheme.labelLarge,
               overflow: TextOverflow.ellipsis,
             ),
           ),
-
           Text(
             '${day.tempMin.round()}° / ${day.tempMax.round()}°',
-            style: TextStyle(
-              color: textColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
       ),

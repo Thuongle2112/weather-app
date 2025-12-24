@@ -13,7 +13,7 @@ class PremiumButton extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Color(0xFFD32F2F), Color(0xFFFFFFFF)],
+            colors: [Color(0xFFFFB703), Color(0xFFFB8500), Color(0xFFE63946)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -33,7 +33,7 @@ class PremiumButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.ac_unit, color: Colors.white, size: 20.sp),
+              Icon(Icons.local_fire_department, color: Colors.white, size: 20.sp),
               SizedBox(width: 8.w),
               Text(
                 'get_premium_1hour'.tr(),

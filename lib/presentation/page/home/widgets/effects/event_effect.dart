@@ -39,7 +39,7 @@ class _EventEffectState extends State<EventEffect>
         height: double.infinity,
         child: Center(
           child: Lottie.asset(
-            'assets/animations/merry_christmas_shake_effect.json',
+            'assets/animations/new_year_shake_effect.json',
             fit: BoxFit.cover,
             controller: _controller,
             onLoaded: (composition) {

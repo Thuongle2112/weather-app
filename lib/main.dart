@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weather_app/core/theme/app_text_theme.dart';
 import 'package:weather_app/presentation/app_router.dart';
 import 'package:weather_app/presentation/providers/notification_settings_provider.dart';
 import 'package:weather_app/presentation/providers/theme_provider.dart';
@@ -14,7 +16,6 @@ import 'core/di/service_locator.dart';
 import 'core/services/push_notification_service.dart';
 import 'data/datasource/preferences_manager.dart';
 import 'firebase_options.dart';
-import 'presentation/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -94,8 +95,19 @@ class MyApp extends StatelessWidget {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           themeMode: themeProvider.themeMode,
-          theme: AppTheme.lightTheme(),
-          darkTheme: AppTheme.darkTheme(),
+          theme: ThemeData(
+            brightness: Brightness.light,
+            fontFamily: GoogleFonts.poppins().fontFamily,
+            textTheme: AppTextTheme.lightTextTheme(),
+            primarySwatch: Colors.blue,
+          ),
+
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            fontFamily: GoogleFonts.poppins().fontFamily,
+            textTheme: AppTextTheme.darkTextTheme(),
+            primarySwatch: Colors.blue,
+          ),
         );
       },
     );

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../data/model/weather/forecast_item.dart';
+import '../../../utils/date_formatter.dart';
 import '../../../utils/weather_icon_mapper.dart';
 import 'weather/widgets/weather_gradient_helper.dart';
 
@@ -23,63 +24,82 @@ class HourlyForecastSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final displayItems = _getDisplayItems(hourlyForecast, now);
+    final formattedDate = DateFormatter.formatShortDate(
+      now,
+      context.locale.languageCode,
+    );
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12.r),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12.r),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3),
-                width: 1.5,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      // child: ClipRRect(
+      //   borderRadius: BorderRadius.circular(12.r),
+      //   child: BackdropFilter(
+      //     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      //     child: Container(
+      //       padding: EdgeInsets.all(16.w),
+      //       decoration: BoxDecoration(
+      //         // color: Colors.white.withOpacity(0.1),
+      //         borderRadius: BorderRadius.circular(12.r),
+      //         border: Border.all(
+      //           color: Colors.white.withOpacity(0.3),
+      //           width: 1.5,
+      //         ),
+      //       ),
+      child: Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1.5),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.black.withOpacity(0.1),
+          //     blurRadius: 10,
+          //     offset: const Offset(0, 4),
+          //     spreadRadius: 2,
+          //   ),
+          // ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.access_time, color: textColor, size: 20.sp),
-                    SizedBox(width: 8.w),
-                    Text(
-                      'hourly-forecast'.tr(),
-                      style: TextStyle(
-                        color: textColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                Text(
+                  'hourly-forecast'.tr(),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                SizedBox(height: 16.h),
-                SizedBox(
-                  height: 120.h,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: displayItems.length,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (context, index) {
-                      final itemData = displayItems[index];
-                      return _buildHourlyItem(
-                        itemData['item'] as ForecastItem,
-                        itemData['label'] as String,
-                        itemData['isCurrent'] as bool,
-                        textColor,
-                      );
-                    },
-                  ),
+                Text(
+                  formattedDate,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
-          ),
+            SizedBox(height: 16.h),
+            SizedBox(
+              height: 120.h,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: displayItems.length,
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  final itemData = displayItems[index];
+                  return _buildHourlyItem(
+                    itemData['item'] as ForecastItem,
+                    itemData['label'] as String,
+                    itemData['isCurrent'] as bool,
+                    textColor,
+                    context,
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
+      //   ),
+      // ),
     );
   }
 
@@ -132,47 +152,57 @@ class HourlyForecastSection extends StatelessWidget {
     String label,
     bool isCurrent,
     Color textColor,
+    BuildContext context,
   ) {
     final iconFileName = WeatherIconMapper.getIconByDescription(
       item.description,
     );
 
-    if (isCurrent) {
-      final gradientColors = WeatherGradientHelper.getGradientColors();
+    final gradientColors =
+        isCurrent ? WeatherGradientHelper.getGradientColors() : null;
 
-      return Container(
-        width: 70.w,
-        margin: EdgeInsets.only(right: 12.w),
-        padding: EdgeInsets.all(8.w),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: gradientColors,
-            stops: gradientColors.length == 2 ? [0.0, 1.0] : [0.0, 0.5, 1.0],
-          ),
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: gradientColors.first.withOpacity(0.4),
-              blurRadius: 12,
-              spreadRadius: 2,
-            ),
-          ],
+    return Container(
+      margin: EdgeInsets.only(right: 12.w),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 10.h),
+      decoration: BoxDecoration(
+        gradient:
+            gradientColors != null
+                ? LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: gradientColors,
+                  stops:
+                      gradientColors.length == 2 ? [0.0, 1.0] : [0.0, 0.5, 1.0],
+                )
+                : null,
+        color: isCurrent ? null : Colors.transparent,
+        borderRadius: BorderRadius.circular(50.r),
+        border: Border.all(
+          color: isCurrent ? Colors.white.withOpacity(0.5) : Colors.transparent,
+          width: 2,
         ),
-        child: _buildItemContent(item, label, true, textColor, iconFileName),
-      );
-    }
-
-    return Padding(
-      padding: EdgeInsets.only(right: 12.w),
+      ),
       child: SizedBox(
-        width: 70.w,
-        child: _buildItemContent(item, label, false, textColor, iconFileName),
+        child: _buildItemContent(
+          item,
+          label,
+          isCurrent,
+          textColor,
+          iconFileName,
+          context,
+        ),
       ),
     );
   }
+
+  //   return Padding(
+  //     padding: EdgeInsets.only(right: 12.w),
+  //     child: SizedBox(
+  //       width: 70.w,
+  //       child: _buildItemContent(item, label, false, textColor, iconFileName, context),
+  //     )
+  //   );
+  // }
 
   Widget _buildItemContent(
     ForecastItem item,
@@ -180,6 +210,7 @@ class HourlyForecastSection extends StatelessWidget {
     bool isCurrent,
     Color textColor,
     String iconFileName,
+    BuildContext context,
   ) {
     return IntrinsicHeight(
       child: Column(
@@ -187,10 +218,13 @@ class HourlyForecastSection extends StatelessWidget {
         children: [
           Text(
             label == 'now' ? 'now'.tr() : label,
-            style: TextStyle(
-              color: textColor.withOpacity(isCurrent ? 1.0 : 0.8),
-              fontSize: isCurrent ? 13.sp : 11.sp,
-              fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+            // style: TextStyle(
+            //   color: isCurrent ? Colors.white : textColor.withOpacity(0.8),
+            //   fontSize: isCurrent ? 13.sp : 11.sp,
+            //   fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+            // ),
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+              color: isCurrent ? Colors.white : textColor.withOpacity(0.8),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -198,17 +232,20 @@ class HourlyForecastSection extends StatelessWidget {
           SizedBox(height: 4.h),
           SvgPicture.asset(
             'assets/weather_icons/$iconFileName',
-            height: isCurrent ? 40.h : 32.h,
-            width: isCurrent ? 40.w : 32.w,
+            height: 32.h,
+            width: 32.w,
             fit: BoxFit.contain,
           ),
           SizedBox(height: 4.h),
           Text(
             '${item.temperature.round()}°',
-            style: TextStyle(
-              color: textColor,
-              fontSize: isCurrent ? 18.sp : 15.sp,
-              fontWeight: FontWeight.bold,
+            // style: TextStyle(
+            //   color: isCurrent ? Colors.white : textColor,
+            //   fontSize: isCurrent ? 18.sp : 15.sp,
+            //   fontWeight: FontWeight.bold,
+            // ),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+              color: isCurrent ? Colors.white : textColor,
             ),
             maxLines: 1,
           ),

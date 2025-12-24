@@ -31,7 +31,11 @@ class TemperatureDisplay extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16.w, top: 16.h),
-          child: WeatherHeader(cityName: cityName, textColor: textColor),
+          child: WeatherHeader(
+            cityName: cityName,
+            textColor: textColor,
+            isDarkMode: Theme.of(context).brightness == Brightness.dark,
+          ),
         ),
         Center(
           child: Padding(
@@ -40,7 +44,7 @@ class TemperatureDisplay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 32.h),
+                SizedBox(height: 16.h),
                 WeatherCard(
                   weather: weather,
                   iconFileName: iconFileName,
