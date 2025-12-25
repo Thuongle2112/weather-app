@@ -125,7 +125,7 @@ class _TimeProgressBarState extends State<TimeProgressBar>
           color: Colors.black.withOpacity(0.8),
           borderRadius: BorderRadius.circular(16.r),
           image: DecorationImage(
-            image: AssetImage('assets/images/noel_time_progress_bg.jpg'),
+            image: AssetImage('assets/images/new_year_time_progress_bg.jpeg'),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.5),

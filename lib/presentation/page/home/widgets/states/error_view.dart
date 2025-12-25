@@ -23,7 +23,7 @@ class ErrorView extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(
-            'assets/images/halloween_error.jpg',
+            'assets/images/new_year_error.jpeg',
             fit: BoxFit.cover,
           ),
         ),

@@ -35,9 +35,10 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: SizedBox.expand(
         child: Lottie.asset(
-          'assets/animations/noel_splash_screen.json',
+          'assets/animations/new_year_splash_screen.json',
           controller: _controller,
-          fit: BoxFit.cover,
+          // fit: BoxFit.cover,
+          fit: BoxFit.contain,
           onLoaded: (composition) {
             _controller
               ..duration = composition.duration

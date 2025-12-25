@@ -21,8 +21,8 @@ class InitialView extends StatelessWidget {
         Positioned.fill(
           child: Image.asset(
             isDarkMode
-                ? 'assets/images/noel_bg_dark.jpg'
-                : 'assets/images/noel_bg_light.jpg',
+                ? 'assets/images/new_year_bg_dark.jpeg'
+                : 'assets/images/new_year_bg_light.jpeg',
             fit: BoxFit.cover,
           ),
         ),

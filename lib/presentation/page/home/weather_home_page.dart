@@ -215,9 +215,9 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     if (!_hasShownHalloweenDialog) {
       _hasShownHalloweenDialog = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final message = ChristmasMessageHelper.getTodayMessage(context);
+        final message = NewYearMessageHelper.getTodayMessage(context);
         if (message.isNotEmpty) {
-          ChristmasMessageHelper.showMessageDialog(
+          NewYearMessageHelper.showMessageDialog(
             context,
             message,
             autoDismissDuration: const Duration(seconds: 30),
@@ -249,7 +249,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     return Stack(
       children: [
         Container(
-          decoration: WeatherUIHelper.getBackgroundImageByTheme(
+          decoration: WeatherUIHelper.getSimpleBackgroundByTheme(
             isDarkMode: isDarkMode,
           ),
           child: SafeArea(
@@ -270,7 +270,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                         SliverToBoxAdapter(
                           child: HourlyForecastSection(
                             hourlyForecast: hourlyForecast,
-                            textColor: textColor,
+                            textColor: isDarkMode ? Colors.white : Colors.black,
                           ),
                         ),
 
@@ -278,7 +278,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                         SliverToBoxAdapter(
                           child: DailyForecastSection(
                             dailyForecast: dailyForecast,
-                            textColor: textColor,
+                            // textColor: textColor,
                           ),
                         ),
 
@@ -340,7 +340,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
         if (_showBoo)
           Center(
             child: Lottie.asset(
-              'assets/animations/christmas_floating_button.json',
+              'assets/animations/new_year_floating_button.json',
               fit: BoxFit.contain,
               repeat: false,
             ),
@@ -348,7 +348,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
         if (_showMoneyRain)
           Positioned.fill(
             child: Lottie.asset(
-              'assets/animations/snow_rain.json',
+              'assets/animations/money_rain.json',
               fit: BoxFit.cover,
               repeat: false,
             ),

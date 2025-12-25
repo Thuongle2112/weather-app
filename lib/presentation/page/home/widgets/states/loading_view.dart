@@ -12,8 +12,8 @@ class LoadingView extends StatelessWidget {
         width: 200.w,
         height: 200.w,
         child: Lottie.asset(
-          'assets/animations/christmas_loading.json',
-          fit: BoxFit.cover,
+          'assets/animations/new_year_loading.json',
+          fit: BoxFit.contain,
           repeat: true,
           animate: true,
         ),
