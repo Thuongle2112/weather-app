@@ -99,5 +99,15 @@
     "now": "Ora",
     "features": "Funzionalità",
     "weather_radar": "Radar meteo",
-    "view_weather_radar": "Visualizza mappe dettagliate del radar meteo"
+    "view_weather_radar": "Visualizza mappe dettagliate del radar meteo",
+    "air_quality": "Qualità dell'aria",
+    "view_air_quality": "Visualizza l'indice di qualità dell'aria dettagliato",
+    "uv_index": "Indice UV",
+    "view_uv_index": "Visualizza l'indice UV dettagliato",
+    "aqi_good": "Buona",
+    "aqi_fair": "Discreta",
+    "aqi_moderate": "Moderata",
+    "aqi_poor": "Scarsa",
+    "aqi_very_poor": "Molto scarsa",
+    "aqi_unknown": "Sconosciuta"
 }

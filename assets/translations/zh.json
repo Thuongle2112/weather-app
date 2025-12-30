@@ -99,5 +99,15 @@
   "now": "现在",
   "features": "功能",
   "weather_radar": "天气雷达",
-  "view_weather_radar": "查看详细的天气雷达地图"
+  "view_weather_radar": "查看详细的天气雷达地图",
+  "air_quality": "空气质量",
+  "view_air_quality": "查看详细的空气质量指数",
+  "uv_index": "紫外线指数",
+  "view_uv_index": "查看详细的紫外线指数",
+  "aqi_good": "良好",
+  "aqi_fair": "一般",
+  "aqi_moderate": "适中",
+  "aqi_poor": "较差",
+  "aqi_very_poor": "很差",
+  "aqi_unknown": "未知"
 }

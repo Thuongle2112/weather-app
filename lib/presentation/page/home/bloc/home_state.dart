@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../data/model/weather/air_pollution.dart';
 import '../../../../data/model/weather/daily_forecast.dart';
 import '../../../../data/model/weather/forecast_item.dart';
 import '../../../../data/model/weather/weather.dart';
@@ -24,11 +25,26 @@ class WeatherLoaded extends WeatherState {
   final List<DailyForecast>? dailyForecast;
   final double latitude;
   final double longitude;
+  final AirPollution? airPollution;
 
-  const WeatherLoaded(this.weather, {this.hourlyForecast, this.dailyForecast, required this.latitude, required this.longitude});
+  const WeatherLoaded(
+    this.weather, {
+    this.hourlyForecast,
+    this.dailyForecast,
+    required this.latitude,
+    required this.longitude,
+    this.airPollution,
+  });
 
   @override
-  List<Object?> get props => [weather, hourlyForecast, dailyForecast, latitude, longitude];
+  List<Object?> get props => [
+    weather,
+    hourlyForecast,
+    dailyForecast,
+    latitude,
+    longitude,
+    airPollution,
+  ];
 }
 
 class WeatherError extends WeatherState {

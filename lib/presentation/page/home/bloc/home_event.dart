@@ -35,3 +35,13 @@ class FetchWeatherByCoordinates extends WeatherEvent {
   @override
   List<Object> get props => [latitude, longitude, includeForecast];
 }
+
+class FetchAirPollution extends WeatherEvent {
+  final double latitude;
+  final double longitude;
+
+  const FetchAirPollution(this.latitude, this.longitude);
+
+  @override
+  List<Object> get props => [latitude, longitude];
+}

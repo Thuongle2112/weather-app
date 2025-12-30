@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:weather_app/presentation/page/home/widgets/buttons/new-year-button-painter.dart';
+import 'package:weather_app/presentation/page/home/widgets/buttons/new_year_button_painter.dart';
 
 import '../../../../../data/model/weather/weather.dart';
 import '../../../../utils/utils.dart';
@@ -10,7 +10,7 @@ import '../../bloc/bloc.dart';
 import '../widgets.dart';
 
 class CityListSection extends StatefulWidget {
-  final List<String> popularCities;
+  final List<Map<String, dynamic>> popularCities;
   final Color textColor;
   final bool isDarkMode;
   final Function showSearchModal;
@@ -32,6 +32,7 @@ class _CityListSectionState extends State<CityListSection>
   late AnimationController _snowController;
   final Map<String, Weather?> _cityWeatherCache = {};
   final Map<String, bool> _loadingStates = {};
+  bool _isDisposed = false;
 
   @override
   void initState() {
@@ -46,6 +47,7 @@ class _CityListSectionState extends State<CityListSection>
 
   @override
   void dispose() {
+    _isDisposed = true;
     _snowController.dispose();
     super.dispose();
   }
@@ -56,28 +58,27 @@ class _CityListSectionState extends State<CityListSection>
     final getWeatherByCity = weatherBloc.getWeatherByCity;
 
     for (final city in widget.popularCities) {
-      if (_cityWeatherCache.containsKey(city)) continue;
+      if (_isDisposed || !mounted) return;
 
       setState(() {
-        _loadingStates[city] = true;
+        _loadingStates[city['name']] = true;
       });
 
       try {
-        // ✅ Call usecase directly
-        final weather = await getWeatherByCity(city);
-        if (mounted) {
-          setState(() {
-            _cityWeatherCache[city] = weather;
-            _loadingStates[city] = false;
-          });
-        }
-      } catch (e) {
-        if (mounted) {
-          setState(() {
-            _cityWeatherCache[city] = null;
-            _loadingStates[city] = false;
-          });
-        }
+        final weather = await getWeatherByCity(city['name']);
+        if (_isDisposed || !mounted) return;
+
+        setState(() {
+          _cityWeatherCache[city['name']] = weather;
+          _loadingStates[city['name']] = false;
+        });
+      } catch (_) {
+        if (_isDisposed || !mounted) return;
+
+        setState(() {
+          _cityWeatherCache[city['name']] = null;
+          _loadingStates[city['name']] = false;
+        });
       }
 
       await Future.delayed(const Duration(milliseconds: 200));
@@ -178,7 +179,10 @@ class _CityListSectionState extends State<CityListSection>
             width: cardWidth.w,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.w),
-              child: _buildCityCard(context, widget.popularCities[index]),
+              child: _buildCityCard(
+                context,
+                widget.popularCities[index]['name'],
+              ),
             ),
           );
         },
