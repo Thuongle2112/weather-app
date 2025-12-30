@@ -95,5 +95,15 @@
   "now": "Now",
   "features": "Features",
   "weather_radar": "Weather Radar",
-  "view_weather_radar": "View detailed weather radar maps"
+  "view_weather_radar": "View detailed weather radar maps",
+  "air_quality": "Air Quality",
+  "view_air_quality": "View detailed air quality index",
+  "uv_index": "UV Index",
+  "view_uv_index": "View detailed UV index",
+  "aqi_good": "Good",
+  "aqi_fair": "Fair",
+  "aqi_moderate": "Moderate",
+  "aqi_poor": "Poor",
+  "aqi_very_poor": "Very Poor",
+  "aqi_unknown": "Unknown"
 }

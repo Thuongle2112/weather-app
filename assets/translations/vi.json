@@ -95,5 +95,15 @@
   "now": "Bây giờ",
   "features": "Tính năng",
   "weather_radar": "Bản đồ radar thời tiết",
-  "view_weather_radar": "Xem bản đồ radar thời tiết chi tiết"
+  "view_weather_radar": "Xem bản đồ radar thời tiết chi tiết",
+  "air_quality": "Chất lượng không khí",
+  "view_air_quality": "Xem chỉ số chất lượng không khí chi tiết",
+  "uv_index": "Chỉ số UV",
+  "view_uv_index": "Xem chỉ số UV chi tiết",
+  "aqi_good": "Tốt",
+  "aqi_fair": "Khá",
+  "aqi_moderate": "Trung bình",
+  "aqi_poor": "Kém",
+  "aqi_very_poor": "Rất kém",
+  "aqi_unknown": "Không xác định"
 }

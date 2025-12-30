@@ -15,6 +15,7 @@ import '../../../data/model/weather/weather.dart';
 import '../../providers/providers.dart';
 import '../../utils/utils.dart';
 import 'bloc/bloc.dart';
+import 'widgets/weather/air_pollution.dart';
 import 'widgets/weather/widgets/app_drawer.dart';
 import 'widgets/widgets.dart';
 
@@ -38,17 +39,15 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   bool _showMoneyRain = false;
   int _searchCount = 0;
 
-  final List<String> _popularCities = [
-    'Hanoi',
-    'Ho Chi Minh City',
-    'Da Nang',
-    'Hue',
-    'Nha Trang',
-    'Tokyo',
-    'Bangkok',
-    'Singapore',
-    'London',
-    'New York',
+  final List<Map<String, dynamic>> _popularCities = [
+  {'name': 'Ha Noi', 'lat': 21.0285, 'lon': 105.8542},
+  {'name': 'Ho Chi Minh City', 'lat': 10.7769, 'lon': 106.7009},
+  {'name': 'Da Nang', 'lat': 16.0544, 'lon': 108.2022},
+  {'name': 'New York', 'lat': 40.7128, 'lon': -74.0060},
+  {'name': 'London', 'lat': 51.5074, 'lon': -0.1278},
+  {'name': 'Tokyo', 'lat': 35.6895, 'lon': 139.6917},
+  {'name': 'Paris', 'lat': 48.8566, 'lon': 2.3522},
+  {'name': 'Sydney', 'lat': -33.8688, 'lon': 151.2093},
   ];
 
   @override
@@ -234,6 +233,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     final state = context.read<WeatherBloc>().state;
     final hourlyForecast = state is WeatherLoaded ? state.hourlyForecast : null;
     final dailyForecast = state is WeatherLoaded ? state.dailyForecast : null;
+    final airPollution = state is WeatherLoaded ? state.airPollution : null;
 
     final marks = [
       TimeMark(label: tr('sunrise'), time: '05:19', icon: Icons.wb_sunny),
@@ -279,6 +279,13 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                           child: DailyForecastSection(
                             dailyForecast: dailyForecast,
                             // textColor: textColor,
+                          ),
+                        ),
+
+                      if (airPollution != null)
+                        SliverToBoxAdapter(
+                          child: AirPollutionGaugeWidget(
+                            airPollution: airPollution,
                           ),
                         ),
 

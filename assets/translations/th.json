@@ -99,5 +99,14 @@
   "now": "ตอนนี้",
   "features": "คุณสมบัติ",
   "weather_radar": "เรดาร์สภาพอากาศ",
-  "view_weather_radar": "ดูแผนที่เรดาร์สภาพอากาศโดยละเอียด"
+  "view_weather_radar": "ดูแผนที่เรดาร์สภาพอากาศโดยละเอียด",
+  "air_quality": "คุณภาพอากาศ",
+  "view_air_quality": "ดูดัชนีคุณภาพอากาศโดยละเอียด",
+  "uv_index": "ดัชนีรังสียูวี",
+  "view_uv_index": "ดูดัชนีรังสียูวีโดยละเอียด",
+  "aqi_good": "ดี",
+  "aqi_fair": "พอใช้",
+  "aqi_moderate": "ปานกลาง",
+  "aqi_poor": "แย่",
+  "aqi_very_poor": "แย่มาก"
 }

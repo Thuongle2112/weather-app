@@ -99,5 +99,15 @@
   "now": "現在",
   "features": "機能",
   "weather_radar": "天気レーダー",
-  "view_weather_radar": "詳細な天気レーダーマップを見る"
+  "view_weather_radar": "詳細な天気レーダーマップを見る",
+  "air_quality": "空気の質",
+  "view_air_quality": "詳細な空気質指数を見る",
+  "uv_index": "UV指数",
+  "view_uv_index": "詳細なUV指数を見る",
+  "aqi_good": "良好",
+  "aqi_fair": "普通",
+  "aqi_moderate": "適度",
+  "aqi_poor": "悪い",
+  "aqi_very_poor": "非常に悪い",
+  "aqi_unknown": "不明"
 }

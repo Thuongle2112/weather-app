@@ -99,5 +99,15 @@
   "now": "Maintenant",
   "features": "Fonctionnalités",
   "weather_radar": "Radar météo",
-  "view_weather_radar": "Voir des cartes radar météo détaillées"
+  "view_weather_radar": "Voir des cartes radar météo détaillées",
+  "air_quality": "Qualité de l'air",
+  "view_air_quality": "Voir l'indice de qualité de l'air détaillé",
+  "uv_index": "Indice UV",
+  "view_uv_index": "Voir l'indice UV détaillé",
+  "aqi_good": "Bon",
+  "aqi_fair": "Moyen",
+  "aqi_moderate": "Modéré",
+  "aqi_poor": "Mauvais",
+  "aqi_very_poor": "Très Mauvais",
+  "aqi_unknown": "Inconnu"
 }
