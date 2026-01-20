@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../data/model/weather/air_pollution.dart';
 import '../../../../data/model/weather/daily_forecast.dart';
 import '../../../../data/model/weather/forecast_item.dart';
+import '../../../../data/model/weather/uv_index.dart';
 import '../../../../data/model/weather/weather.dart';
 
 abstract class WeatherState extends Equatable {
@@ -26,6 +27,7 @@ class WeatherLoaded extends WeatherState {
   final double latitude;
   final double longitude;
   final AirPollution? airPollution;
+  final UVIndex? uvIndex;
 
   const WeatherLoaded(
     this.weather, {
@@ -34,6 +36,7 @@ class WeatherLoaded extends WeatherState {
     required this.latitude,
     required this.longitude,
     this.airPollution,
+    this.uvIndex,
   });
 
   @override
@@ -44,6 +47,7 @@ class WeatherLoaded extends WeatherState {
     latitude,
     longitude,
     airPollution,
+    uvIndex,
   ];
 }
 

@@ -12,6 +12,7 @@ import '../../data/repository/weather/weather_repository_impl.dart';
 import '../../domain/usecase/weather/get_air_pollution.dart';
 import '../../domain/usecase/weather/get_daily_forecast.dart';
 import '../../domain/usecase/weather/get_hourly_forecast.dart';
+import '../../domain/usecase/weather/get_uv_index.dart';
 import '../../domain/usecase/weather/get_weather_by_city.dart';
 import '../../domain/usecase/weather/get_weather_by_coordinates.dart';
 import '../../presentation/page/home/bloc/home_bloc.dart';
@@ -52,6 +53,8 @@ class ServiceLocator {
   GetAirPollution get getAirPollution =>
       GetAirPollution(airPollutionRepository);
 
+  GetUVIndex get getUVIndex => GetUVIndex(weatherRepository);
+
   List<SingleChildWidget> get providers => [
     ChangeNotifierProvider(create: (_) => ThemeProvider()),
     BlocProvider<WeatherBloc>(
@@ -62,6 +65,7 @@ class ServiceLocator {
             getHourlyForecast: getHourlyForecast,
             getDailyForecast: getDailyForecast,
             getAirPollution: getAirPollution,
+            getUVIndex: GetUVIndex(weatherRepository),
           ),
     ),
   ];

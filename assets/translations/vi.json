@@ -105,5 +105,15 @@
   "aqi_moderate": "Trung bình",
   "aqi_poor": "Kém",
   "aqi_very_poor": "Rất kém",
-  "aqi_unknown": "Không xác định"
+  "aqi_unknown": "Không xác định",
+  "uv_low": "Thấp",
+  "uv_moderate": "Trung bình",
+  "uv_high": "Cao",
+  "uv_very_high": "Rất cao",
+  "uv_extreme": "Cực độ",
+  "uv_advice_low": "Không cần bảo vệ. An toàn khi ở ngoài trời.",
+  "uv_advice_moderate": "Sử dụng kem chống nắng và đội mũ nếu ở ngoài trời hơn 30 phút.",
+  "uv_advice_high": "Cần bảo vệ. Sử dụng kem chống nắng, đội mũ và đeo kính râm.",
+  "uv_advice_very_high": "Cần bảo vệ thêm. Tránh ánh nắng vào giữa trưa.",
+  "uv_advice_extreme": "Thực hiện tất cả các biện pháp phòng ngừa. Tránh tiếp xúc với ánh nắng nếu có thể."
 }

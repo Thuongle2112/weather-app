@@ -109,5 +109,15 @@
   "aqi_moderate": "적당함",
   "aqi_poor": "나쁨",
   "aqi_very_poor": "매우 나쁨",
-  "aqi_unknown": "알 수 없음"
+  "aqi_unknown": "알 수 없음",
+  "uv_low": "낮음",
+  "uv_moderate": "보통",
+  "uv_high": "높음",
+  "uv_very_high": "매우 높음",
+  "uv_extreme": "극심함",
+  "uv_advice_low": "보호가 필요하지 않습니다. 야외 활동에 안전합니다.",
+  "uv_advice_moderate": "30분 이상 야외에 있을 경우 자외선 차단제와 모자를 착용하세요.",
+  "uv_advice_high": "보호가 필요합니다. 자외선 차단제, 모자, 선글라스를 착용하세요.",
+  "uv_advice_very_high": "추가 보호가 필요합니다. 정오 시간대에는 햇빛을 피하세요.",
+  "uv_advice_extreme": "모든 예방 조치를 취하세요. 가능하면 햇빛 노출을 피하세요."
 }
