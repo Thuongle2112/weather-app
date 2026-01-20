@@ -105,5 +105,15 @@
   "aqi_moderate": "Moderate",
   "aqi_poor": "Poor",
   "aqi_very_poor": "Very Poor",
-  "aqi_unknown": "Unknown"
+  "aqi_unknown": "Unknown",
+  "uv_low": "Low",
+  "uv_moderate": "Moderate",
+  "uv_high": "High",
+  "uv_very_high": "Very High",
+  "uv_extreme": "Extreme",
+  "uv_advice_low": "No protection needed. Safe to be outside.",
+  "uv_advice_moderate": "Wear sunscreen and a hat if outside for 30+ minutes.",
+  "uv_advice_high": "Protection required. Wear sunscreen, hat, and sunglasses.",
+  "uv_advice_very_high": "Extra protection needed. Avoid sun during midday.",
+  "uv_advice_extreme": "Take all precautions. Avoid sun exposure if possible."
 }

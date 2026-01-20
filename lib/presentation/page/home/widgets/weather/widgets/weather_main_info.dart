@@ -30,9 +30,9 @@ class WeatherMainInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildTemperature(),
+              _buildTemperature(context),
               SizedBox(height: 12.h),
-              _buildHighLowTemperature(),
+              _buildHighLowTemperature(context),
             ],
           ),
         ),
@@ -53,46 +53,40 @@ class WeatherMainInfo extends StatelessWidget {
     );
   }
 
-  Widget _buildTemperature() {
+  Widget _buildTemperature(BuildContext context) {
     return Text(
       '${weather.temperature.toInt()}°C',
-      style: TextStyle(
-        color: textColor,
-        fontSize: 72.sp,
-        fontWeight: FontWeight.w300,
-      ),
+      style: Theme.of(
+        context,
+      ).textTheme.displayLarge!.copyWith(color: textColor),
     );
   }
 
-  Widget _buildHighLowTemperature() {
+  Widget _buildHighLowTemperature(BuildContext context) {
     return Row(
       children: [
         Icon(
           Icons.arrow_upward,
           color: textColor.withOpacity(0.7),
-          size: 16.sp,
+          size: 20.sp,
         ),
         Text(
           '${(weather.temperature + 2).toInt()}°',
-          style: TextStyle(
-            color: textColor.withOpacity(0.7),
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w500,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge!.copyWith(color: textColor.withOpacity(0.7)),
         ),
         SizedBox(width: 16.w),
         Icon(
           Icons.arrow_downward,
           color: textColor.withOpacity(0.7),
-          size: 16.sp,
+          size: 20.sp,
         ),
         Text(
           '${(weather.temperature - 2).toInt()}°',
-          style: TextStyle(
-            color: textColor.withOpacity(0.7),
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w500,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge!.copyWith(color: textColor.withOpacity(0.7)),
         ),
       ],
     );
@@ -110,25 +104,24 @@ class WeatherMainInfo extends StatelessWidget {
       },
       child: SvgPicture.asset(
         'assets/weather_icons/$iconFileName',
-        height: 80.h,
-        width: 80.w,
+        height: 57.h,
+        width: 57.w,
       ),
     );
   }
 
   Widget _buildDescription(BuildContext context) {
-    final localizedDescription = WeatherDescriptionHelper.getLocalizedDescription(
-      weather.description,
-      context.locale.languageCode,
-    );
+    final localizedDescription =
+        WeatherDescriptionHelper.getLocalizedDescription(
+          weather.description,
+          context.locale.languageCode,
+        );
 
     return Text(
       WeatherUIHelper.capitalizeFirstLetter(localizedDescription),
-      style: TextStyle(
-        color: textColor.withOpacity(0.9),
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
-      ),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge!.copyWith(color: textColor.withOpacity(0.9)),
       textAlign: TextAlign.center,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,

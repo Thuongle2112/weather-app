@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/weather/daily_forecast.dart';
 import '../model/weather/forecast_item.dart';
+import '../model/weather/uv_index.dart';
 import '../model/weather/weather.dart';
 
 class WeatherRemoteDataSource {
@@ -161,17 +162,17 @@ class WeatherRemoteDataSource {
     if (apiKey == null) {
       throw Exception('API key not found');
     }
-  
+
     final languageCode = await _getCurrentLanguage();
     debugPrint('🔍 Fetching hourly forecast with language: $languageCode');
-  
+
     try {
       Map<String, dynamic> queryParams = {
         'appid': apiKey,
         'units': 'metric',
         'lang': languageCode,
       };
-  
+
       if (cityName != null) {
         queryParams['q'] = cityName;
       } else if (lat != null && lon != null) {
@@ -180,38 +181,35 @@ class WeatherRemoteDataSource {
       } else {
         throw Exception('Either cityName or coordinates must be provided');
       }
-  
+
       final response = await dio.get(
         'https://api.openweathermap.org/data/2.5/forecast',
         queryParameters: queryParams,
       );
-  
+
       debugPrint('✅ Hourly forecast API response: ${response.statusCode}');
-  
+
       final List<dynamic> list = response.data['list'];
       final now = DateTime.now();
-  
+
       final allForecasts =
           list.map((item) => ForecastItem.fromJson(item)).toList();
-  
-       
+
       final currentIndex = allForecasts.indexWhere(
         (item) =>
             item.dateTime.isAfter(now) ||
             item.dateTime.difference(now).abs().inMinutes < 90,
       );
-  
+
       final startIndex = currentIndex > 0 ? currentIndex - 1 : 0;
-  
-       
+
       return allForecasts.skip(startIndex).take(9).toList();
     } catch (e) {
       debugPrint('❌ Error fetching hourly forecast: $e');
       throw Exception('Failed to fetch hourly forecast: $e');
     }
   }
-  
-   
+
   Future<List<ForecastItem>> _getAllForecast({
     double? lat,
     double? lon,
@@ -221,16 +219,16 @@ class WeatherRemoteDataSource {
     if (apiKey == null) {
       throw Exception('API key not found');
     }
-  
+
     final languageCode = await _getCurrentLanguage();
-  
+
     try {
       Map<String, dynamic> queryParams = {
         'appid': apiKey,
         'units': 'metric',
         'lang': languageCode,
       };
-  
+
       if (cityName != null) {
         queryParams['q'] = cityName;
       } else if (lat != null && lon != null) {
@@ -239,76 +237,74 @@ class WeatherRemoteDataSource {
       } else {
         throw Exception('Either cityName or coordinates must be provided');
       }
-  
+
       final response = await dio.get(
         'https://api.openweathermap.org/data/2.5/forecast',
         queryParameters: queryParams,
       );
-  
+
       final List<dynamic> list = response.data['list'];
-      
-       
+
       return list.map((item) => ForecastItem.fromJson(item)).toList();
     } catch (e) {
       debugPrint('❌ Error fetching all forecast: $e');
       throw Exception('Failed to fetch forecast: $e');
     }
   }
-  
+
   Future<List<DailyForecast>> getDailyForecast({
     double? lat,
     double? lon,
     String? cityName,
   }) async {
-     
     final allForecasts = await _getAllForecast(
       lat: lat,
       lon: lon,
       cityName: cityName,
     );
-  
+
     debugPrint('📊 Total forecast items received: ${allForecasts.length}');
-  
+
     final Map<String, List<ForecastItem>> groupedByDay = {};
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-  
+
     for (var item in allForecasts) {
-       
       final itemDate = DateTime(
         item.dateTime.year,
         item.dateTime.month,
         item.dateTime.day,
       );
-      
+
       if (itemDate.isBefore(today)) {
-        continue;  
+        continue;
       }
-  
-      final dateKey = '${item.dateTime.year}-${item.dateTime.month}-${item.dateTime.day}';
+
+      final dateKey =
+          '${item.dateTime.year}-${item.dateTime.month}-${item.dateTime.day}';
       groupedByDay.putIfAbsent(dateKey, () => []);
       groupedByDay[dateKey]!.add(item);
     }
-  
+
     debugPrint('📅 Days grouped: ${groupedByDay.length}');
-  
+
     final List<DailyForecast> dailyForecasts = [];
-  
+
     groupedByDay.forEach((dateKey, items) {
       if (items.isEmpty) return;
-  
+
       final date = items.first.dateTime;
       final temps = items.map((e) => e.temperature).toList();
       final tempDay = temps.reduce((a, b) => a + b) / temps.length;
       final tempMin = temps.reduce((a, b) => a < b ? a : b);
       final tempMax = temps.reduce((a, b) => a > b ? a : b);
-  
+
       final descriptions = items.map((e) => e.description).toList();
       final mostCommonDesc = _getMostCommon(descriptions);
-  
+
       final icons = items.map((e) => e.icon).toList();
       final mostCommonIcon = _getMostCommon(icons);
-  
+
       final humidity =
           (items.map((e) => e.humidity).reduce((a, b) => a + b) / items.length)
               .round();
@@ -320,7 +316,7 @@ class WeatherRemoteDataSource {
                       items.length)
                   .round()
               : null;
-  
+
       dailyForecasts.add(
         DailyForecast(
           date: date,
@@ -335,24 +331,65 @@ class WeatherRemoteDataSource {
         ),
       );
     });
-  
-     
+
     dailyForecasts.sort((a, b) => a.date.compareTo(b.date));
     final result = dailyForecasts.take(5).toList();
-    
+
     debugPrint('✅ Daily forecasts generated: ${result.length} days');
     for (var forecast in result) {
-      debugPrint('  📆 ${forecast.date}: ${forecast.tempMin}°-${forecast.tempMax}° ${forecast.description}');
+      debugPrint(
+        '  📆 ${forecast.date}: ${forecast.tempMin}°-${forecast.tempMax}° ${forecast.description}',
+      );
     }
-    
+
     return result;
   }
-  
+
   String _getMostCommon(List<String> items) {
     final counts = <String, int>{};
     for (var item in items) {
       counts[item] = (counts[item] ?? 0) + 1;
     }
     return counts.entries.reduce((a, b) => a.value > b.value ? a : b).key;
+  }
+
+  Future <UVIndex> getUVIndex({
+    double? lat,
+    double? lon,
+    String? cityName,
+  }) async {
+    final apiKey = dotenv.env['OPENWEATHER_API_KEY'];
+    if (apiKey == null) {
+      throw Exception('API key not found');
+    }
+
+    if (cityName != null) {
+      final geoResponse = await dio.get(
+        'https://api.openweathermap.org/geo/1.0/direct',
+        queryParameters: {'q': cityName, 'limit': 1, 'appid': apiKey},
+      );
+
+      if (geoResponse.data.isEmpty) {
+        throw Exception('City not found');
+      }
+
+      lat = geoResponse.data[0]['lat'];
+      lon = geoResponse.data[0]['lon'];
+    }
+
+    if (lat == null || lon == null) {
+      throw Exception('Either cityName or coordinates must be provided');
+    }
+
+    final response = await dio.get(
+      'https://api.openweathermap.org/data/2.5/uvi',
+      queryParameters: {
+        'lat': lat,
+        'lon': lon,
+        'appid': apiKey,
+      },
+    );
+
+    return UVIndex.fromJson(response.data);
   }
 }

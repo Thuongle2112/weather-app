@@ -109,5 +109,15 @@
   "aqi_moderate": "适中",
   "aqi_poor": "较差",
   "aqi_very_poor": "很差",
-  "aqi_unknown": "未知"
+  "aqi_unknown": "未知",
+  "uv_low": "低",
+  "uv_moderate": "中等",
+  "uv_high": "高",
+  "uv_very_high": "很高",
+  "uv_extreme": "极端",
+  "uv_advice_low": "无需防护。外出安全。",
+  "uv_advice_moderate": "如果在户外超过30分钟，请使用防晒霜和戴帽子。",
+  "uv_advice_high": "需要防护。使用防晒霜、帽子和太阳镜。",
+  "uv_advice_very_high": "需要额外防护。避免中午时分的阳光。",
+  "uv_advice_extreme": "采取所有预防措施。如可能，避免阳光直射。"
 }

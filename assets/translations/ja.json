@@ -109,5 +109,15 @@
   "aqi_moderate": "適度",
   "aqi_poor": "悪い",
   "aqi_very_poor": "非常に悪い",
-  "aqi_unknown": "不明"
+  "aqi_unknown": "不明",
+  "uv_low": "低い",
+  "uv_moderate": "中程度",
+  "uv_high": "高い",
+  "uv_very_high": "非常に高い",
+  "uv_extreme": "極端な",
+  "uv_advice_low": "保護は必要ありません。外にいても安全です。",
+  "uv_advice_moderate": "30分以上外にいる場合は日焼け止めと帽子を着用してください。",
+  "uv_advice_high": "保護が必要です。日焼け止め、帽子、サングラスを着用してください。",
+  "uv_advice_very_high": "追加の保護が必要です。正午の間は日光を避けてください。",
+  "uv_advice_extreme": "すべての予防措置を講じてください。可能であれば日光への曝露を避けてください。"
 }

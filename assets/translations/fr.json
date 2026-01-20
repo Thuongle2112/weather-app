@@ -109,5 +109,15 @@
   "aqi_moderate": "Modéré",
   "aqi_poor": "Mauvais",
   "aqi_very_poor": "Très Mauvais",
-  "aqi_unknown": "Inconnu"
+  "aqi_unknown": "Inconnu",
+  "uv_low": "Faible",
+  "uv_moderate": "Modéré",
+  "uv_high": "Élevé",
+  "uv_very_high": "Très élevé",
+  "uv_extreme": "Extrême",
+  "uv_advice_low": "Aucune protection nécessaire. Il est sûr d'être à l'extérieur.",
+  "uv_advice_moderate": "Portez un écran solaire et un chapeau si vous êtes dehors pendant plus de 30 minutes.",
+  "uv_advice_high": "Protection requise. Portez un écran solaire, un chapeau et des lunettes de soleil.",
+  "uv_advice_very_high": "Protection supplémentaire nécessaire. Évitez le soleil pendant le milieu de la journée.",
+  "uv_advice_extreme": "Prenez toutes les précautions. Évitez l'exposition au soleil si possible."
 }

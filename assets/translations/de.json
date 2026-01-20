@@ -109,5 +109,15 @@
   "aqi_moderate": "Moderat",
   "aqi_poor": "Schlecht",
   "aqi_very_poor": "Sehr Schlecht",
-  "aqi_unknown": "Unbekannt"
+  "aqi_unknown": "Unbekannt",
+  "uv_low": "Niedrig",
+  "uv_moderate": "Mäßig",
+  "uv_high": "Hoch",
+  "uv_very_high": "Sehr Hoch",
+  "uv_extreme": "Extrem",
+  "uv_advice_low": "Kein Schutz erforderlich. Sicher, draußen zu sein.",
+  "uv_advice_moderate": "Tragen Sie Sonnencreme und einen Hut, wenn Sie länger als 30 Minuten draußen sind.",
+  "uv_advice_high": "Schutz erforderlich. Tragen Sie Sonnencreme, Hut und Sonnenbrille.",
+  "uv_advice_very_high": "Zusätzlicher Schutz erforderlich. Vermeiden Sie die Sonne während der Mittagszeit.",
+  "uv_advice_extreme": "Ergreifen Sie alle Vorsichtsmaßnahmen. Vermeiden Sie nach Möglichkeit Sonnenexposition."
 }

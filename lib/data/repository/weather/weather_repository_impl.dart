@@ -5,6 +5,7 @@ import '../../../domain/repository/weather/weather_repository.dart';
 import '../../datasource/weather_remote_data_source.dart';
 import '../../model/weather/daily_forecast.dart';
 import '../../model/weather/forecast_item.dart';
+import '../../model/weather/uv_index.dart';
 import '../../model/weather/weather.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {
@@ -80,6 +81,27 @@ class WeatherRepositoryImpl implements WeatherRepository {
       return result;
     } catch (e) {
       debugPrint('❌ Repository: getDailyForecast failed: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<UVIndex> getUVIndex({
+    double? lat,
+    double? lon,
+    String? cityName,
+  }) async {
+    debugPrint('🔄 Repository: getUVIndex called');
+    try {
+      final result = await remoteDataSource.getUVIndex(
+        lat: lat,
+        lon: lon,
+        cityName: cityName,
+      );
+      debugPrint('✅ Repository: getUVIndex completed successfully');
+      return result;
+    } catch (e) {
+      debugPrint('❌ Repository: getUVIndex failed: $e');
       rethrow;
     }
   }
