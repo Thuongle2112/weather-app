@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,6 +18,8 @@ import '../../utils/utils.dart';
 import 'bloc/bloc.dart';
 import 'widgets/weather/air_pollution.dart';
 import 'widgets/weather/uv_index_card.dart';
+
+
 import 'widgets/weather/widgets/app_drawer.dart';
 import 'widgets/widgets.dart';
 
@@ -297,35 +300,32 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                       //       uvIndex: uvIndex,
                       //     ),
                       //   ),
-
-if (airPollution != null || uvIndex != null)
-  SliverToBoxAdapter(
-    child: Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.w,
-        vertical: 8.h,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (airPollution != null)
-            Expanded(
-              child: AirPollutionGaugeWidget(
-                airPollution: airPollution,
-              ),
-            ),
-          if (airPollution != null && uvIndex != null)
-            SizedBox(width: 12.w),
-          if (uvIndex != null)
-            Expanded(
-              child: UVIndexCard(
-                uvIndex: uvIndex,
-              ),
-            ),
-        ],
-      ),
-    ),
-  ),
+                      if (airPollution != null || uvIndex != null)
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 8.h,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (airPollution != null)
+                                  Expanded(
+                                    child: AirPollutionGaugeWidget(
+                                      airPollution: airPollution,
+                                    ),
+                                  ),
+                                if (airPollution != null && uvIndex != null)
+                                  SizedBox(width: 12.w),
+                                if (uvIndex != null)
+                                  Expanded(
+                                    child: UVIndexCard(uvIndex: uvIndex),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
 
                       SliverToBoxAdapter(
                         child: CityListSection(
@@ -371,7 +371,8 @@ if (airPollution != null || uvIndex != null)
         if (_showFloatingHalloween)
           FloatingButton(
             onPressed: () {
-              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+              // Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+              context.push('/fortune-shake');
             },
             onHide: () => setState(() => _showFloatingHalloween = false),
           ),
