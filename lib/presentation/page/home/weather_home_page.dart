@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -15,6 +16,10 @@ import '../../../data/model/weather/weather.dart';
 import '../../providers/providers.dart';
 import '../../utils/utils.dart';
 import 'bloc/bloc.dart';
+import 'widgets/weather/air_pollution.dart';
+import 'widgets/weather/uv_index_card.dart';
+
+
 import 'widgets/weather/widgets/app_drawer.dart';
 import 'widgets/widgets.dart';
 
@@ -38,17 +43,15 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   bool _showMoneyRain = false;
   int _searchCount = 0;
 
-  final List<String> _popularCities = [
-    'Hanoi',
-    'Ho Chi Minh City',
-    'Da Nang',
-    'Hue',
-    'Nha Trang',
-    'Tokyo',
-    'Bangkok',
-    'Singapore',
-    'London',
-    'New York',
+  final List<Map<String, dynamic>> _popularCities = [
+    {'name': 'Ha Noi', 'lat': 21.0285, 'lon': 105.8542},
+    {'name': 'Ho Chi Minh City', 'lat': 10.7769, 'lon': 106.7009},
+    {'name': 'Da Nang', 'lat': 16.0544, 'lon': 108.2022},
+    {'name': 'New York', 'lat': 40.7128, 'lon': -74.0060},
+    {'name': 'London', 'lat': 51.5074, 'lon': -0.1278},
+    {'name': 'Tokyo', 'lat': 35.6895, 'lon': 139.6917},
+    {'name': 'Paris', 'lat': 48.8566, 'lon': 2.3522},
+    {'name': 'Sydney', 'lat': -33.8688, 'lon': 151.2093},
   ];
 
   @override
@@ -234,6 +237,8 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     final state = context.read<WeatherBloc>().state;
     final hourlyForecast = state is WeatherLoaded ? state.hourlyForecast : null;
     final dailyForecast = state is WeatherLoaded ? state.dailyForecast : null;
+    final airPollution = state is WeatherLoaded ? state.airPollution : null;
+    final uvIndex = state is WeatherLoaded ? state.uvIndex : null;
 
     final marks = [
       TimeMark(label: tr('sunrise'), time: '05:19', icon: Icons.wb_sunny),
@@ -282,6 +287,46 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                           ),
                         ),
 
+                      // if (airPollution != null)
+                      //   SliverToBoxAdapter(
+                      //     child: AirPollutionGaugeWidget(
+                      //       airPollution: airPollution,
+                      //     ),
+                      //   ),
+
+                      // if (uvIndex != null)
+                      //   SliverToBoxAdapter(
+                      //     child: UVIndexCard(
+                      //       uvIndex: uvIndex,
+                      //     ),
+                      //   ),
+                      if (airPollution != null || uvIndex != null)
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 8.h,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (airPollution != null)
+                                  Expanded(
+                                    child: AirPollutionGaugeWidget(
+                                      airPollution: airPollution,
+                                    ),
+                                  ),
+                                if (airPollution != null && uvIndex != null)
+                                  SizedBox(width: 12.w),
+                                if (uvIndex != null)
+                                  Expanded(
+                                    child: UVIndexCard(uvIndex: uvIndex),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
+
                       SliverToBoxAdapter(
                         child: CityListSection(
                           popularCities: _popularCities,
@@ -326,7 +371,8 @@ class _WeatherHomePageState extends State<WeatherHomePage>
         if (_showFloatingHalloween)
           FloatingButton(
             onPressed: () {
-              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+              // Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+              context.push('/fortune-shake');
             },
             onHide: () => setState(() => _showFloatingHalloween = false),
           ),

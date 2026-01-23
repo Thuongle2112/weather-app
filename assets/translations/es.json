@@ -99,5 +99,76 @@
   "now": "Ahora",
   "features": "Funciones",
   "weather_radar": "Radar meteorológico",
-  "view_weather_radar": "Ver mapas detallados del radar meteorológico"
+  "view_weather_radar": "Ver mapas detallados del radar meteorológico",
+  "air_quality": "Calidad del aire",
+  "view_air_quality": "Ver índice detallado de calidad del aire",
+  "uv_index": "Índice UV",
+  "view_uv_index": "Ver índice UV detallado",
+  "aqi_good": "Bueno",
+  "aqi_fair": "Aceptable",
+  "aqi_moderate": "Moderado",
+  "aqi_poor": "Malo",
+  "aqi_very_poor": "Muy Malo",
+  "aqi_unknown": "Desconocido",
+  "aqi_advice_good": "¡La calidad del aire es excelente, segura para todas las actividades al aire libre!",
+  "aqi_advice_fair": "La calidad del aire es buena, se puede realizar actividades al aire libre con normalidad.",
+  "aqi_advice_moderate": "Las personas sensibles deben limitar las actividades prolongadas al aire libre.",
+  "aqi_advice_poor": "Use una máscara al salir, limite las actividades físicas intensas.",
+  "aqi_advice_very_poor": "Limite salir, cierre ventanas y use un purificador de aire.",
+  "uv_low": "Bajo",
+  "uv_moderate": "Moderado",
+  "uv_high": "Alto",
+  "uv_very_high": "Muy Alto",
+  "uv_extreme": "Extremo",
+  "uv_advice_low": "No se necesita protección. Seguro estar afuera.",
+  "uv_advice_moderate": "Use protector solar y un sombrero si está afuera por más de 30 minutos.",
+  "uv_advice_high": "Se requiere protección. Use protector solar, sombrero y gafas de sol.",
+  "uv_advice_very_high": "Se necesita protección adicional. Evite el sol durante el mediodía.",
+  "uv_advice_extreme": "Tome todas las precauciones. Evite la exposición al sol si es posible.",
+  "gieo_que_dau_xuan": "Lectura de Fortuna de Primavera",
+  "gieo_que_instructions": "Pronóstico de la suerte para el Año del Caballo de Fuego",
+  "gieo_lai": "Volver a lanzar",
+  "cham_de_gieo_que": "Toque para lanzar la fortuna",
+  "fortune": {
+    "great_fortune": {
+      "title": "Gran Fortuna",
+      "message": "Todo va como se desea, la prosperidad desborda",
+      "advice": "Este es un buen momento para comenzar nuevos planes"
+    },
+    "excellent_fortune": {
+      "title": "Fortuna Excelente",
+      "message": "Avance en la carrera, suerte de conocer benefactores",
+      "advice": "Sea valiente al perseguir sus objetivos"
+    },
+    "good_fortune": {
+      "title": "Buena Fortuna",
+      "message": "Paz y seguridad, todo va bien",
+      "advice": "Mantenga un espíritu optimista y positivo"
+    },
+    "small_fortune": {
+      "title": "Pequeña Fortuna",
+      "message": "Suerte en el trabajo, la vida amorosa se vuelve más dulce",
+      "advice": "Aprecie a las personas que lo rodean"
+    },
+    "neutral": {
+      "title": "Neutral",
+      "message": "Paz en el corazón, tranquilo y contento",
+      "advice": "Sea paciente y espere la oportunidad adecuada"
+    },
+    "small_misfortune": {
+      "title": "Pequeña Desgracia",
+      "message": "Pequeños obstáculos por delante, tenga cuidado",
+      "advice": "Sea cauteloso en palabras y acciones"
+    },
+    "supreme_fortune": {
+      "title": "Máxima Fortuna",
+      "message": "Las bendiciones llenan la casa, buena suerte continua",
+      "advice": "¡Este es tu año, disfrútalo!"
+    },
+    "joyful_fortune": {
+      "title": "Fortuna Alegre",
+      "message": "La alegría llega, buenas noticias desde lejos",
+      "advice": "Abre tu corazón para recibir cosas buenas"
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/domain/usecase/weather/get_air_pollution.dart';
 
+import '../../../../domain/usecase/weather/get_uv_index.dart';
 import '../../../../domain/usecase/weather/get_weather_by_city.dart';
 import '../../../../domain/usecase/weather/get_weather_by_coordinates.dart';
 import '../../../../domain/usecase/weather/get_hourly_forecast.dart';
@@ -13,12 +15,16 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final GetWeatherByCoordinates getWeatherByCoordinates;
   final GetHourlyForecast getHourlyForecast;
   final GetDailyForecast getDailyForecast;
+  final GetAirPollution getAirPollution;
+  final GetUVIndex getUVIndex;
 
   WeatherBloc({
     required this.getWeatherByCity,
     required this.getWeatherByCoordinates,
     required this.getHourlyForecast,
     required this.getDailyForecast,
+    required this.getAirPollution,
+    required this.getUVIndex,
   }) : super(WeatherInitial()) {
     on<WeatherStartLoading>((event, emit) {
       emit(WeatherLoading());
@@ -38,24 +44,24 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
           final dailyForecast = await getDailyForecast(
             cityName: event.cityName,
           );
+          final airPollution = await getAirPollution(lat, lon);
+          final uvIndex = await getUVIndex(
+            cityName: event.cityName,
+          );
 
           emit(
             WeatherLoaded(
               weather,
               hourlyForecast: hourlyForecast,
               dailyForecast: dailyForecast,
-              latitude: lat, // ✅ Add this
-              longitude: lon, // ✅ Add this
+              latitude: lat,
+              longitude: lon,
+              airPollution: airPollution,
+              uvIndex: uvIndex,
             ),
           );
         } else {
-          emit(
-            WeatherLoaded(
-              weather,
-              latitude: lat, // ✅ Add this
-              longitude: lon, // ✅ Add this
-            ),
-          );
+          emit(WeatherLoaded(weather, latitude: lat, longitude: lon));
         }
       } catch (e) {
         emit(WeatherError('City not found or API failed'));
@@ -82,6 +88,14 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
             lat: event.latitude,
             lon: event.longitude,
           );
+          final airPollution = await getAirPollution(
+            event.latitude,
+            event.longitude,
+          );
+          final uvIndex = await getUVIndex(
+            lat: event.latitude,
+            lon: event.longitude,
+          );
 
           debugPrint('✅ Bloc: Weather and forecast fetched successfully');
           emit(
@@ -91,6 +105,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
               dailyForecast: dailyForecast,
               latitude: event.latitude,
               longitude: event.longitude,
+              airPollution: airPollution,
+              uvIndex: uvIndex,
             ),
           );
         } else {

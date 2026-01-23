@@ -9,7 +9,7 @@ import '../../../../data/model/weather/daily_forecast.dart';
 import '../../../utils/date_formatter.dart';
 import '../../../utils/weather_icon_mapper.dart';
 import '../../../utils/weather_ui_helper.dart';
-import 'buttons/new-year-button-painter.dart';
+import 'buttons/new_year_button_painter.dart';
 
 class DailyForecastSection extends StatefulWidget {
   final List<DailyForecast> dailyForecast;

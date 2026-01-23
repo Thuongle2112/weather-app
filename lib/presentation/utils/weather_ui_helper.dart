@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../data/model/weather/weather.dart';
+import '../../core/services/event_service.dart';
 
 class WeatherUIHelper {
   static Color getBackgroundColorByWeather(Weather weather) {
@@ -70,9 +71,33 @@ class WeatherUIHelper {
   }
 
   static Decoration getSimpleBackgroundByTheme({required bool isDarkMode}) {
-    // return BoxDecoration(
-    //   color: isDarkMode ? const Color(0xFF121212) : const Color(0xFFF0FEFC),
-    // );
+    // Kiểm tra nếu đang trong event Tết
+    final isLunarNewYear = EventService.isEventActive('lunar_new_year_2026');
+
+    if (isLunarNewYear) {
+      // Gradient màu Tết: đỏ và vàng
+      return BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors:
+              isDarkMode
+                  ? [
+                    const Color(0xFF141E30),
+                    const Color(0xFF141E30),
+                    const Color(0xFF243B55),
+                  ]
+                  : [
+                    const Color(0xFF8B0000), // Dark red
+                    const Color(0xFFB71C1C), // Red
+                    const Color(0xFF9C2C1C), // Dark red-brown
+                  ],
+          stops: const [0.0, 0.5, 1.0],
+        ),
+      );
+    }
+
+    // Màu nền bình thường
     return BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topLeft,

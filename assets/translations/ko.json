@@ -99,5 +99,76 @@
   "now": "지금",
   "features": "기능",
   "weather_radar": "날씨 레이더",
-  "view_weather_radar": "상세한 날씨 레이더 지도 보기"
+  "view_weather_radar": "상세한 날씨 레이더 지도 보기",
+  "air_quality": "대기 질",
+  "view_air_quality": "상세한 대기 질 지수 보기",
+  "uv_index": "자외선 지수",
+  "view_uv_index": "상세한 자외선 지수 보기",
+  "aqi_good": "좋음",
+  "aqi_fair": "보통",
+  "aqi_moderate": "적당함",
+  "aqi_poor": "나쁨",
+  "aqi_very_poor": "매우 나쁨",
+  "aqi_unknown": "알 수 없음",
+  "aqi_advice_good": "대기 질이 우수하여 모든 야외 활동에 안전합니다!",
+  "aqi_advice_fair": "대기 질이 양호하여 정상적으로 야외 활동을 할 수 있습니다.",
+  "aqi_advice_moderate": "민감한 사람들은 장기간 야외 활동을 제한해야 합니다.",
+  "aqi_advice_poor": "외출 시 마스크를 착용하고 격렬한 신체 활동을 제한하세요.",
+  "aqi_advice_very_poor": "외출을 제한하고 창문을 닫고 공기 청정기를 사용하세요.",
+  "uv_low": "낮음",
+  "uv_moderate": "보통",
+  "uv_high": "높음",
+  "uv_very_high": "매우 높음",
+  "uv_extreme": "극심함",
+  "uv_advice_low": "보호가 필요하지 않습니다. 야외 활동에 안전합니다.",
+  "uv_advice_moderate": "30분 이상 야외에 있을 경우 자외선 차단제와 모자를 착용하세요.",
+  "uv_advice_high": "보호가 필요합니다. 자외선 차단제, 모자, 선글라스를 착용하세요.",
+  "uv_advice_very_high": "추가 보호가 필요합니다. 정오 시간대에는 햇빛을 피하세요.",
+  "uv_advice_extreme": "모든 예방 조치를 취하세요. 가능하면 햇빛 노출을 피하세요.",
+  "gieo_que_dau_xuan": "새봄 운세 점치기",
+  "gieo_que_instructions": "불말의 해 운세 보기",
+  "gieo_lai": "다시 점치기",
+  "cham_de_gieo_que": "운세를 점치려면 탭하세요",
+    "fortune": {
+    "great_fortune": {
+      "title": "대길",
+      "message": "모든 일이 뜻대로 풀리고 번영이 풍부합니다",
+      "advice": "자신감을 가지고 목표를 추구하세요"
+    },
+    "excellent_fortune": {
+      "title": "중길",
+      "message": "경력 발전, 은인을 만날 행운",
+      "advice": "목표를 추구할 때 대담하게 행동하세요"
+    },
+    "good_fortune": {
+      "title": "중길",
+      "message": "평화와 안전, 모든 일이 순조롭게 진행됩니다",
+      "advice": "낙관적이고 긍정적인 정신을 유지하세요"
+    },
+    "small_fortune": {
+      "title": "소길",
+      "message": "일에서 행운이 따르고, 사랑이 달콤해집니다",
+      "advice": "주변 사람들을 소중히 여기세요"
+    },
+    "neutral": {
+      "title": "중립",
+      "message": "마음의 평화, 차분하고 만족스러움",
+      "advice": "인내심을 가지고 적절한 기회를 기다리세요"
+    },
+    "small_misfortune": {
+      "title": "소흉",
+      "message": "작은 장애물이 기다리고 있습니다. 주의하세요",
+      "advice": "말과 행동에 주의하세요"
+    },
+    "supreme_fortune": {
+      "title": "대길",
+      "message": "축복이 집안을 가득 채우고, 행운이 계속됩니다",
+      "advice": "올해는 당신의 해입니다, 즐기세요!"
+    },
+    "joyful_fortune": {
+      "title": "기쁨의 운세",
+      "message": "기쁨이 찾아오고, 먼 곳에서 좋은 소식이 옵니다",
+      "advice": "좋은 일을 받아들일 수 있도록 마음을 열어보세요"
+    }
+  }
 }

@@ -6,7 +6,7 @@ import '../../../../providers/theme_provider.dart';
 
 class CitySearchModal extends StatelessWidget {
   final TextEditingController cityController;
-  final List<String> popularCities;
+  final List<Map<String, dynamic>> popularCities;
   final Function(String) onCitySelected;
 
   const CitySearchModal({
