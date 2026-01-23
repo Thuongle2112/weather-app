@@ -110,6 +110,11 @@
   "aqi_poor": "较差",
   "aqi_very_poor": "很差",
   "aqi_unknown": "未知",
+    "aqi_advice_good": "空气质量极佳，适合所有户外活动！",
+  "aqi_advice_fair": "空气质量良好，可以正常进行户外活动。",
+  "aqi_advice_moderate": "敏感人群应限制长时间的户外活动。",
+  "aqi_advice_poor": "外出时佩戴口罩，限制剧烈的体力活动。",
+  "aqi_advice_very_poor": "限制外出，关闭窗户并使用空气净化器。",
   "uv_low": "低",
   "uv_moderate": "中等",
   "uv_high": "高",
@@ -119,5 +124,49 @@
   "uv_advice_moderate": "如果在户外超过30分钟，请使用防晒霜和戴帽子。",
   "uv_advice_high": "需要防护。使用防晒霜、帽子和太阳镜。",
   "uv_advice_very_high": "需要额外防护。避免中午时分的阳光。",
-  "uv_advice_extreme": "采取所有预防措施。如可能，避免阳光直射。"
+  "uv_advice_extreme": "采取所有预防措施。如可能，避免阳光直射。",
+  "gieo_que_dau_xuan": "春季运势占卜",
+  "gieo_que_instructions": "火马年运势预测",
+  "fortune": {
+    "great_fortune": {
+      "title": "大吉",
+      "message": "万事如意，财运亨通",
+      "advice": "适合开始新的计划"
+    },
+    "excellent_fortune": {
+      "title": "上吉",
+      "message": "事业进步，贵人相助",
+      "advice": "大胆追求你的目标"
+    },
+    "good_fortune": {
+      "title": "吉",
+      "message": "平安顺遂，一切顺利",
+      "advice": "保持乐观积极的心态"
+    },
+    "small_fortune": {
+      "title": "小吉",
+      "message": "工作顺利，感情升温",
+      "advice": "珍惜身边的人"
+    },
+    "neutral": {
+      "title": "中平",
+      "message": "内心平静，安然自得",
+      "advice": "耐心等待合适的时机"
+    },
+    "small_misfortune": {
+      "title": "小凶",
+      "message": "小有阻碍，需多加小心",
+      "advice": "言行谨慎"
+    },
+    "supreme_fortune": {
+      "title": "大上吉",
+      "message": "福满家门，好运连连",
+      "advice": "这是属于你的一年，好好享受吧！"
+    },
+    "joyful_fortune": {
+      "title": "喜吉",
+      "message": "喜事将近，远方传来好消息",
+      "advice": "敞开心扉迎接美好"
+    }
+  }
 }

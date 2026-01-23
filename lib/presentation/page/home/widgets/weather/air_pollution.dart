@@ -1,116 +1,3 @@
-// import 'dart:ui';
-
-// import 'package:easy_localization/easy_localization.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:gap/gap.dart';
-// import '../../../../../data/model/weather/air_pollution.dart';
-// import '../buttons/air_gauge_painter.dart';
-
-// class AirPollutionGaugeWidget extends StatelessWidget {
-//   final AirPollution airPollution;
-
-//   const AirPollutionGaugeWidget({super.key, required this.airPollution});
-
-//   String getAqiText(int aqi) {
-//     switch (aqi) {
-//       case 1:
-//         return 'aqi_good'.tr();
-//       case 2:
-//         return 'aqi_fair'.tr();
-//       case 3:
-//         return 'aqi_moderate'.tr();
-//       case 4:
-//         return 'aqi_poor'.tr();
-//       case 5:
-//         return 'aqi_very_poor'.tr();
-//       default:
-//         return 'aqi_unknown'.tr();
-//     }
-//   }
-
-//   Color getAqiColor(int aqi) {
-//     switch (aqi) {
-//       case 1:
-//         return Colors.green;
-//       case 2:
-//         return Colors.lightGreen;
-//       case 3:
-//         return Colors.yellow;
-//       case 4:
-//         return Colors.orange;
-//       case 5:
-//         return Colors.red;
-//       default:
-//         return Colors.grey;
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final aqi = airPollution.aqi.clamp(1, 5);
-//     final aqiText = getAqiText(aqi);
-//     // final aqiColor = getAqiColor(aqi);
-
-//     return Padding(
-//       padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
-//       child: Align(
-//         alignment: Alignment.topLeft,
-//         child: Container(
-//           width: MediaQuery.of(context).size.width * 0.45,
-//           padding: EdgeInsets.all(12.w),
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(24),
-//             color: Colors.white.withOpacity(0.6),
-//             boxShadow: [
-//               BoxShadow(
-//                 color: Colors.black.withOpacity(0.07),
-//                 blurRadius: 16,
-//                 offset: Offset(0, 4),
-//               ),
-//             ],
-//           ),
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               FittedBox(
-//                 fit: BoxFit.scaleDown,
-//                 child: Text(
-//                   "air_quality".tr(),
-//                   style: Theme.of(context).textTheme.labelLarge,
-//                 ),
-//               ),
-//               Gap(16.h),
-//               LayoutBuilder(
-//                 builder: (context, constraints) {
-//                   final width = constraints.maxWidth;
-//                   return CustomPaint(
-//                     painter: AirGaugePainter(aqi: aqi),
-//                     size: Size(width, width * 0.45),
-//                   );
-//                 },
-//               ),
-
-//               Gap(16.h),
-//               Text(
-//                 '$aqi/5',
-//                 style: Theme.of(context).textTheme.headlineSmall
-//               ),
-
-//               Text(
-//                 aqiText,
-//                 style: Theme.of(
-//                   context,
-//                 ).textTheme.bodySmall,
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -157,10 +44,47 @@ class AirPollutionGaugeWidget extends StatelessWidget {
     }
   }
 
+  String getAqiAdvice(int aqi) {
+    switch (aqi) {
+      case 1:
+        return 'aqi_advice_good'.tr();
+      case 2:
+        return 'aqi_advice_fair'.tr();
+      case 3:
+        return 'aqi_advice_moderate'.tr();
+      case 4:
+        return 'aqi_advice_poor'.tr();
+      case 5:
+        return 'aqi_advice_very_poor'.tr();
+      default:
+        return '';
+    }
+  }
+
+  IconData getAqiIcon(int aqi) {
+    switch (aqi) {
+      case 1:
+        return Icons.mood;
+      case 2:
+        return Icons.sentiment_satisfied;
+      case 3:
+        return Icons.sentiment_neutral;
+      case 4:
+        return Icons.sentiment_dissatisfied;
+      case 5:
+        return Icons.sentiment_very_dissatisfied;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final aqi = airPollution.aqi.clamp(1, 5);
     final aqiText = getAqiText(aqi);
+    final aqiAdvice = getAqiAdvice(aqi);
+    final aqiColor = getAqiColor(aqi);
+    final aqiIcon = getAqiIcon(aqi);
 
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -192,9 +116,60 @@ class AirPollutionGaugeWidget extends StatelessWidget {
             size: Size(120.w, 60.h),
           ),
           Gap(16.h),
-          Text('$aqi/5', style: Theme.of(context).textTheme.headlineSmall),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-          Text(aqiText, style: Theme.of(context).textTheme.bodySmall),
+            children: [
+              Text(
+                '$aqi/5',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: aqiColor,
+                  height: 1,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 6.h),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10.w,
+                    vertical: 3.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: aqiColor,
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: Text(
+                    aqiText,
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Gap(8.h),
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(Icons.lightbulb_outline, color: aqiColor, size: 16.sp),
+              Gap(8.w),
+              Expanded(
+                child: Text(
+                  aqiAdvice,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: 11.sp,
+                        color: Colors.white,
+                      ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

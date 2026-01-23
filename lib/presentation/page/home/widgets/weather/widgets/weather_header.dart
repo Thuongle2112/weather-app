@@ -37,7 +37,7 @@ class WeatherHeader extends StatelessWidget {
         Flexible(
           child: Text(
             cityName,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
             overflow: TextOverflow.ellipsis,
           ),
         ),

@@ -106,6 +106,11 @@
   "aqi_poor": "Kém",
   "aqi_very_poor": "Rất kém",
   "aqi_unknown": "Không xác định",
+  "aqi_advice_good": "Không khí trong lành, an toàn cho mọi hoạt động ngoài trời!",
+  "aqi_advice_fair": "Chất lượng không khí tốt, có thể hoạt động ngoài trời bình thường.",
+  "aqi_advice_moderate": "Người nhạy cảm nên hạn chế hoạt động ngoài trời kéo dài.",
+  "aqi_advice_poor": "Nên đeo khẩu trang khi ra ngoài, hạn chế vận động mạnh.",
+  "aqi_advice_very_poor": "Hạn chế ra ngoài, đóng cửa sổ và sử dụng máy lọc không khí.",
   "uv_low": "Thấp",
   "uv_moderate": "Trung bình",
   "uv_high": "Cao",
@@ -115,5 +120,49 @@
   "uv_advice_moderate": "Sử dụng kem chống nắng và đội mũ nếu ở ngoài trời hơn 30 phút.",
   "uv_advice_high": "Cần bảo vệ. Sử dụng kem chống nắng, đội mũ và đeo kính râm.",
   "uv_advice_very_high": "Cần bảo vệ thêm. Tránh ánh nắng vào giữa trưa.",
-  "uv_advice_extreme": "Thực hiện tất cả các biện pháp phòng ngừa. Tránh tiếp xúc với ánh nắng nếu có thể."
+  "uv_advice_extreme": "Thực hiện tất cả các biện pháp phòng ngừa. Tránh tiếp xúc với ánh nắng nếu có thể.",
+  "gieo_que_dau_xuan": "Gieo quẻ đầu xuân",
+  "gieo_que_instructions": "Xem vận may năm Bính Ngọ",
+  "fortune": {
+    "great_fortune": {
+      "title": "Đại Cát",
+      "message": "Vạn sự như ý, tài lộc tràn đầy (づ ᴗ _ᴗ)づ♡",
+      "advice": "Đây là thời điểm tốt để bắt đầu những kế hoạch mới"
+    },
+    "excellent_fortune": {
+      "title": "Thượng Cát",
+      "message": "Công danh thăng tiến, may mắn gặp quý nhân (づ๑•ᴗ•๑)づ♡",
+      "advice": "Hãy mạnh dạn theo đuổi mục tiêu của bạn"
+    },
+    "good_fortune": {
+      "title": "Trung Cát",
+      "message": "Bình an vô sự, mọi việc hanh thông (∩˃o˂∩)♡",
+      "advice": "Giữ vững tinh thần lạc quan, tích cực"
+    },
+    "small_fortune": {
+      "title": "Tiểu Cát",
+      "message": "Gặp may trong công việc, tình duyên thêm mặn nồng ( ๑ ˃̵ᴗ˂̵)و ♡",
+      "advice": "Hãy trân trọng những người xung quanh"
+    },
+    "neutral": {
+      "title": "Bình",
+      "message": "Bình yên trong lòng, an nhiên tự tại ٩(ˊᗜˋ*)و ♡",
+      "advice": "Cần kiên nhẫn và chờ đợi thời cơ phù hợp"
+    },
+    "small_misfortune": {
+      "title": "Tiểu Hung",
+      "message": "Có chút trắc trở nhỏ, cần cẩn thận (ง ͠ಥ_ಥ)ง",
+      "advice": "Hãy thận trọng trong lời nói và hành động"
+    },
+    "supreme_fortune": {
+      "title": "Thượng Thượng Cát",
+      "message": "Phúc lộc đầy nhà, vận may liên tiếp (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
+      "advice": "Đây là năm của bạn, hãy tận hưởng!"
+    },
+    "joyful_fortune": {
+      "title": "Hỷ Cát",
+      "message": "Niềm vui sắp đến, tin vui từ xa ♡(੭´͈ ᐜ `͈)੭♡",
+      "advice": "Mở lòng đón nhận những điều tốt đẹp"
+    }
+  }
 }
