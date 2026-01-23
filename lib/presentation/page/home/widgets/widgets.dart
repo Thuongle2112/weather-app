@@ -12,7 +12,6 @@ export 'city/city_search_modal.dart';
 export 'effects/event_effect.dart';
 export 'effects/floating_button.dart';
 
-export 'states/demo_error_view.dart';
 export 'states/error_view.dart';
 export 'states/initial_view.dart';
 export 'states/loading_view.dart';

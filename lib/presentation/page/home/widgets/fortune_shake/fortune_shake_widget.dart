@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
@@ -254,21 +255,29 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          _drawnFortune!.title,
-                          style: TextStyle(
-                            fontSize: 28.sp,
-                            fontWeight: FontWeight.bold,
+                          _drawnFortune!.title.tr(),
+                          // style: TextStyle(
+                          //   fontSize: 28.sp,
+                          //   fontWeight: FontWeight.bold,
+                          //   color: const Color(0xFFD32F2F),
+                          // ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineMedium!.copyWith(
                             color: const Color(0xFFD32F2F),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 12.h),
                         Text(
-                          _drawnFortune!.message,
+                          _drawnFortune!.message.tr(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.black87,
-                          ),
+                          // style: TextStyle(
+                          //   fontSize: 16.sp,
+                          //   color: Colors.black87,
+                          // ),
+                          style: Theme.of(context).textTheme.bodyMedium!
+                              .copyWith(color: Colors.black87),
                         ),
                         SizedBox(height: 16.h),
                         Container(
@@ -278,10 +287,16 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                             borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Text(
-                            _drawnFortune!.advice,
+                            _drawnFortune!.advice.tr(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14.sp,
+                            // style: TextStyle(
+                            //   fontSize: 14.sp,
+                            //   color: Colors.black87,
+                            //   fontStyle: FontStyle.italic,
+                            // ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(
                               color: Colors.black87,
                               fontStyle: FontStyle.italic,
                             ),
@@ -330,8 +345,8 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                     Text(
                       'Chạm vào để gieo quẻ',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: const Color(0xFFD32F2F)
-                          ),
+                        color: const Color(0xFFD32F2F),
+                      ),
                     ),
                   ],
                 ),

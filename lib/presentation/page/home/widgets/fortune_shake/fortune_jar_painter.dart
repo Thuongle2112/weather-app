@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -116,11 +115,10 @@ class FortuneJarPainter extends CustomPainter {
     // Chinese character (福 - Fortune)
     final textPainter = TextPainter(
       text: TextSpan(
-        text: 'Gieo\nquẻ\n2026',
+        text: '🧧\n\n2026',
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: const Color(0xFFFFD700),
               fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
               height: 1.2,
             ),
       ),

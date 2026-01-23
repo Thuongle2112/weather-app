@@ -106,6 +106,11 @@
   "aqi_poor": "Poor",
   "aqi_very_poor": "Very Poor",
   "aqi_unknown": "Unknown",
+  "aqi_advice_good": "Air quality is excellent, safe for all outdoor activities!",
+  "aqi_advice_fair": "Air quality is good, can engage in outdoor activities normally.",
+  "aqi_advice_moderate": "Sensitive people should limit prolonged outdoor activities.",
+  "aqi_advice_poor": "Wear a mask when going outside, limit intense physical activities.",
+  "aqi_advice_very_poor": "Limit going outside, close windows and use air purifier.",
   "uv_low": "Low",
   "uv_moderate": "Moderate",
   "uv_high": "High",
@@ -116,4 +121,48 @@
   "uv_advice_high": "Protection required. Wear sunscreen, hat, and sunglasses.",
   "uv_advice_very_high": "Extra protection needed. Avoid sun during midday.",
   "uv_advice_extreme": "Take all precautions. Avoid sun exposure if possible.",
+  "gieo_que_dau_xuan": "Spring Fortune Casting",
+  "gieo_que_instructions": "Luck Forecast for the Fire Horse Year",
+  "fortune": {
+    "great_fortune": {
+      "title": "Great Fortune",
+      "message": "Everything goes as wished, prosperity overflows",
+      "advice": "This is a good time to start new plans"
+    },
+    "excellent_fortune": {
+      "title": "Excellent Fortune",
+      "message": "Career advancement, lucky to meet benefactors",
+      "advice": "Be bold in pursuing your goals"
+    },
+    "good_fortune": {
+      "title": "Good Fortune",
+      "message": "Peace and safety, everything goes smoothly",
+      "advice": "Maintain optimistic and positive spirit"
+    },
+    "small_fortune": {
+      "title": "Small Fortune",
+      "message": "Lucky in work, love life becomes sweeter",
+      "advice": "Cherish the people around you"
+    },
+    "neutral": {
+      "title": "Neutral",
+      "message": "Peace in heart, calm and content",
+      "advice": "Be patient and wait for the right opportunity"
+    },
+    "small_misfortune": {
+      "title": "Small Misfortune",
+      "message": "Minor obstacles ahead, be careful",
+      "advice": "Be cautious in words and actions"
+    },
+    "supreme_fortune": {
+      "title": "Supreme Fortune",
+      "message": "Blessings fill the house, continuous good luck",
+      "advice": "This is your year, enjoy it!"
+    },
+    "joyful_fortune": {
+      "title": "Joyful Fortune",
+      "message": "Joy is coming, good news from afar",
+      "advice": "Open your heart to receive good things"
+    }
+  }
 }

@@ -110,6 +110,11 @@
   "aqi_poor": "Mauvais",
   "aqi_very_poor": "Très Mauvais",
   "aqi_unknown": "Inconnu",
+  "aqi_advice_good": "La qualité de l'air est excellente, sûre pour toutes les activités en plein air !",
+  "aqi_advice_fair": "La qualité de l'air est bonne, vous pouvez pratiquer des activités en plein air normalement.",
+  "aqi_advice_moderate": "Les personnes sensibles devraient limiter les activités prolongées en plein air.",
+  "aqi_advice_poor": "Portez un masque lorsque vous sortez, limitez les activités physiques intenses.",
+  "aqi_advice_very_poor": "Limitez les sorties, fermez les fenêtres et utilisez un purificateur d'air.",
   "uv_low": "Faible",
   "uv_moderate": "Modéré",
   "uv_high": "Élevé",
@@ -119,5 +124,49 @@
   "uv_advice_moderate": "Portez un écran solaire et un chapeau si vous êtes dehors pendant plus de 30 minutes.",
   "uv_advice_high": "Protection requise. Portez un écran solaire, un chapeau et des lunettes de soleil.",
   "uv_advice_very_high": "Protection supplémentaire nécessaire. Évitez le soleil pendant le milieu de la journée.",
-  "uv_advice_extreme": "Prenez toutes les précautions. Évitez l'exposition au soleil si possible."
+  "uv_advice_extreme": "Prenez toutes les précautions. Évitez l'exposition au soleil si possible.",
+    "gieo_que_dau_xuan": "Tirage de Fortune du Printemps",
+  "gieo_que_instructions": "Prévisions de chance pour l’Année du Cheval de Feu",
+  "fortune": {
+    "great_fortune": {
+      "title": "Grande Fortune",
+      "message": "Tout se passe comme souhaité, la prospérité déborde",
+      "advice": "C'est un bon moment pour commencer de nouveaux projets"
+    },
+    "excellent_fortune": {
+      "title": "Fortune Excellente",
+      "message": "Avancement de carrière, chance de rencontrer des bienfaiteurs",
+      "advice": "Soyez audacieux dans la poursuite de vos objectifs"
+    },
+    "good_fortune": {
+      "title": "Bonne Fortune",
+      "message": "Paix et sécurité, tout se passe bien",
+      "advice": "Maintenez un esprit optimiste et positif"
+    },
+    "small_fortune": {
+      "title": "Petite Fortune",
+      "message": "Chance au travail, la vie amoureuse devient plus douce",
+      "advice": "Appréciez les personnes qui vous entourent"
+    },
+    "neutral": {
+      "title": "Neutre",
+      "message": "Paix dans le cœur, calme et content",
+      "advice": "Soyez patient et attendez la bonne opportunité"
+    },
+    "small_misfortune": {
+      "title": "Petite Malchance",
+      "message": "Petits obstacles à venir, soyez prudent",
+      "advice": "Soyez prudent dans vos paroles et actions"
+    },
+    "supreme_fortune": {
+      "title": "Fortune Suprême",
+      "message": "Les bénédictions remplissent la maison, bonne chance continue",
+      "advice": "C'est votre année, profitez-en !"
+    },
+    "joyful_fortune": {
+      "title": "Fortune Joyeuse",
+      "message": "La joie arrive, de bonnes nouvelles de loin",
+      "advice": "Ouvrez votre cœur pour recevoir de bonnes choses"
+    }
+  }
 }

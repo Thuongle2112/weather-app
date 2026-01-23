@@ -110,6 +110,11 @@
   "aqi_poor": "悪い",
   "aqi_very_poor": "非常に悪い",
   "aqi_unknown": "不明",
+    "aqi_advice_good": "空気の質は優れており、すべての屋外活動に安全です！",
+  "aqi_advice_fair": "空気の質は良好で、通常通り屋外活動ができます。",
+  "aqi_advice_moderate": "敏感な人は長時間の屋外活動を制限するべきです。",
+  "aqi_advice_poor": "外出時はマスクを着用し、激しい運動を制限してください。",
+  "aqi_advice_very_poor": "外出を制限し、窓を閉め、空気清浄機を使用してください。",
   "uv_low": "低い",
   "uv_moderate": "中程度",
   "uv_high": "高い",
@@ -119,5 +124,49 @@
   "uv_advice_moderate": "30分以上外にいる場合は日焼け止めと帽子を着用してください。",
   "uv_advice_high": "保護が必要です。日焼け止め、帽子、サングラスを着用してください。",
   "uv_advice_very_high": "追加の保護が必要です。正午の間は日光を避けてください。",
-  "uv_advice_extreme": "すべての予防措置を講じてください。可能であれば日光への曝露を避けてください。"
+  "uv_advice_extreme": "すべての予防措置を講じてください。可能であれば日光への曝露を避けてください。",
+    "gieo_que_dau_xuan": "春の運勢占い",
+  "gieo_que_instructions": "丙午（火の馬）の年の運勢を占う",
+    "fortune": {
+    "great_fortune": {
+      "title": "大吉",
+      "message": "すべてが思い通りに進み、繁栄が豊かです",
+      "advice": "新しい計画を始めるのに良い時期です"
+    },
+    "excellent_fortune": {
+      "title": "大吉",
+      "message": "キャリアの進展、恩人に出会う幸運",
+      "advice": "目標を追求する際は大胆に行動しましょう"
+    },
+    "good_fortune": {
+      "title": "中吉",
+      "message": "平和と安全、すべてが順調に進みます",
+      "advice": "楽観的で前向きな精神を維持しましょう"
+    },
+    "small_fortune": {
+      "title": "小吉",
+      "message": "仕事で幸運、恋愛が甘くなります",
+      "advice": "周りの人を大切にしましょう"
+    },
+    "neutral": {
+      "title": "中立",
+      "message": "心の平和、穏やかで満足している",
+      "advice": "忍耐強く、適切な機会を待ちましょう"
+    },
+    "small_misfortune": {
+      "title": "小凶",
+      "message": "小さな障害が待ち受けています。注意してください。",
+      "advice": "言葉や行動に注意しましょう"
+    },
+    "supreme_fortune": {
+      "title": "最高の運勢",
+      "message": "祝福が家を満たし、幸運が続きます",
+      "advice": "これはあなたの年です、楽しんでください！"
+    },
+    "joyful_fortune": {
+      "title": "喜びの運勢",
+      "message": "喜びが訪れ、遠くから良い知らせが届きます",
+      "advice": "良いことを受け入れるために心を開きましょう"
+    }
+  }
 }

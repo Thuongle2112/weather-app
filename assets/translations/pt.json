@@ -110,6 +110,11 @@
   "aqi_poor": "Ruim",
   "aqi_very_poor": "Muito ruim",
   "aqi_unknown": "Desconhecido",
+    "aqi_advice_good": "A qualidade do ar é excelente, segura para todas as atividades ao ar livre!",
+  "aqi_advice_fair": "A qualidade do ar é boa, pode-se realizar atividades ao ar livre normalmente.",
+  "aqi_advice_moderate": "Pessoas sensíveis devem limitar atividades prolongadas ao ar livre.",
+  "aqi_advice_poor": "Use máscara ao sair, limite atividades físicas intensas.",
+  "aqi_advice_very_poor": "Limite sair, feche janelas e use purificador de ar.",
   "uv_low": "Baixo",
   "uv_moderate": "Moderado",
   "uv_high": "Alto",
@@ -119,5 +124,49 @@
   "uv_advice_moderate": "Use protetor solar e chapéu se estiver ao ar livre por mais de 30 minutos.",
   "uv_advice_high": "Proteção necessária. Use protetor solar, chapéu e óculos de sol.",
   "uv_advice_very_high": "Proteção extra necessária. Evite o sol durante o meio-dia.",
-  "uv_advice_extreme": "Tome todas as precauções. Evite a exposição ao sol, se possível."
+  "uv_advice_extreme": "Tome todas as precauções. Evite a exposição ao sol, se possível.",
+  "gieo_que_dau_xuan": "Leitura de Fortuna de Primavera",
+  "gieo_que_instructions": "Previsões de fortuna para o Ano do Cavalo de Fogo",
+    "fortune": {
+    "great_fortune": {
+      "title": "Grande Fortuna",
+      "message": "Tudo acontece como desejado, a prosperidade é abundante",
+      "advice": "Este é um bom momento para iniciar novos planos"
+    },
+    "excellent_fortune": {
+      "title": "Excelente Fortuna",
+      "message": "Avanço na carreira, sorte em encontrar benfeitores",
+      "advice": "Seja ousado ao perseguir seus objetivos"
+    },
+    "good_fortune": {
+      "title": "Boa Fortuna",
+      "message": "Paz e segurança, tudo corre bem",
+      "advice": "Mantenha um espírito otimista e positivo"
+    },
+    "small_fortune": {
+      "title": "Pequena Fortuna",
+      "message": "Sorte no trabalho, a vida amorosa fica mais doce",
+      "advice": "Valorize as pessoas ao seu redor"
+    },
+    "neutral": {
+      "title": "Neutro",
+      "message": "Paz no coração, calmo e satisfeito",
+      "advice": "Seja paciente e espere pela oportunidade certa"
+    },
+    "small_misfortune": {
+      "title": "Pequena Desventura",
+      "message": "Pequenos obstáculos à frente, tenha cuidado",
+      "advice": "Seja cauteloso nas palavras e ações"
+    },
+    "supreme_fortune": {
+      "title": "Grande Fortuna Suprema",
+      "message": "Bênçãos enchem a casa, sorte contínua",
+      "advice": "Este é o seu ano, aproveite!"
+    },
+    "joyful_fortune": {
+      "title": "Fortuna Alegre",
+      "message": "A alegria está chegando, boas notícias de longe",
+      "advice": "Abra seu coração para receber coisas boas"
+    }
+  }
 }
