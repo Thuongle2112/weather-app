@@ -122,7 +122,7 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
               padding: EdgeInsets.all(16.w),
               child: Center(
                 child: Text(
-                  'Gieo Quẻ Đầu Xuân',
+                  'gieo_que_dau_xuan'.tr(),
                   style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                     color: const Color(0xFFD32F2F),
                   ),
@@ -316,7 +316,7 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                             ),
                           ),
                           child: Text(
-                            'Gieo Lại',
+                            'gieo_lai'.tr(),
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
@@ -343,7 +343,7 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                     ),
                     SizedBox(height: 8.h),
                     Text(
-                      'Chạm vào để gieo quẻ',
+                      'cham_de_gieo_que'.tr(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: const Color(0xFFD32F2F),
                       ),

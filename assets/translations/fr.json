@@ -127,6 +127,8 @@
   "uv_advice_extreme": "Prenez toutes les précautions. Évitez l'exposition au soleil si possible.",
     "gieo_que_dau_xuan": "Tirage de Fortune du Printemps",
   "gieo_que_instructions": "Prévisions de chance pour l’Année du Cheval de Feu",
+  "gieo_lai": "Relancer",
+  "cham_de_gieo_que": "Appuyez pour lancer la fortune",
   "fortune": {
     "great_fortune": {
       "title": "Grande Fortune",

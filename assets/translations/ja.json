@@ -125,8 +125,10 @@
   "uv_advice_high": "保護が必要です。日焼け止め、帽子、サングラスを着用してください。",
   "uv_advice_very_high": "追加の保護が必要です。正午の間は日光を避けてください。",
   "uv_advice_extreme": "すべての予防措置を講じてください。可能であれば日光への曝露を避けてください。",
-    "gieo_que_dau_xuan": "春の運勢占い",
+  "gieo_que_dau_xuan": "春の運勢占い",
   "gieo_que_instructions": "丙午（火の馬）の年の運勢を占う",
+  "gieo_lai": "もう一度占う",
+  "cham_de_gieo_que": "運勢を占うにはタップしてください",
     "fortune": {
     "great_fortune": {
       "title": "大吉",

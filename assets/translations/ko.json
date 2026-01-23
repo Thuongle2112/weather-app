@@ -125,8 +125,10 @@
   "uv_advice_high": "보호가 필요합니다. 자외선 차단제, 모자, 선글라스를 착용하세요.",
   "uv_advice_very_high": "추가 보호가 필요합니다. 정오 시간대에는 햇빛을 피하세요.",
   "uv_advice_extreme": "모든 예방 조치를 취하세요. 가능하면 햇빛 노출을 피하세요.",
-    "gieo_que_dau_xuan": "새봄 운세 점치기",
+  "gieo_que_dau_xuan": "새봄 운세 점치기",
   "gieo_que_instructions": "불말의 해 운세 보기",
+  "gieo_lai": "다시 점치기",
+  "cham_de_gieo_que": "운세를 점치려면 탭하세요",
     "fortune": {
     "great_fortune": {
       "title": "대길",

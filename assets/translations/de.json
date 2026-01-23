@@ -125,8 +125,10 @@
   "uv_advice_high": "Schutz erforderlich. Tragen Sie Sonnencreme, Hut und Sonnenbrille.",
   "uv_advice_very_high": "Zusätzlicher Schutz erforderlich. Vermeiden Sie die Sonne während der Mittagszeit.",
   "uv_advice_extreme": "Ergreifen Sie alle Vorsichtsmaßnahmen. Vermeiden Sie nach Möglichkeit Sonnenexposition.",
-    "gieo_que_dau_xuan": "Frühlings-Glücksorakel",
+  "gieo_que_dau_xuan": "Frühlings-Glücksorakel",
   "gieo_que_instructions": "Glücksprognose für das Jahr des Feuerpferdes",
+  "gieo_lai": "Erneut Orakeln",
+  "cham_de_gieo_que": "Tippen Sie, um das Glück zu werfen",
     "fortune": {
     "great_fortune": {
       "title": "Großes Glück",

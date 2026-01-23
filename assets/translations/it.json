@@ -125,8 +125,10 @@
   "uv_advice_high": "Protezione richiesta. Indossa crema solare, cappello e occhiali da sole.",
   "uv_advice_very_high": "Protezione extra necessaria. Evita il sole durante il mezzogiorno.",
   "uv_advice_extreme": "Prendi tutte le precauzioni. Evita l'esposizione al sole se possibile.",
-    "gieo_que_dau_xuan": "Lettura della Fortuna di Primavera",
+  "gieo_que_dau_xuan": "Lettura della Fortuna di Primavera",
   "gieo_que_instructions": "Previsioni di fortuna per l’Anno del Cavallo di Fuoco",
+  "gieo_lai": "Lancia di nuovo",
+  "cham_de_gieo_que": "Tocca per lanciare la fortuna",
     "fortune": {
     "great_fortune": {
       "title": "Grande Fortuna",

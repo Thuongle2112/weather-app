@@ -127,6 +127,8 @@
   "uv_advice_extreme": "Tome todas las precauciones. Evite la exposición al sol si es posible.",
   "gieo_que_dau_xuan": "Lectura de Fortuna de Primavera",
   "gieo_que_instructions": "Pronóstico de la suerte para el Año del Caballo de Fuego",
+  "gieo_lai": "Volver a lanzar",
+  "cham_de_gieo_que": "Toque para lanzar la fortuna",
   "fortune": {
     "great_fortune": {
       "title": "Gran Fortuna",
