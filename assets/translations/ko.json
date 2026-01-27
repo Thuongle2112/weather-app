@@ -170,5 +170,14 @@
       "message": "기쁨이 찾아오고, 먼 곳에서 좋은 소식이 옵니다",
       "advice": "좋은 일을 받아들일 수 있도록 마음을 열어보세요"
     }
-  }
+  },
+  "skip": "건너뛰기",
+  "next": "다음",
+  "get_started": "시작하기",
+  "onboarding_title_1": "실시간 날씨 업데이트",
+  "onboarding_description_1": "전 세계 어느 위치에서나 정확한 날씨 예보를 시간별 및 일별 상세 예측과 함께 받아보세요",
+  "onboarding_title_2": "위치 기반 예보",
+  "onboarding_description_2": "현재 위치를 사용하거나 도시를 검색하여 즉시 맞춤형 날씨 정보를 받아보세요",
+  "onboarding_title_3": "스마트 알림",
+  "onboarding_description_3": "날씨 경보, 비 알림, 매일 아침 예보를 기기로 받아 항상 준비하세요"
 }

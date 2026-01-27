@@ -170,5 +170,14 @@
       "message": "A alegria está chegando, boas notícias de longe",
       "advice": "Abra seu coração para receber coisas boas"
     }
-  }
+  },
+  "skip": "Pular",
+  "next": "Próximo",
+  "get_started": "Começar",
+  "onboarding_title_1": "Atualizações do Tempo em Tempo Real",
+  "onboarding_description_1": "Obtenha previsões precisas do tempo para qualquer local do mundo com predições detalhadas por hora e dia",
+  "onboarding_title_2": "Previsões Baseadas em Localização",
+  "onboarding_description_2": "Use sua localização atual ou pesquise qualquer cidade para obter informações meteorológicas personalizadas instantaneamente",
+  "onboarding_title_3": "Notificações Inteligentes",
+  "onboarding_description_3": "Fique preparado com alertas meteorológicos, notificações de chuva e previsões matinais diárias entregues no seu dispositivo"
 }

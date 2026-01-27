@@ -170,5 +170,14 @@
       "message": "喜びが訪れ、遠くから良い知らせが届きます",
       "advice": "良いことを受け入れるために心を開きましょう"
     }
-  }
+  },
+  "skip": "スキップ",
+  "next": "次へ",
+  "get_started": "始める",
+  "onboarding_title_1": "リアルタイム天気更新",
+  "onboarding_description_1": "世界中のあらゆる場所の正確な天気予報を、詳細な時間別・日別予測で取得",
+  "onboarding_title_2": "位置情報ベースの予報",
+  "onboarding_description_2": "現在地を使用するか、任意の都市を検索して、パーソナライズされた天気情報を即座に取得",
+  "onboarding_title_3": "スマート通知",
+  "onboarding_description_3": "天気警報、雨の通知、毎日の朝の予報をデバイスに配信して常に準備万端"
 }

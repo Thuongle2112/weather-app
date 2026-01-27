@@ -67,6 +67,7 @@ dependencies:
   shared_preferences: ^2.5.3
   google_fonts: ^6.1.0
   flutter_cache_manager: ^3.4.1
+  package_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:

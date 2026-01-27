@@ -170,5 +170,14 @@
       "message": "La joie arrive, de bonnes nouvelles de loin",
       "advice": "Ouvrez votre cœur pour recevoir de bonnes choses"
     }
-  }
+  },
+  "skip": "Passer",
+  "next": "Suivant",
+  "get_started": "Commencer",
+  "onboarding_title_1": "Mises à Jour Météo en Temps Réel",
+  "onboarding_description_1": "Obtenez des prévisions météo précises pour n'importe quel endroit dans le monde avec des prédictions détaillées par heure et par jour",
+  "onboarding_title_2": "Prévisions Basées sur la Localisation",
+  "onboarding_description_2": "Utilisez votre position actuelle ou recherchez n'importe quelle ville pour obtenir des informations météo personnalisées instantanément",
+  "onboarding_title_3": "Notifications Intelligentes",
+  "onboarding_description_3": "Restez préparé avec des alertes météo, des notifications de pluie et des prévisions matinales quotidiennes livrées sur votre appareil"
 }

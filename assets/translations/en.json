@@ -166,5 +166,14 @@
       "message": "Joy is coming, good news from afar",
       "advice": "Open your heart to receive good things"
     }
-  }
+  },
+  "skip": "Skip",
+  "next": "Next",
+  "get_started": "Get Started",
+  "onboarding_title_1": "Real-time Weather Updates",
+  "onboarding_description_1": "Get accurate weather forecasts for any location around the world with detailed hourly and daily predictions",
+  "onboarding_title_2": "Location-based Forecasts",
+  "onboarding_description_2": "Use your current location or search for any city to get personalized weather information instantly",
+  "onboarding_title_3": "Smart Notifications",
+  "onboarding_description_3": "Stay prepared with weather alerts, rain notifications, and daily morning forecasts delivered to your device"
 }
