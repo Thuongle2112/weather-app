@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../widgets/lazy_lottie.dart';
+
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -17,19 +19,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<OnboardingPage> _pages = [
     OnboardingPage(
-      icon: Icons.cloud,
+      animationPath: 'assets/animations/weather_real_time.json',
       title: 'onboarding_title_1',
       description: 'onboarding_description_1',
       color: Colors.blue,
     ),
     OnboardingPage(
-      icon: Icons.location_on,
+      animationPath: 'assets/animations/weather_location.json',
       title: 'onboarding_title_2',
       description: 'onboarding_description_2',
       color: Colors.orange,
     ),
     OnboardingPage(
-      icon: Icons.notifications_active,
+      animationPath: 'assets/animations/weather_alert_notification.json',
       title: 'onboarding_title_3',
       description: 'onboarding_description_3',
       color: Colors.green,
@@ -150,18 +152,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Icon
-          Container(
-            width: 120.w,
-            height: 120.h,
-            decoration: BoxDecoration(
-              color: page.color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              page.icon,
-              size: 60.sp,
-              color: page.color,
+          // Animation
+          SizedBox(
+            height: 200.h,
+            child: LazyLottie(
+              assetPath: page.animationPath,
+              fit: BoxFit.contain,
+              repeat: true,
             ),
           ),
           SizedBox(height: 48.h),
@@ -208,13 +205,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 }
 
 class OnboardingPage {
-  final IconData icon;
+  final String animationPath;
   final String title;
   final String description;
   final Color color;
 
   OnboardingPage({
-    required this.icon,
+    required this.animationPath,
     required this.title,
     required this.description,
     required this.color,

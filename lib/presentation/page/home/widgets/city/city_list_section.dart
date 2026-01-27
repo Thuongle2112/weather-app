@@ -5,9 +5,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:weather_app/presentation/page/home/widgets/buttons/new_year_button_painter.dart';
 
 import '../../../../../data/model/weather/weather.dart';
+import '../../../../../data/model/location/selected_location.dart';
 import '../../../../utils/utils.dart';
 import '../../bloc/bloc.dart';
 import '../widgets.dart';
+import '../../../map_location_picker/map_location_picker_screen.dart';
 
 class CityListSection extends StatefulWidget {
   final List<Map<String, dynamic>> popularCities;
@@ -258,7 +260,7 @@ class _CityListSectionState extends State<CityListSection>
                 // ],
               ),
               child: ElevatedButton(
-                onPressed: () => widget.showSearchModal(),
+                onPressed: () => _openMapLocationPicker(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
@@ -309,5 +311,23 @@ class _CityListSectionState extends State<CityListSection>
         ),
       ),
     );
+  }
+
+  Future<void> _openMapLocationPicker(BuildContext context) async {
+    final location = await Navigator.push<SelectedLocation>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MapLocationPickerScreen(),
+      ),
+    );
+    
+    if (location != null && mounted) {
+      context.read<WeatherBloc>().add(
+        FetchWeatherByCoordinates(
+          location.latitude,
+          location.longitude,
+        ),
+      );
+    }
   }
 }

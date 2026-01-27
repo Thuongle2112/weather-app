@@ -175,5 +175,14 @@
   "onboarding_title_2": "Location-based Forecasts",
   "onboarding_description_2": "Use your current location or search for any city to get personalized weather information instantly",
   "onboarding_title_3": "Smart Notifications",
-  "onboarding_description_3": "Stay prepared with weather alerts, rain notifications, and daily morning forecasts delivered to your device"
+  "onboarding_description_3": "Stay prepared with weather alerts, rain notifications, and daily morning forecasts delivered to your device",
+  "select_location": "Select Location",
+  "selected_location": "Selected Location",
+  "confirm_location": "Confirm Location",
+  "choose_location_method": "Choose Location Method",
+  "pick_from_map": "Pick from Map",
+  "select_location_on_map": "Select location on map",
+  "search_by_name": "Search by Name",
+  "search_city_name": "Search city name",
+  "search_location": "Search location..."
 }

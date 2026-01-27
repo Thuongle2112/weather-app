@@ -6,7 +6,7 @@ import 'package:weather_app/presentation/page/splash/splash_screen.dart';
 import 'page/home/widgets/fortune_shake/fortune_shake_widget.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/onboarding',
   routes: [
     GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
     GoRoute(

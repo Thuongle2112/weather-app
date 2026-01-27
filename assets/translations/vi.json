@@ -175,5 +175,14 @@
   "onboarding_title_2": "Dự Báo Theo Vị Trí",
   "onboarding_description_2": "Sử dụng vị trí hiện tại hoặc tìm kiếm bất kỳ thành phố nào để nhận thông tin thời tiết cá nhân hóa ngay lập tức",
   "onboarding_title_3": "Thông Báo Thông Minh",
-  "onboarding_description_3": "Luôn chuẩn bị với cảnh báo thời tiết, thông báo mưa và dự báo sáng hàng ngày được gửi đến thiết bị của bạn"
+  "onboarding_description_3": "Luôn chuẩn bị với cảnh báo thời tiết, thông báo mưa và dự báo sáng hàng ngày được gửi đến thiết bị của bạn",
+  "select_location": "Chọn Vị Trí",
+  "selected_location": "Vị Trí Đã Chọn",
+  "confirm_location": "Xác Nhận Vị Trí",
+  "choose_location_method": "Chọn Cách Tìm Vị Trí",
+  "pick_from_map": "Chọn Trên Bản Đồ",
+  "select_location_on_map": "Chọn vị trí trên bản đồ",
+  "search_by_name": "Tìm Theo Tên",
+  "search_city_name": "Tìm kiếm tên thành phố",
+  "search_location": "Tìm kiếm địa điểm..."
 }
