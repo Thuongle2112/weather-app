@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'dart:async';
+
+import '../widgets/lazy_lottie.dart';
 
 class NewYearMessageHelper {
   static String getTodayMessage(BuildContext context, {DateTime? testDate}) {
@@ -103,8 +104,8 @@ class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Lottie.asset(
-                'assets/animations/new_year_message.json',
+              LazyLottie(
+                assetPath: 'assets/animations/new_year_message.json',
                 width: 120.w,
                 height: 120.h,
                 fit: BoxFit.cover,

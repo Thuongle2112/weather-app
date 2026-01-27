@@ -84,7 +84,6 @@ class AirPollutionGaugeWidget extends StatelessWidget {
     final aqiText = getAqiText(aqi);
     final aqiAdvice = getAqiAdvice(aqi);
     final aqiColor = getAqiColor(aqi);
-    final aqiIcon = getAqiIcon(aqi);
 
     return Container(
       padding: EdgeInsets.all(16.w),

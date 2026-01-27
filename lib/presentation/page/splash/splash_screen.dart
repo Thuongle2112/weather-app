@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../widgets/lazy_lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,10 +35,9 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox.expand(
-        child: Lottie.asset(
-          'assets/animations/new_year_splash_screen.json',
+        child: LazyLottie(
+          assetPath: 'assets/animations/new_year_splash_screen.json',
           controller: _controller,
-          // fit: BoxFit.cover,
           fit: BoxFit.contain,
           onLoaded: (composition) {
             _controller

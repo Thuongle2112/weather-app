@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -15,6 +14,7 @@ import '../../../data/model/weather/time_mark.dart';
 import '../../../data/model/weather/weather.dart';
 import '../../providers/providers.dart';
 import '../../utils/utils.dart';
+import '../../widgets/lazy_lottie.dart';
 import 'bloc/bloc.dart';
 import 'widgets/weather/air_pollution.dart';
 import 'widgets/weather/uv_index_card.dart';
@@ -69,6 +69,12 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     _cityController.dispose();
     super.dispose();
   }
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    _adService.onAppLifecycleStateChanged(state);
+  }
 
   void _initializeServices() {
     _adService = AdService(
@@ -84,12 +90,14 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     _shakeService = ShakeDetectorService();
     _shakeService.initialize(
       onBooEffect: () {
+        if (!mounted) return;
         setState(() => _showBoo = true);
         Future.delayed(const Duration(seconds: 2), () {
           if (mounted) setState(() => _showBoo = false);
         });
       },
       onMoneyRain: () {
+        if (!mounted) return;
         setState(() => _showMoneyRain = true);
         Future.delayed(const Duration(seconds: 3), () {
           if (mounted) setState(() => _showMoneyRain = false);
@@ -121,6 +129,8 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   }
 
   void _showCitySearchModal() {
+    _adService.onUserInteraction(); // Notify ad service of user activity
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -130,6 +140,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
             cityController: _cityController,
             popularCities: _popularCities,
             onCitySelected: (city) {
+              _adService.onUserInteraction(); // Track interaction
               context.read<WeatherBloc>().add(FetchWeatherByCity(city));
               _searchCount++;
 
@@ -385,16 +396,16 @@ class _WeatherHomePageState extends State<WeatherHomePage>
       children: [
         if (_showBoo)
           Center(
-            child: Lottie.asset(
-              'assets/animations/new_year_floating_button.json',
+            child: LazyLottie(
+              assetPath: 'assets/animations/new_year_floating_button.json',
               fit: BoxFit.contain,
               repeat: false,
             ),
           ),
         if (_showMoneyRain)
           Positioned.fill(
-            child: Lottie.asset(
-              'assets/animations/money_rain.json',
+            child: LazyLottie(
+              assetPath: 'assets/animations/money_rain.json',
               fit: BoxFit.cover,
               repeat: false,
             ),
