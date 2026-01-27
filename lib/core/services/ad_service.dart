@@ -17,7 +17,6 @@ class AdService {
   // Idle preloading
   bool _isAppIdle = false;
   Timer? _idleTimer;
-  AppLifecycleState? _lastLifecycleState;
 
   final int maxAdLoadAttempts = 3;
   final String bannerAdUnitId;
@@ -38,8 +37,6 @@ class AdService {
   
   /// Called when app lifecycle changes
   void onAppLifecycleStateChanged(AppLifecycleState state) {
-    _lastLifecycleState = state;
-    
     if (state == AppLifecycleState.resumed) {
       // App is active, start idle detection
       _startIdleDetection();

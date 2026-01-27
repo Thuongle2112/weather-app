@@ -105,10 +105,17 @@ class _WeatherHomePageState extends State<WeatherHomePage>
       },
     );
 
-    _initializeLocationService();
+    // Auto request location on app start
+    _autoRequestLocation();
   }
 
-  Future<void> _initializeLocationService() async {}
+  Future<void> _autoRequestLocation() async {
+    // Auto request location when entering home
+    await Future.delayed(const Duration(milliseconds: 500)); // Small delay for smooth transition
+    if (mounted) {
+      await WeatherService.getWeatherByCurrentLocation(context);
+    }
+  }
 
   Future<void> _requestLocationPermission() async {
     try {
@@ -210,11 +217,8 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                     isDarkMode: isDarkMode,
                   );
                 } else {
-                  return InitialView(
-                    onLocationRequest: _requestLocationPermission,
-                    onSearchCity: _showCitySearchModal,
-                    isDarkMode: isDarkMode,
-                  );
+                  // Show loading while auto-requesting location
+                  return const LoadingView();
                 }
               },
             ),
