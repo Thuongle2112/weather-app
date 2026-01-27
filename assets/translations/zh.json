@@ -170,5 +170,14 @@
       "message": "喜事将近，远方传来好消息",
       "advice": "敞开心扉迎接美好"
     }
-  }
+  },
+  "skip": "跳过",
+  "next": "下一步",
+  "get_started": "开始使用",
+  "onboarding_title_1": "实时天气更新",
+  "onboarding_description_1": "获取世界任何地点的准确天气预报，包含详细的每小时和每日预测",
+  "onboarding_title_2": "基于位置的预报",
+  "onboarding_description_2": "使用您的当前位置或搜索任何城市，即可立即获取个性化天气信息",
+  "onboarding_title_3": "智能通知",
+  "onboarding_description_3": "通过天气警报、降雨通知和每日早间预报保持准备，直接发送到您的设备"
 }

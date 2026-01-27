@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:weather_app/core/constants/language_constants.dart';
 import 'package:weather_app/core/services/event_service.dart';
 import 'package:weather_app/presentation/providers/theme_provider.dart';
+
+import '../../../../../widgets/lazy_lottie.dart';
 
 import '../../../../settings/notification_settings_page.dart';
 import '../../../../weather_radar_page.dart';
@@ -419,8 +421,8 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 12.w),
-                Lottie.asset(
-                  'assets/animations/lunar_year_button_drawer.json',
+                LazyLottie(
+                  assetPath: 'assets/animations/lunar_year_button_drawer.json',
                   width: 60.w,
                   height: 60.h,
                   fit: BoxFit.contain,
@@ -458,12 +460,20 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4.h),
-          Text(
-            'Version 1.2.0',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
-              fontSize: 10.sp,
-            ),
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              final version = snapshot.hasData 
+                  ? 'Version ${snapshot.data!.version}'
+                  : 'Version 1.2.0';
+              return Text(
+                version,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.5),
+                  fontSize: 10.sp,
+                ),
+              );
+            },
           ),
         ],
       ),

@@ -170,5 +170,14 @@
       "message": "Freude kommt, gute Nachrichten aus der Ferne",
       "advice": "Öffnen Sie Ihr Herz, um gute Dinge zu empfangen"
     }
-  }
+  },
+  "skip": "Überspringen",
+  "next": "Weiter",
+  "get_started": "Loslegen",
+  "onboarding_title_1": "Echtzeit-Wetterupdates",
+  "onboarding_description_1": "Erhalten Sie genaue Wettervorhersagen für jeden Standort weltweit mit detaillierten stündlichen und täglichen Vorhersagen",
+  "onboarding_title_2": "Standortbasierte Vorhersagen",
+  "onboarding_description_2": "Verwenden Sie Ihren aktuellen Standort oder suchen Sie nach einer beliebigen Stadt, um sofort personalisierte Wetterinformationen zu erhalten",
+  "onboarding_title_3": "Intelligente Benachrichtigungen",
+  "onboarding_description_3": "Bleiben Sie vorbereitet mit Wetterwarnungen, Regenbenachrichtigungen und täglichen Morgenvorhersagen auf Ihr Gerät"
 }

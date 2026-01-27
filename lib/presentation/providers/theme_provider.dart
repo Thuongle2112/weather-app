@@ -31,4 +31,10 @@ class ThemeProvider with ChangeNotifier {
     _showHalloweenEffect = false;
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    // Clean up any resources if needed
+    super.dispose();
+  }
 }

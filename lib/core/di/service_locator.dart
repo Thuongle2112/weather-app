@@ -5,7 +5,8 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:weather_app/data/datasource/air_pollution_remote_data_source.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../data/datasource/weather_local_data_source.dart';
 import '../../data/datasource/weather_remote_data_source.dart';
 import '../../data/repository/weather/air_pollution_repository_impl.dart';
 import '../../data/repository/weather/weather_repository_impl.dart';
@@ -26,13 +27,24 @@ class ServiceLocator {
   final GetIt _getIt = GetIt.instance;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+  SharedPreferences? _sharedPreferences;
+
+  Future<void> init() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+  }
+
   Dio get dio => Dio();
 
   WeatherRemoteDataSource get weatherRemoteDataSource =>
       WeatherRemoteDataSource(dio);
 
-  WeatherRepositoryImpl get weatherRepository =>
-      WeatherRepositoryImpl(weatherRemoteDataSource);
+  WeatherLocalDataSource get weatherLocalDataSource =>
+      WeatherLocalDataSource(_sharedPreferences!);
+
+  WeatherRepositoryImpl get weatherRepository => WeatherRepositoryImpl(
+        remoteDataSource: weatherRemoteDataSource,
+        localDataSource: weatherLocalDataSource,
+      );
 
   AirPollutionRemoteDataSource get airPollutionRemoteDataSource =>
       AirPollutionRemoteDataSource(dio);

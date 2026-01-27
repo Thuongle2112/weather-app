@@ -13,13 +13,19 @@ import 'package:weather_app/presentation/providers/notification_settings_provide
 import 'package:weather_app/presentation/providers/theme_provider.dart';
 import 'core/constants/language_constants.dart';
 import 'core/di/service_locator.dart';
+import 'core/services/animation_preloader.dart';
+import 'core/services/optimized_translation_loader.dart';
 import 'core/services/push_notification_service.dart';
 import 'data/datasource/preferences_manager.dart';
 import 'firebase_options.dart';
 
+// Global variable for saved locale
+Locale? _savedLocale;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // UI configuration (synchronous, fast)
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -27,18 +33,29 @@ void main() async {
     ),
   );
 
-  await MobileAds.instance.initialize();
-  await SystemChrome.setPreferredOrientations([
+  // Set preferred orientations (synchronous)
+  SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
-  await dotenv.load(fileName: '.env');
+  // Parallel initialization of independent services
+  final startTime = DateTime.now();
+  debugPrint('🚀 Starting app initialization...');
 
-  await EasyLocalization.ensureInitialized();
+  await Future.wait([
+    // Core services
+    dotenv.load(fileName: '.env'),
+    EasyLocalization.ensureInitialized(),
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    ServiceLocator.instance.init(),
+    MobileAds.instance.initialize(),
+    PreferencesManager.getSavedLocale().then((locale) => _savedLocale = locale),
+    // Preload critical animations
+    AnimationPreloader().preloadCritical(),
+  ]);
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  // Initialize push notifications after Firebase
   final pushNotificationService = PushNotificationService();
   await pushNotificationService.initialize();
 
@@ -46,15 +63,22 @@ void main() async {
     pushNotificationService,
   );
 
-  final pendingNotifications =
-      await pushNotificationService.getPendingNotifications();
-  debugPrint('Pending notifications: ${pendingNotifications.length}');
+  // Non-blocking notification tasks
+  pushNotificationService.getPendingNotifications().then((notifications) {
+    debugPrint('Pending notifications: ${notifications.length}');
+  });
 
   Future.delayed(const Duration(seconds: 1), () {
     pushNotificationService.sendWelcomeNotification();
   });
 
-  final savedLocale = await PreferencesManager.getSavedLocale();
+  final savedLocale = _savedLocale ?? const Locale('en');
+  
+  final duration = DateTime.now().difference(startTime);
+  // Preload secondary animations in background
+  AnimationPreloader().preloadInBackground();
+
+  debugPrint('✅ App initialized in ${duration.inMilliseconds}ms');
 
   runApp(
     EasyLocalization(
@@ -63,6 +87,7 @@ void main() async {
       fallbackLocale: const Locale('en'),
       startLocale: savedLocale,
       saveLocale: true,
+      assetLoader: const OptimizedTranslationLoader(), // 🎯 Only load current locale
       child: MultiProvider(
         providers: [
           ...ServiceLocator.instance.providers,

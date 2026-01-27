@@ -166,5 +166,14 @@
       "message": "Niềm vui sắp đến, tin vui từ xa ♡(੭´͈ ᐜ `͈)੭♡",
       "advice": "Mở lòng đón nhận những điều tốt đẹp"
     }
-  }
+  },
+  "skip": "Bỏ qua",
+  "next": "Tiếp",
+  "get_started": "Bắt đầu",
+  "onboarding_title_1": "Cập Nhật Thời Tiết Thời Gian Thực",
+  "onboarding_description_1": "Nhận dự báo thời tiết chính xác cho bất kỳ địa điểm nào trên thế giới với dự đoán chi tiết theo giờ và ngày",
+  "onboarding_title_2": "Dự Báo Theo Vị Trí",
+  "onboarding_description_2": "Sử dụng vị trí hiện tại hoặc tìm kiếm bất kỳ thành phố nào để nhận thông tin thời tiết cá nhân hóa ngay lập tức",
+  "onboarding_title_3": "Thông Báo Thông Minh",
+  "onboarding_description_3": "Luôn chuẩn bị với cảnh báo thời tiết, thông báo mưa và dự báo sáng hàng ngày được gửi đến thiết bị của bạn"
 }

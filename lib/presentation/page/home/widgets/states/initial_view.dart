@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../widgets/lazy_lottie.dart';
+
 class InitialView extends StatelessWidget {
   final VoidCallback onLocationRequest;
   final VoidCallback onSearchCity;
@@ -36,10 +38,10 @@ class InitialView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.cloud_outlined,
-                size: 100.sp,
-                color: isDarkMode ? Colors.blue : Colors.white,
+              LazyLottie(
+                assetPath: 'assets/animations/initial_view.json',
+                fit: BoxFit.fill,
+                repeat: true,
               ),
               SizedBox(height: 24.h),
               Text(
