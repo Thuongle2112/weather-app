@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../data/model/weather/daily_forecast.dart';
 import '../../../utils/date_formatter.dart';
@@ -44,13 +43,13 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Stack(
         children: [
           Container(
             padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.6),
+              color: Colors.white.withOpacity(0.3),
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(
                 color: Colors.white.withOpacity(0.3),
@@ -60,17 +59,8 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      '5-day-forecast'.tr(),
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16.h),
                 ...widget.dailyForecast
-                    .map((day) => _buildDailyItem(context, day, Colors.black))
+                    .map((day) => _buildDailyItem(context, day))
                     .toList(),
               ],
             ),
@@ -99,11 +89,7 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
     );
   }
 
-  Widget _buildDailyItem(
-    BuildContext context,
-    DailyForecast day,
-    Color textColor,
-  ) {
+  Widget _buildDailyItem(BuildContext context, DailyForecast day) {
     final formattedDate = DateFormatter.formatMediumDate(
       day.date,
       context.locale.languageCode,
@@ -112,16 +98,17 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
     final iconFileName = WeatherIconMapper.getIconByDescription(
       day.description,
     );
-
-    return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 4.h),
       child: Row(
         children: [
           SizedBox(
             width: 90.w,
             child: Text(
               formattedDate,
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge!.copyWith(color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -130,19 +117,22 @@ class _DailyForecastSectionState extends State<DailyForecastSection>
             height: 32.h,
             width: 32.w,
           ),
-          SizedBox(width: 12.w),
+          Gap(12.w),
           Expanded(
             child: Text(
               WeatherUIHelper.getLocalizedWeatherDescription(day.description),
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge!.copyWith(color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
           ),
           Text(
             '${day.tempMin.round()}° / ${day.tempMax.round()}°',
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

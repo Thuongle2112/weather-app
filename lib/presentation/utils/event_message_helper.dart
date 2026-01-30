@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'dart:async';
 
 import '../widgets/lazy_lottie.dart';
@@ -8,16 +9,10 @@ import '../widgets/lazy_lottie.dart';
 class NewYearMessageHelper {
   static String getTodayMessage(BuildContext context, {DateTime? testDate}) {
     final now = testDate ?? DateTime.now();
-    // Show messages from Dec 29 to Jan 2 (inclusive)
-    if ((now.month == 12 && now.day >= 29) ||
-        (now.month == 1 && now.day <= 2)) {
-      // Index: 0 for Dec 29, 1 for Dec 30, 2 for Dec 31, 3 for Jan 1, 4 for Jan 2
-      int index;
-      if (now.month == 12) {
-        index = now.day - 29;
-      } else {
-        index = now.day + 2;
-      }
+    // Show messages from Feb 17 to Feb 22 (inclusive)
+    if (now.month == 2 && now.day >= 17 && now.day <= 22) {
+      // Index: 0 for Feb 17, 1 for Feb 18, 2 for Feb 19, 3 for Feb 20, 4 for Feb 21, 5 for Feb 22
+      int index = now.day - 17;
       final message = tr('new_year_messages.$index', context: context);
       return message;
     }
@@ -111,13 +106,12 @@ class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
                 fit: BoxFit.cover,
                 repeat: true,
               ),
-              SizedBox(height: 16.h),
+              Gap(16.h),
 
               Text(
-                '🎆 Happy New Year! 🎉',
-                style: TextStyle(
+                'happy_lunar_year'.tr(),
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Colors.white,
-                  fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
                   shadows: [
                     Shadow(
@@ -130,7 +124,7 @@ class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
                 textAlign: TextAlign.center,
               ),
 
-              SizedBox(height: 12.h),
+              Gap(12.h),
 
               Container(
                 padding: EdgeInsets.all(16.w),
@@ -144,33 +138,31 @@ class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
                 ),
                 child: Text(
                   widget.message,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    height: 1.4,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ),
 
-              SizedBox(height: 20.h),
+              Gap(20.h),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
                   5,
-                  (index) => Text('🎇', style: TextStyle(fontSize: 20.sp)),
+                  (index) =>
+                      Text('🎇', style: Theme.of(context).textTheme.bodyLarge),
                 ),
               ),
 
-              SizedBox(height: 16.h),
+              Gap(16.h),
 
               ElevatedButton(
                 onPressed:
                     () => Navigator.of(context, rootNavigator: true).maybePop(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orangeAccent.withOpacity(0.9),
                   foregroundColor: const Color(0xFF1976D2),
                   padding: EdgeInsets.symmetric(
                     horizontal: 32.w,
@@ -187,13 +179,12 @@ class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
                   children: [
                     Text(
                       'OK',
-                      style: TextStyle(
-                        fontSize: 16.sp,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 8.w),
-                    Text('🥂', style: TextStyle(fontSize: 18.sp)),
+                    Gap(8.w),
+                    Text('🥂', style: Theme.of(context).textTheme.bodyLarge),
                   ],
                 ),
               ),

@@ -44,11 +44,12 @@
   "moonrise": "Sorgere della luna",
   "halloween_error": "Oh no — la rete è infestata! Connettiti per continuare.",
   "new_year_messages": {
-    "0": "🎉 Mancano pochi giorni al nuovo anno! Preparati a nuovi meravigliosi inizi!",
-    "1": "✨ L'anno sta finendo, ti auguriamo momenti speciali con famiglia e amici!",
-    "2": "🎆 È la vigilia di Capodanno! Contiamo insieme per accogliere il nuovo anno!",
-    "3": "🥂 Buon Anno! Ti auguriamo salute, felicità e successo!",
-    "4": "🌟 Il primo giorno del nuovo anno! Inizia il tuo viaggio con speranza e gioia!"
+    "0": "🧧 Il Capodanno Lunare arriva con la primavera! Riunione di famiglia e calore intorno al tavolo festivo!",
+    "1": "🎊 Possano tutti i desideri avverarsi, prosperità e fortuna! Buon Anno del Cavallo!",
+    "2": "🌸 La primavera porta rinnovamento, augurando salute e felicità sempre!",
+    "3": "🎆 I petardi scoppiano di gioia, la famiglia celebra insieme! Prosperità nel nuovo anno!",
+    "4": "🍊 Piatto di frutta traboccante, ricchezza che scorre abbondantemente! Prospero anno nuovo!",
+    "5": "🐴 L'Anno del Cavallo galoppa avanti, avanzamento di carriera e armonia familiare!"
   },
   "select_language": "Seleziona lingua",
   "oops": "Ops!",
@@ -129,7 +130,7 @@
   "gieo_que_instructions": "Previsioni di fortuna per l’Anno del Cavallo di Fuoco",
   "gieo_lai": "Lancia di nuovo",
   "cham_de_gieo_que": "Tocca per lanciare la fortuna",
-    "fortune": {
+  "fortune": {
     "great_fortune": {
       "title": "Grande Fortuna",
       "message": "Tutto va come desiderato, la prosperità trabocca",
@@ -179,5 +180,6 @@
   "onboarding_title_2": "Previsioni Basate sulla Posizione",
   "onboarding_description_2": "Usa la tua posizione attuale o cerca qualsiasi città per ottenere informazioni meteo personalizzate istantaneamente",
   "onboarding_title_3": "Notifiche Intelligenti",
-  "onboarding_description_3": "Resta preparato con allerte meteo, notifiche di pioggia e previsioni mattutine giornaliere inviate al tuo dispositivo"
+  "onboarding_description_3": "Resta preparato con allerte meteo, notifiche di pioggia e previsioni mattutine giornaliere inviate al tuo dispositivo",
+  "happy_lunar_year": "Buon Capodanno Lunare!"
 }

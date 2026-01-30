@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import '../../../../../data/model/weather/time_mark.dart';
 
 class TimeProgressBar extends StatefulWidget {
@@ -118,7 +119,7 @@ class _TimeProgressBarState extends State<TimeProgressBar>
     final rightMark = widget.marks[rightIndex];
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
@@ -139,7 +140,7 @@ class _TimeProgressBarState extends State<TimeProgressBar>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [_buildLabel(leftMark), _buildLabel(rightMark)],
             ),
-            SizedBox(height: 8.h),
+            Gap(4.h),
             SizedBox(
               height: 32.h,
               child: LayoutBuilder(
@@ -183,17 +184,21 @@ class _TimeProgressBarState extends State<TimeProgressBar>
                 },
               ),
             ),
-            SizedBox(height: 8.h),
+            Gap(4.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   leftMark.time,
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(color: Colors.white),
                 ),
                 Text(
                   rightMark.time,
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(color: Colors.white),
                 ),
               ],
             ),
@@ -207,10 +212,12 @@ class _TimeProgressBarState extends State<TimeProgressBar>
     return Row(
       children: [
         Icon(mark.icon, color: Colors.white, size: 20.sp),
-        SizedBox(width: 4.w),
+        Gap(4.w),
         Text(
           mark.label,
-          style: TextStyle(color: Colors.white, fontSize: 14.sp),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium!.copyWith(color: Colors.white),
         ),
       ],
     );

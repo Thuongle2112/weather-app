@@ -7,8 +7,7 @@ class FloatingButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final VoidCallback? onHide;
 
-  const FloatingButton({Key? key, this.onPressed, this.onHide})
-    : super(key: key);
+  const FloatingButton({super.key, this.onPressed, this.onHide});
 
   @override
   Widget build(BuildContext context) {

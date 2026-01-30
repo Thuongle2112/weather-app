@@ -88,8 +88,12 @@ class AirPollutionGaugeWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [aqiColor.withOpacity(0.3), aqiColor.withOpacity(0.1)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(16.r),
-        color: Colors.white.withOpacity(0.6),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -106,7 +110,7 @@ class AirPollutionGaugeWidget extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               "air_quality".tr(),
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
             ),
           ),
           Gap(16.h),
@@ -114,60 +118,34 @@ class AirPollutionGaugeWidget extends StatelessWidget {
             painter: AirGaugePainter(aqi: aqi),
             size: Size(120.w, 60.h),
           ),
-          Gap(16.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-            children: [
-              Text(
-                '$aqi/5',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: aqiColor,
-                  height: 1,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 6.h),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
-                    vertical: 3.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: aqiColor,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Text(
-                    aqiText,
-                    style: TextStyle(
-                      fontSize: 11.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          Gap(24.h),
+          // Text(
+          //   '$aqi/5',
+          //   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          //     fontWeight: FontWeight.bold,
+          //     color: aqiColor,
+          //   ),
+          // ),
+          // Gap(12.h),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
+            decoration: BoxDecoration(
+              color: aqiColor,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Text(
+              aqiText,
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall!.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
           ),
-          Gap(8.h),
-
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(Icons.lightbulb_outline, color: aqiColor, size: 16.sp),
-              Gap(8.w),
-              Expanded(
-                child: Text(
-                  aqiAdvice,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 11.sp,
-                        color: Colors.white,
-                      ),
-                ),
-              ),
-            ],
+          Gap(12.h),
+          Text(
+            aqiAdvice,
+            style: Theme.of(
+              context,
+            ).textTheme.labelSmall!.copyWith(fontStyle: FontStyle.italic, color: Colors.white),
           ),
         ],
       ),

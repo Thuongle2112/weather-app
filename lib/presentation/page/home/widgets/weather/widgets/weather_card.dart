@@ -20,7 +20,7 @@ class WeatherCard extends StatelessWidget {
     final gradientColors = WeatherGradientHelper.getGradientColors();
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Container(
         padding: EdgeInsets.all(20.w),
         decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class WeatherCard extends StatelessWidget {
               textColor: textColor,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.h),
+              padding: EdgeInsets.symmetric(vertical: 24.h),
               child: Divider(
                 color: Colors.white.withOpacity(0.2),
                 thickness: 1,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../core/services/animation_cache_service.dart';
 
-/// Widget for lazy loading Lottie animations with caching
+/// Widget for lazy loading Lottie animations with caching and performance monitoring
 class LazyLottie extends StatefulWidget {
   final String assetPath;
   final BoxFit? fit;
@@ -14,6 +15,7 @@ class LazyLottie extends StatefulWidget {
   final double? height;
   final bool? animate;
   final FrameRate? frameRate;
+  final bool enablePerformanceMonitoring;
 
   const LazyLottie({
     super.key,
@@ -26,6 +28,7 @@ class LazyLottie extends StatefulWidget {
     this.height,
     this.animate,
     this.frameRate,
+    this.enablePerformanceMonitoring = kDebugMode,
   });
 
   @override
@@ -37,10 +40,14 @@ class _LazyLottieState extends State<LazyLottie> {
   LottieComposition? _composition;
   bool _isLoading = true;
   String? _error;
+  DateTime? _loadStartTime;
 
   @override
   void initState() {
     super.initState();
+    if (widget.enablePerformanceMonitoring) {
+      _loadStartTime = DateTime.now();
+    }
     _loadAnimation();
   }
 
@@ -52,13 +59,37 @@ class _LazyLottieState extends State<LazyLottie> {
       
       if (!mounted) return;
       
+      // Performance monitoring
+      if (widget.enablePerformanceMonitoring && _loadStartTime != null) {
+        final loadDuration = DateTime.now().difference(_loadStartTime!);
+        final fileName = widget.assetPath.split('/').last;
+        
+        debugPrint('⚡ [LazyLottie] Loaded: $fileName');
+        debugPrint('   • Duration: ${loadDuration.inMilliseconds}ms');
+        debugPrint('   • Frames: ${composition.durationFrames.toInt()}');
+        debugPrint('   • FPS: ${composition.frameRate.toInt()}');
+        debugPrint('   • Duration: ${(composition.duration.inMilliseconds / 1000).toStringAsFixed(1)}s');
+        
+        // Warning for large animations
+        if (composition.durationFrames > 300) {
+          debugPrint('   ⚠️ Large animation detected (${composition.durationFrames.toInt()} frames)');
+          debugPrint('   💡 Consider optimizing or using lower frame rate');
+        }
+        
+        // Warning for slow loading
+        if (loadDuration.inMilliseconds > 200) {
+          debugPrint('   ⚠️ Slow loading time (${loadDuration.inMilliseconds}ms)');
+          debugPrint('   💡 Consider preloading this animation');
+        }
+      }
+      
       setState(() {
         _composition = composition;
         _isLoading = false;
       });
 
       widget.onLoaded?.call(composition);
-    } catch (e) {
+    } catch (e, stackTrace) {
       if (!mounted) return;
       
       setState(() {
@@ -66,8 +97,20 @@ class _LazyLottieState extends State<LazyLottie> {
         _isLoading = false;
       });
       
-      debugPrint('❌ Failed to load animation: ${widget.assetPath} - $e');
+      final fileName = widget.assetPath.split('/').last;
+      debugPrint('❌ [LazyLottie] Failed to load: $fileName');
+      debugPrint('   • Error: $e');
+      if (widget.enablePerformanceMonitoring) {
+        debugPrint('   • Stack: ${stackTrace.toString().split('\n').take(3).join('\n')}');
+      }
     }
+  }
+  
+  @override
+  void dispose() {
+    // Clear performance monitoring data
+    _loadStartTime = null;
+    super.dispose();
   }
 
   @override
