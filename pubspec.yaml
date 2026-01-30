@@ -69,6 +69,7 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   package_info_plus: ^9.0.0
   maplibre_gl: ^0.25.0
+  audioplayers: ^6.5.1
 
 dev_dependencies:
   flutter_test:
@@ -99,6 +100,7 @@ flutter:
     - assets/weather_icons/
     - assets/animations/
     - assets/images/
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

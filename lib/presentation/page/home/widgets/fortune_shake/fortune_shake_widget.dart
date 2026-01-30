@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
+import 'package:audioplayers/audioplayers.dart';
 
 import '../../../../../core/services/fortune_shake_service.dart';
 import '../../../../../data/model/fortune/fortune_shake_model.dart';
@@ -25,6 +26,10 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
   FortuneShakeModel? _drawnFortune;
   bool _isShaking = false;
   bool _isRevealed = false;
+
+  // Audio players
+  final AudioPlayer _backgroundPlayer = AudioPlayer();
+  final AudioPlayer _effectPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -61,12 +66,161 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
         });
       }
     });
+
+    _playBackgroundMusic();
+  }
+
+  Future<void> _playBackgroundMusic() async {
+    try {
+      await _backgroundPlayer.setReleaseMode(ReleaseMode.loop);
+      await _backgroundPlayer.setVolume(0.5);
+      await _backgroundPlayer.setPlayerMode(PlayerMode.mediaPlayer);
+      
+      // Set audio context to allow mixing with other sounds
+      await _backgroundPlayer.setAudioContext(
+        AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: {
+              AVAudioSessionOptions.mixWithOthers,
+            },
+          ),
+          android: AudioContextAndroid(
+            isSpeakerphoneOn: false,
+            stayAwake: false,
+            contentType: AndroidContentType.music,
+            usageType: AndroidUsageType.game,
+            audioFocus: AndroidAudioFocus.gain,
+          ),
+        ),
+      );
+      
+      await _backgroundPlayer.play(AssetSource('audio/fortune_background.mp3'));
+      debugPrint('🎵 Background music started');
+      
+      // Monitor background player state
+      _backgroundPlayer.onPlayerStateChanged.listen((state) {
+        debugPrint('🎵 Background player state: $state');
+      });
+    } catch (e) {
+      debugPrint('❌ Error playing background music: $e');
+    }
+  }
+
+  Future<void> _playShakeSound() async {
+    try {
+      debugPrint('🔊 Playing shake sound...');
+      
+      // Stop any previous effect sound
+      await _effectPlayer.stop();
+      
+      // Configure effect player to not steal audio focus
+      await _effectPlayer.setAudioContext(
+        AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: {
+              AVAudioSessionOptions.mixWithOthers,
+            },
+          ),
+          android: AudioContextAndroid(
+            isSpeakerphoneOn: false,
+            stayAwake: false,
+            contentType: AndroidContentType.sonification,
+            usageType: AndroidUsageType.game,
+            audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+          ),
+        ),
+      );
+      
+      // Lower background music volume temporarily
+      await _backgroundPlayer.setVolume(0.2);
+      debugPrint('🎵 Background volume lowered to 0.2');
+      
+      await _effectPlayer.setVolume(0.7);
+      await _effectPlayer.setPlayerMode(PlayerMode.lowLatency);
+      await _effectPlayer.play(AssetSource('audio/shake_sound.mp3'));
+      debugPrint('🔊 Shake sound started');
+      
+      // Restore background music volume after effect completes
+      _effectPlayer.onPlayerComplete.first.then((_) async {
+        debugPrint('🔊 Shake sound completed');
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5');
+      });
+      
+      // Fallback: restore volume after 2 seconds even if onPlayerComplete doesn't fire
+      Future.delayed(const Duration(seconds: 2), () async {
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5 (timeout fallback)');
+      });
+    } catch (e) {
+      debugPrint('❌ Error playing shake sound: $e');
+      // Restore volume even on error
+      _backgroundPlayer.setVolume(0.5);
+    }
+  }
+
+  Future<void> _playRevealSound() async {
+    try {
+      debugPrint('✨ Playing reveal sound...');
+      
+      // Stop any previous effect sound
+      await _effectPlayer.stop();
+      
+      // Configure effect player to not steal audio focus
+      await _effectPlayer.setAudioContext(
+        AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: {
+              AVAudioSessionOptions.mixWithOthers,
+            },
+          ),
+          android: AudioContextAndroid(
+            isSpeakerphoneOn: false,
+            stayAwake: false,
+            contentType: AndroidContentType.sonification,
+            usageType: AndroidUsageType.game,
+            audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+          ),
+        ),
+      );
+      
+      // Lower background music volume temporarily
+      await _backgroundPlayer.setVolume(0.2);
+      debugPrint('🎵 Background volume lowered to 0.2');
+      
+      await _effectPlayer.setVolume(0.8);
+      await _effectPlayer.setPlayerMode(PlayerMode.lowLatency);
+      await _effectPlayer.play(AssetSource('audio/reveal_sound.mp3'));
+      debugPrint('✨ Reveal sound started');
+      
+      // Restore background music volume after effect completes
+      _effectPlayer.onPlayerComplete.first.then((_) async {
+        debugPrint('✨ Reveal sound completed');
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5');
+      });
+      
+      // Fallback: restore volume after 2 seconds even if onPlayerComplete doesn't fire
+      Future.delayed(const Duration(seconds: 2), () async {
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5 (timeout fallback)');
+      });
+    } catch (e) {
+      debugPrint('❌ Error playing reveal sound: $e');
+      // Restore volume even on error
+      _backgroundPlayer.setVolume(0.5);
+    }
   }
 
   @override
   void dispose() {
     _shakeController.dispose();
     _slideController.dispose();
+    _backgroundPlayer.dispose();
+    _effectPlayer.dispose();
     super.dispose();
   }
 
@@ -77,6 +231,7 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
       _isShaking = true;
     });
 
+    _playShakeSound();
     _shakeController.forward(from: 0);
   }
 
@@ -86,6 +241,11 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
       _drawnFortune = fortune;
     });
 
+    // Wait a bit for shake sound to finish before playing reveal sound
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _playRevealSound();
+    });
+    
     Future.delayed(const Duration(milliseconds: 300), () {
       _slideController.forward(from: 0);
     });

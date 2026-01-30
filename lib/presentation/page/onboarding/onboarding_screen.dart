@@ -23,13 +23,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       animationPath: 'assets/animations/weather_real_time.json',
       title: 'onboarding_title_1',
       description: 'onboarding_description_1',
-      color: Colors.blue,
+      color: Colors.green,
     ),
     OnboardingPage(
       animationPath: 'assets/animations/weather_location.json',
       title: 'onboarding_title_2',
       description: 'onboarding_description_2',
-      color: Colors.orange,
+      color: Colors.green,
     ),
     OnboardingPage(
       animationPath: 'assets/animations/weather_alert_notification.json',
@@ -83,7 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   'skip'.tr(),
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyMedium!.copyWith(color: Colors.grey[600]),
+                  ).textTheme.bodyMedium!.copyWith(color: Colors.red),
                 ),
               ),
             ),
@@ -162,12 +162,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           Gap(48.h),
           // Title
-          Text(
-            page.title.tr(),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
+          // Text(
+          //   page.title.tr(),
+          //   textAlign: TextAlign.center,
+          //   style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          SizedBox(
+            height: 80.h,
+            child: Text(
+              page.title.tr(),
+              textAlign: TextAlign.center,
+              style: Theme.of(
+                context,
+              ).textTheme.headlineMedium!.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
           Gap(16.h),
