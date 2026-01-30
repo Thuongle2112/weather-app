@@ -44,11 +44,12 @@
   "moonrise": "Mondaufgang",
   "halloween_error": "Oh nein — das Netzwerk ist verhext! Bitte verbinden Sie sich, um fortzufahren.",
   "new_year_messages": {
-    "0": "🎉 Nur noch wenige Tage bis zum neuen Jahr! Mach dich bereit für großartige Neuanfänge!",
-    "1": "✨ Das alte Jahr geht zu Ende, ich wünsche dir bedeutungsvolle Momente mit Familie und Freunden!",
-    "2": "🎆 Silvester ist da! Lass uns gemeinsam den Countdown für ein strahlendes neues Jahr machen!",
-    "3": "🥂 Frohes neues Jahr! Ich wünsche dir ein Jahr voller Gesundheit, Glück und Erfolg!",
-    "4": "🌟 Der erste Tag des neuen Jahres! Beginne deine neue Reise mit Hoffnung und Freude!"
+    "0": "🧧 Mondneujahr kommt mit dem Frühling! Familientreffen und Wärme am Festtisch!",
+    "1": "🎊 Mögen alle Wünsche wahr werden, Wohlstand und Glück! Frohes Jahr des Pferdes!",
+    "2": "🌸 Der Frühling bringt Erneuerung, wir wünschen Gesundheit und Glück!",
+    "3": "🎆 Feuerwerkskörper platzen vor Freude, Familie feiert zusammen! Wohlstand im neuen Jahr!",
+    "4": "🍊 Obstplatte überquellend, Reichtum fließt reichlich! Wohlhabendes neues Jahr!",
+    "5": "🐴 Jahr des Pferdes galoppiert vorwärts, Karrierefortschritt und Familienharmonie!"
   },
   "select_language": "Sprache wählen",
   "oops": "Hoppla!",
@@ -129,7 +130,7 @@
   "gieo_que_instructions": "Glücksprognose für das Jahr des Feuerpferdes",
   "gieo_lai": "Erneut Orakeln",
   "cham_de_gieo_que": "Tippen Sie, um das Glück zu werfen",
-    "fortune": {
+  "fortune": {
     "great_fortune": {
       "title": "Großes Glück",
       "message": "Alles läuft wie gewünscht, Wohlstand überfließt",
@@ -179,5 +180,6 @@
   "onboarding_title_2": "Standortbasierte Vorhersagen",
   "onboarding_description_2": "Verwenden Sie Ihren aktuellen Standort oder suchen Sie nach einer beliebigen Stadt, um sofort personalisierte Wetterinformationen zu erhalten",
   "onboarding_title_3": "Intelligente Benachrichtigungen",
-  "onboarding_description_3": "Bleiben Sie vorbereitet mit Wetterwarnungen, Regenbenachrichtigungen und täglichen Morgenvorhersagen auf Ihr Gerät"
+  "onboarding_description_3": "Bleiben Sie vorbereitet mit Wetterwarnungen, Regenbenachrichtigungen und täglichen Morgenvorhersagen auf Ihr Gerät",
+  "happy_lunar_year": "Frohes Mondneujahr!"
 }

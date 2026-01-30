@@ -44,11 +44,12 @@
   "moonrise": "Moonrise",
   "halloween_error": "Oh no — the network is haunted! Please connect to continue.",
   "new_year_messages": {
-    "0": "🎉 Only a few days left until the New Year! Get ready for wonderful new beginnings!",
-    "1": "✨ The old year is ending, wishing you meaningful moments with family and friends!",
-    "2": "🎆 New Year's Eve is here! Let's count down together to welcome a brilliant new year!",
-    "3": "🥂 Happy New Year! Wishing you a year full of health, happiness, and success!",
-    "4": "🌟 The first day of the new year! Start your new journey with hope and joy!"
+    "0": "🧧 Lunar New Year arrives with spring! Wishing family reunion and warmth around the festive table!",
+    "1": "🎊 May all wishes come true, prosperity and fortune! Happy Year of the Horse!",
+    "2": "🌸 Spring brings renewal to all things, wishing you health and happiness always!",
+    "3": "🎆 Firecrackers burst with joy, family celebrates together! Prosperity in the new year!",
+    "4": "🍊 Fruit platter overflowing, wealth flowing in abundantly! Wishing prosperous new year!",
+    "5": "🐴 Year of the Horse gallops forward, career advancement and family harmony!"
   },
   "select_language": "Select Language",
   "weather_clear_sky": "Clear Sky",
@@ -184,5 +185,6 @@
   "select_location_on_map": "Select location on map",
   "search_by_name": "Search by Name",
   "search_city_name": "Search city name",
-  "search_location": "Search location..."
+  "search_location": "Search location...",
+  "happy_lunar_year": "Happy lunar new year!"
 }

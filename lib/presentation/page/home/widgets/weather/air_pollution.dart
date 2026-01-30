@@ -110,7 +110,7 @@ class AirPollutionGaugeWidget extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               "air_quality".tr(),
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
             ),
           ),
           Gap(16.h),
@@ -137,7 +137,7 @@ class AirPollutionGaugeWidget extends StatelessWidget {
               aqiText,
               style: Theme.of(
                 context,
-              ).textTheme.labelSmall!.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.labelSmall!.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
           Gap(12.h),
@@ -145,7 +145,7 @@ class AirPollutionGaugeWidget extends StatelessWidget {
             aqiAdvice,
             style: Theme.of(
               context,
-            ).textTheme.labelSmall!.copyWith(fontStyle: FontStyle.italic),
+            ).textTheme.labelSmall!.copyWith(fontStyle: FontStyle.italic, color: Colors.white),
           ),
         ],
       ),

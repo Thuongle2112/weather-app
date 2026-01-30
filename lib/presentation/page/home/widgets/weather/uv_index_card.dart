@@ -43,7 +43,7 @@ class UVIndexCard extends StatelessWidget {
                 children: [
                   Text(
                     'uv_index'.tr(),
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
                   ),
                   Gap(8.h),
                   Text(
@@ -67,6 +67,7 @@ class UVIndexCard extends StatelessWidget {
                       uvLevel,
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -85,7 +86,7 @@ class UVIndexCard extends StatelessWidget {
               uvAdvice,
               style: Theme.of(
                 context,
-              ).textTheme.labelSmall!.copyWith(fontStyle: FontStyle.italic),
+              ).textTheme.labelSmall!.copyWith(fontStyle: FontStyle.italic, color: Colors.white),
             ),
           ],
         ),

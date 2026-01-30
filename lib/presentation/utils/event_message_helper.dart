@@ -109,7 +109,7 @@ class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
               Gap(16.h),
 
               Text(
-                '🎆 Happy New Year! 🎉',
+                'happy_lunar_year'.tr(),
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -162,7 +162,7 @@ class _NewYearAutoDismissDialogState extends State<_NewYearAutoDismissDialog> {
                 onPressed:
                     () => Navigator.of(context, rootNavigator: true).maybePop(),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.orangeAccent.withOpacity(0.9),
                   foregroundColor: const Color(0xFF1976D2),
                   padding: EdgeInsets.symmetric(
                     horizontal: 32.w,
