@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../../data/model/weather/uv_index.dart';
 
@@ -37,81 +38,54 @@ class UVIndexCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            // Header Row
-            Row(
-              children: [
-                Icon(_getUvIcon(uvIndex.value), color: uvColor, size: 24.sp),
-                SizedBox(width: 8.w),
-                Text(
-                  'uv_index'.tr(),
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white.withOpacity(0.9),
+            Center(
+              child: Column(
+                children: [
+                  Text(
+                    'uv_index'.tr(),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
-              ],
+                  Gap(8.h),
+                  Text(
+                    uvIndex.value.toStringAsFixed(1),
+                    style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: uvColor,
+                    ),
+                  ),
+                  Gap(8.h),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 3.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: uvColor,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Text(
+                      uvLevel,
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 12.h),
 
-            // UV Value and Level
-            Text(
-              uvIndex.value.toStringAsFixed(1),
-              style: TextStyle(
-                fontSize: 40.sp,
-                fontWeight: FontWeight.bold,
-                color: uvColor,
-                height: 1,
-              ),
-            ),
-            SizedBox(height: 12.h),
-            Padding(
-              padding: EdgeInsets.only(bottom: 6.h),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
-                decoration: BoxDecoration(
-                  color: uvColor,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Text(
-                  uvLevel,
-                  style: TextStyle(
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 12.h),
+            Gap(12.h),
 
             // UV Level Bar
             _buildUvLevelBar(),
-            SizedBox(height: 12.h),
+            Gap(12.h),
 
             // Health Advice
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  size: 14.sp,
-                  color: Colors.white.withOpacity(0.7),
-                ),
-                SizedBox(width: 6.w),
-                Flexible(
-                  child: Text(
-                    uvAdvice,
-                    style: TextStyle(
-                      fontSize: 11.sp,
-                      color: Colors.white.withOpacity(0.8),
-                      height: 1.3,
-                    ),
-                    // maxLines: 2,
-                    // overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+            Text(
+              uvAdvice,
+              style: Theme.of(
+                context,
+              ).textTheme.labelSmall!.copyWith(fontStyle: FontStyle.italic),
             ),
           ],
         ),
@@ -169,12 +143,6 @@ class UVIndexCard extends StatelessWidget {
     if (uv <= 7) return Colors.orange;
     if (uv <= 10) return Colors.red;
     return Colors.purple;
-  }
-
-  IconData _getUvIcon(double uv) {
-    if (uv <= 5) return Icons.wb_sunny;
-    if (uv <= 7) return Icons.wb_sunny_outlined;
-    return Icons.warning_amber_rounded;
   }
 
   String _getUvAdvice(double uv) {

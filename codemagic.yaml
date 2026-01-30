@@ -175,9 +175,18 @@ workflows:
           BUILD_NUMBER=$((LATEST_BUILD_NUMBER + 1))
           echo "Building with build number: $BUILD_NUMBER"
           
+          # Create obfuscation output directory
+          mkdir -p build/obfuscation
+          
+          echo "🔒 Building with code obfuscation enabled..."
           flutter build appbundle --release \
+            --obfuscate \
+            --split-debug-info=build/obfuscation \
             --build-name=1.2.0 \
             --build-number=$BUILD_NUMBER
+          
+          echo "✅ Build complete with obfuscation"
+          echo "📁 Debug symbols saved to: build/obfuscation"
       
       - name: Create changelog
         script: |
@@ -192,6 +201,7 @@ workflows:
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
+      - build/obfuscation/**/*
       - release_notes.txt
     
     publishing:

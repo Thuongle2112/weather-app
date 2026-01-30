@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class MapLocationService {
-  static const String _locationIqApiKey = 'pk.28eeb40e74e9cbb71e80113c2cfc9cb6';
+  // Get API key from environment variable
+  static String get _locationIqApiKey => dotenv.env['LOCATIONIQ_API_KEY'] ?? '';
   
   static Future<Position?> getCurrentLocation() async {
     try {

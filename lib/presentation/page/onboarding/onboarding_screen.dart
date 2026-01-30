@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -80,10 +81,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: _skipOnboarding,
                 child: Text(
                   'skip'.tr(),
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.grey[600],
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(color: Colors.grey[600]),
                 ),
               ),
             ),
@@ -110,7 +110,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 (index) => _buildDot(index),
               ),
             ),
-            SizedBox(height: 32.h),
+            Gap(32.h),
             // Next/Get Started button
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
@@ -131,15 +131,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     _currentPage == _pages.length - 1
                         ? 'get_started'.tr()
                         : 'next'.tr(),
-                    style: TextStyle(
-                      fontSize: 18.sp,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 16.h),
+            Gap(16.h),
           ],
         ),
       ),
@@ -161,24 +160,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               repeat: true,
             ),
           ),
-          SizedBox(height: 48.h),
+          Gap(48.h),
           // Title
           Text(
             page.title.tr(),
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 28.sp,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
           ),
-          SizedBox(height: 16.h),
+          Gap(16.h),
           // Description
           Text(
             page.description.tr(),
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16.sp,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Colors.grey[600],
               height: 1.5,
             ),
@@ -195,9 +192,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       width: _currentPage == index ? 24.w : 8.w,
       height: 8.h,
       decoration: BoxDecoration(
-        color: _currentPage == index
-            ? _pages[_currentPage].color
-            : Colors.grey[300],
+        color:
+            _currentPage == index
+                ? _pages[_currentPage].color
+                : Colors.grey[300],
         borderRadius: BorderRadius.circular(4.r),
       ),
     );

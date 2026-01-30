@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 
 class CityCard extends StatelessWidget {
   final String city;
@@ -25,7 +26,7 @@ class CityCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        color: isDarkMode ? Colors.black26 : Colors.black26,
+        color: Colors.black26,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),
@@ -48,13 +49,14 @@ class CityCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _buildWeatherIcon(),
-                      SizedBox(height: 4.h),
+                      Gap(4.h),
                       Flexible(
                         child: Text(
                           city,
-                          style: TextStyle(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium!.copyWith(
                             color: Colors.white,
-                            fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
                           ),
                           textAlign: TextAlign.center,
@@ -62,13 +64,12 @@ class CityCard extends StatelessWidget {
                           maxLines: 1,
                         ),
                       ),
-                      SizedBox(height: 2.h),
+                      Gap(2.h),
                       Text(
                         temperature ?? '--°',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],

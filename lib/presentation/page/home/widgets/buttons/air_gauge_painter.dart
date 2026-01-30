@@ -81,7 +81,7 @@ class AirGaugePainter extends CustomPainter {
 
     final needlePaint =
         Paint()
-          ..color = Colors.black
+          ..color = Colors.grey
           ..style = PaintingStyle.fill
           ..isAntiAlias = true;
     canvas.drawPath(needlePath, needlePaint);
@@ -108,7 +108,7 @@ class AirGaugePainter extends CustomPainter {
 
     final knobPaint =
         Paint()
-          ..color = Colors.black
+          ..color = Colors.white
           ..style = PaintingStyle.fill
           ..isAntiAlias = true;
     canvas.drawCircle(center, max(10.0, radius * 0.12), knobPaint);

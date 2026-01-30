@@ -166,6 +166,7 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                                         painter: FortuneStickPainter(
                                           slideProgress: 0,
                                           isRevealed: false,
+                                          context: context,
                                         ),
                                       ),
                                     ),
@@ -193,6 +194,7 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                                   painter: FortuneStickPainter(
                                     slideProgress: _slideAnimation.value,
                                     isRevealed: _isRevealed,
+                                    context: context,
                                   ),
                                 ),
                               ),
@@ -256,11 +258,6 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                       children: [
                         Text(
                           _drawnFortune!.title.tr(),
-                          // style: TextStyle(
-                          //   fontSize: 28.sp,
-                          //   fontWeight: FontWeight.bold,
-                          //   color: const Color(0xFFD32F2F),
-                          // ),
                           style: Theme.of(
                             context,
                           ).textTheme.headlineMedium!.copyWith(
@@ -272,10 +269,6 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                         Text(
                           _drawnFortune!.message.tr(),
                           textAlign: TextAlign.center,
-                          // style: TextStyle(
-                          //   fontSize: 16.sp,
-                          //   color: Colors.black87,
-                          // ),
                           style: Theme.of(context).textTheme.bodyMedium!
                               .copyWith(color: Colors.black87),
                         ),
@@ -289,11 +282,6 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                           child: Text(
                             _drawnFortune!.advice.tr(),
                             textAlign: TextAlign.center,
-                            // style: TextStyle(
-                            //   fontSize: 14.sp,
-                            //   color: Colors.black87,
-                            //   fontStyle: FontStyle.italic,
-                            // ),
                             style: Theme.of(
                               context,
                             ).textTheme.bodyMedium!.copyWith(
@@ -317,10 +305,9 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
                           ),
                           child: Text(
                             'gieo_lai'.tr(),
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

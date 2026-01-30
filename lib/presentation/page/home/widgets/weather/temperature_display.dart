@@ -33,18 +33,16 @@ class TemperatureDisplay extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.w, top: 16.h),
           child: WeatherHeader(
             cityName: cityName,
-            textColor: textColor,
             isDarkMode: Theme.of(context).brightness == Brightness.dark,
           ),
         ),
         Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.h),
+          // child: Padding(
+            // padding: EdgeInsets.symmetric(vertical: 10.h),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 16.h),
                 WeatherCard(
                   weather: weather,
                   iconFileName: iconFileName,
@@ -53,7 +51,7 @@ class TemperatureDisplay extends StatelessWidget {
               ],
             ),
           ),
-        ),
+        // ),
       ],
     );
   }

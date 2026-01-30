@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -18,7 +19,6 @@ import '../../widgets/lazy_lottie.dart';
 import 'bloc/bloc.dart';
 import 'widgets/weather/air_pollution.dart';
 import 'widgets/weather/uv_index_card.dart';
-
 
 import 'widgets/weather/widgets/app_drawer.dart';
 import 'widgets/widgets.dart';
@@ -41,7 +41,6 @@ class _WeatherHomePageState extends State<WeatherHomePage>
   bool _hasShownHalloweenDialog = false;
   bool _showBoo = false;
   bool _showMoneyRain = false;
-  int _searchCount = 0;
 
   final List<Map<String, dynamic>> _popularCities = [
     {'name': 'Ha Noi', 'lat': 21.0285, 'lon': 105.8542},
@@ -69,7 +68,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     _cityController.dispose();
     super.dispose();
   }
-  
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -111,7 +110,9 @@ class _WeatherHomePageState extends State<WeatherHomePage>
 
   Future<void> _autoRequestLocation() async {
     // Auto request location when entering home
-    await Future.delayed(const Duration(milliseconds: 500)); // Small delay for smooth transition
+    await Future.delayed(
+      const Duration(milliseconds: 500),
+    ); // Small delay for smooth transition
     if (mounted) {
       await WeatherService.getWeatherByCurrentLocation(context);
     }
@@ -135,29 +136,29 @@ class _WeatherHomePageState extends State<WeatherHomePage>
     }
   }
 
-  void _showCitySearchModal() {
-    _adService.onUserInteraction(); // Notify ad service of user activity
-    
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder:
-          (context) => CitySearchModal(
-            cityController: _cityController,
-            popularCities: _popularCities,
-            onCitySelected: (city) {
-              _adService.onUserInteraction(); // Track interaction
-              context.read<WeatherBloc>().add(FetchWeatherByCity(city));
-              _searchCount++;
+  // void _showCitySearchModal() {
+  //   _adService.onUserInteraction(); // Notify ad service of user activity
 
-              if (!_adService.isPremium && _searchCount % 3 == 0) {
-                _adService.showInterstitialAd();
-              }
-            },
-          ),
-    );
-  }
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     backgroundColor: Colors.transparent,
+  //     builder:
+  //         (context) => CitySearchModal(
+  //           cityController: _cityController,
+  //           popularCities: _popularCities,
+  //           onCitySelected: (city) {
+  //             _adService.onUserInteraction(); // Track interaction
+  //             context.read<WeatherBloc>().add(FetchWeatherByCity(city));
+  //             _searchCount++;
+
+  //             if (!_adService.isPremium && _searchCount % 3 == 0) {
+  //               _adService.showInterstitialAd();
+  //             }
+  //           },
+  //         ),
+  //   );
+  // }
 
   void _handleRewardedAd() {
     _adService.showRewardedAd(
@@ -332,7 +333,7 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                                     ),
                                   ),
                                 if (airPollution != null && uvIndex != null)
-                                  SizedBox(width: 12.w),
+                                  Gap(12.w),
                                 if (uvIndex != null)
                                   Expanded(
                                     child: UVIndexCard(uvIndex: uvIndex),
@@ -347,13 +348,14 @@ class _WeatherHomePageState extends State<WeatherHomePage>
                           popularCities: _popularCities,
                           textColor: textColor,
                           isDarkMode: isDarkMode,
-                          showSearchModal: _showCitySearchModal,
+                          adService: _adService,
+                          // showSearchModal: _showCitySearchModal,
                         ),
                       ),
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
-                            SizedBox(height: 16.h),
+                            // Gap(16.h),
                             TimeProgressBar(
                               marks: marks,
                               currentTime: DateTime.now(),
