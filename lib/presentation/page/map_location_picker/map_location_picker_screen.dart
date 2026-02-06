@@ -29,6 +29,7 @@ class _MapLocationPickerScreenState extends State<MapLocationPickerScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<dynamic> _searchResults = [];
   bool _isSearching = false;
+  bool _isRelocating = false;
 
   @override
   void initState() {
@@ -156,6 +157,26 @@ class _MapLocationPickerScreenState extends State<MapLocationPickerScreen> {
     FocusScope.of(context).unfocus();
   }
 
+  Future<void> _relocateToCurrentPosition() async {
+    setState(() {
+      _isRelocating = true;
+    });
+
+    final position = await MapLocationService.getCurrentLocation();
+
+    if (position != null && mounted) {
+      final newPosition = LatLng(position.latitude, position.longitude);
+      _updateLocationInfo(newPosition);
+      _mapController?.animateCamera(CameraUpdate.newLatLngZoom(newPosition, 14));
+    }
+
+    if (mounted) {
+      setState(() {
+        _isRelocating = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
@@ -184,31 +205,6 @@ class _MapLocationPickerScreenState extends State<MapLocationPickerScreen> {
           Positioned(
             top: 50.h,
             left: 16.w,
-            child: Material(
-              elevation: 8,
-              borderRadius: BorderRadius.circular(30.r),
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                borderRadius: BorderRadius.circular(30.r),
-                child: Container(
-                  width: 48.w,
-                  height: 48.h,
-                  decoration: BoxDecoration(
-                    color: isDarkMode ? const Color(0xFF2C2C2C) : Colors.white,
-                    borderRadius: BorderRadius.circular(30.r),
-                  ),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: isDarkMode ? Colors.white : Colors.black87,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          Positioned(
-            top: 50.h,
-            left: 80.w,
             right: 16.w,
             child: Column(
               children: [
@@ -370,6 +366,41 @@ class _MapLocationPickerScreenState extends State<MapLocationPickerScreen> {
             ),
           ),
 
+          // Relocate to current position button
+          Positioned(
+            bottom: 200.h,
+            right: 16.w,
+            child: Material(
+              elevation: 8,
+              borderRadius: BorderRadius.circular(30.r),
+              child: InkWell(
+                onTap: _isRelocating ? null : _relocateToCurrentPosition,
+                borderRadius: BorderRadius.circular(30.r),
+                child: Container(
+                  width: 56.w,
+                  height: 56.h,
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? const Color(0xFF2C2C2C) : Colors.white,
+                    borderRadius: BorderRadius.circular(30.r),
+                  ),
+                  child: _isRelocating
+                      ? Padding(
+                          padding: EdgeInsets.all(16.w),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.blue,
+                          ),
+                        )
+                      : Icon(
+                          Icons.my_location,
+                          color: Colors.blue,
+                          size: 28.sp,
+                        ),
+                ),
+              ),
+            ),
+          ),
+
           Positioned(
             bottom: 0,
             left: 0,
@@ -401,11 +432,11 @@ class _MapLocationPickerScreenState extends State<MapLocationPickerScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'selected_location'.tr(),
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              SizedBox(height: 4.h),
+                              // Text(
+                              //   'selected_location'.tr(),
+                              //   style: Theme.of(context).textTheme.bodyMedium,
+                              // ),
+                              // SizedBox(height: 4.h),
                               _isLoadingName
                                   ? SizedBox(
                                     height: 20.h,
@@ -432,14 +463,14 @@ class _MapLocationPickerScreenState extends State<MapLocationPickerScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      '${_selectedPosition.latitude.toStringAsFixed(4)}, ${_selectedPosition.longitude.toStringAsFixed(4)}',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        fontSize: 12.sp,
-                        color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
-                      ),
-                    ),
+                    // SizedBox(height: 8.h),
+                    // Text(
+                    //   '${_selectedPosition.latitude.toStringAsFixed(4)}, ${_selectedPosition.longitude.toStringAsFixed(4)}',
+                    //   style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    //     fontSize: 12.sp,
+                    //     color: isDarkMode ? Colors.grey[400] : Colors.grey[600],
+                    //   ),
+                    // ),
                     SizedBox(height: 16.h),
                     SizedBox(
                       width: double.infinity,

@@ -166,14 +166,20 @@ class _WeatherHomePageState extends State<WeatherHomePage>
       onRewardEarned: () {
         _adService.activatePremium(
           () {
-            setState(() {});
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('premium_activated'.tr())));
+            if (mounted) {
+              setState(() {});
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('premium_activated'.tr())));
+            }
           },
           () {
-            setState(() {});
-            _adService.loadBannerAd(() => setState(() {}));
+            if (mounted) {
+              setState(() {});
+              _adService.loadBannerAd(() {
+                if (mounted) setState(() {});
+              });
+            }
           },
         );
       },
