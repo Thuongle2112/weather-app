@@ -88,9 +88,12 @@ class WeatherUIHelper {
                     const Color(0xFF243B55),
                   ]
                   : [
-                    const Color(0xFF8B0000), // Dark red
-                    const Color(0xFFB71C1C), // Red
-                    const Color(0xFF9C2C1C), // Dark red-brown
+                    // const Color(0xFF8B0000), // Dark red
+                    // const Color(0xFFB71C1C), // Red
+                    // const Color(0xFF9C2C1C), // Dark red-brown
+                    Color(0xFF7A0000), // red + black
+                    Color(0xFFA31515),
+                    Color(0xFF822518),
                   ],
           stops: const [0.0, 0.5, 1.0],
         ),

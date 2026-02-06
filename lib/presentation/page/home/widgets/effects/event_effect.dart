@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+
+import '../../../../widgets/lazy_lottie.dart';
 
 class EventEffect extends StatefulWidget {
   final VoidCallback? onCompleted;
@@ -38,8 +39,8 @@ class _EventEffectState extends State<EventEffect>
         width: double.infinity,
         height: double.infinity,
         child: Center(
-          child: Lottie.asset(
-            'assets/animations/new_year_shake_effect.json',
+          child: LazyLottie(
+            assetPath: 'assets/animations/new_year_shake_effect.json',
             fit: BoxFit.cover,
             controller: _controller,
             onLoaded: (composition) {

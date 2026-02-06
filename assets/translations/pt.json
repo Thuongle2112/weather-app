@@ -44,11 +44,12 @@
   "moonrise": "Nascer da lua",
   "halloween_error": "Oh não — a rede está assombrada! Conecte-se para continuar.",
   "new_year_messages": {
-    "0": "🎉 Faltam poucos dias para o Ano Novo! Prepare-se para novos e incríveis começos!",
-    "1": "✨ O ano está chegando ao fim, desejamos momentos especiais com família e amigos!",
-    "2": "🎆 É a véspera de Ano Novo! Vamos fazer a contagem regressiva juntos!",
-    "3": "🥂 Feliz Ano Novo! Que seja um ano cheio de saúde, felicidade e sucesso!",
-    "4": "🌟 O primeiro dia do novo ano! Comece sua nova jornada com esperança e alegria!"
+    "0": "🧧 O Ano Novo Lunar chega com a primavera! Reunião familiar e calor em torno da mesa festiva!",
+    "1": "🎊 Que todos os desejos se tornem realidade, prosperidade e fortuna! Feliz Ano do Cavalo!",
+    "2": "🌸 A primavera traz renovação, desejando saúde e felicidade sempre!",
+    "3": "🎆 Fogos de artifício explodem de alegria, família celebra junta! Prosperidade no ano novo!",
+    "4": "🍊 Bandeja de frutas transbordando, riqueza fluindo abundantemente! Próspero ano novo!",
+    "5": "🐴 O Ano do Cavalo galopa adiante, avanço na carreira e harmonia familiar!"
   },
   "select_language": "Selecionar idioma",
   "oops": "Ops!",
@@ -110,7 +111,7 @@
   "aqi_poor": "Ruim",
   "aqi_very_poor": "Muito ruim",
   "aqi_unknown": "Desconhecido",
-    "aqi_advice_good": "A qualidade do ar é excelente, segura para todas as atividades ao ar livre!",
+  "aqi_advice_good": "A qualidade do ar é excelente, segura para todas as atividades ao ar livre!",
   "aqi_advice_fair": "A qualidade do ar é boa, pode-se realizar atividades ao ar livre normalmente.",
   "aqi_advice_moderate": "Pessoas sensíveis devem limitar atividades prolongadas ao ar livre.",
   "aqi_advice_poor": "Use máscara ao sair, limite atividades físicas intensas.",
@@ -129,7 +130,7 @@
   "gieo_que_instructions": "Previsões de fortuna para o Ano do Cavalo de Fogo",
   "gieo_lai": "Lançar Novamente",
   "cham_de_gieo_que": "Toque para lançar a fortuna",
-    "fortune": {
+  "fortune": {
     "great_fortune": {
       "title": "Grande Fortuna",
       "message": "Tudo acontece como desejado, a prosperidade é abundante",
@@ -170,5 +171,15 @@
       "message": "A alegria está chegando, boas notícias de longe",
       "advice": "Abra seu coração para receber coisas boas"
     }
-  }
+  },
+  "skip": "Pular",
+  "next": "Próximo",
+  "get_started": "Começar",
+  "onboarding_title_1": "Atualizações do Tempo em Tempo Real",
+  "onboarding_description_1": "Obtenha previsões precisas do tempo para qualquer local do mundo com predições detalhadas por hora e dia",
+  "onboarding_title_2": "Previsões Baseadas em Localização",
+  "onboarding_description_2": "Use sua localização atual ou pesquise qualquer cidade para obter informações meteorológicas personalizadas instantaneamente",
+  "onboarding_title_3": "Notificações Inteligentes",
+  "onboarding_description_3": "Fique preparado com alertas meteorológicos, notificações de chuva e previsões matinais diárias entregues no seu dispositivo",
+  "happy_lunar_year": "Feliz Ano Novo Lunar!"
 }

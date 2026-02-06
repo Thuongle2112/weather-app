@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:lottie/lottie.dart';
+import 'package:gap/gap.dart';
+
+import '../../../../widgets/lazy_lottie.dart';
 
 class ErrorView extends StatelessWidget {
   final String message;
@@ -44,19 +46,21 @@ class ErrorView extends StatelessWidget {
                 SizedBox(
                   width: 200.w,
                   height: 200.h,
-                  child: Lottie.asset(
-                    'assets/animations/no_internet_connection.json',
+                  child: LazyLottie(
+                    assetPath: 'assets/animations/no_internet_connection.json',
                     fit: BoxFit.cover,
                     repeat: true,
+                    width: 200.w,
+                    height: 200.h,
                   ),
                 ),
-                SizedBox(height: 12.h),
+                Gap(12.h),
                 Text(
                   'halloween_error'.tr(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
                 ),
-                SizedBox(height: 20.h),
+                Gap(20.h),
                 SizedBox(
                   width: 180.w,
                   height: 44.h,
@@ -71,8 +75,7 @@ class ErrorView extends StatelessWidget {
                     ),
                     child: Text(
                       'try_again'.tr(),
-                      style: TextStyle(
-                        fontSize: 16.sp,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),

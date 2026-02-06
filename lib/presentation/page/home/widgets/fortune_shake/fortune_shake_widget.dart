@@ -2,6 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math' as math;
+import 'dart:async';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../../core/services/fortune_shake_service.dart';
 import '../../../../../data/model/fortune/fortune_shake_model.dart';
@@ -25,6 +29,14 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
   FortuneShakeModel? _drawnFortune;
   bool _isShaking = false;
   bool _isRevealed = false;
+  bool _showTouchHint = false;
+  Timer? _hintTimer;
+  Timer? _hideHintTimer;
+  Timer? _retriggerTimer;
+
+  // Audio players
+  final AudioPlayer _backgroundPlayer = AudioPlayer();
+  final AudioPlayer _effectPlayer = AudioPlayer();
 
   @override
   void initState() {
@@ -61,22 +73,236 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
         });
       }
     });
+
+    _playBackgroundMusic();
+    _startHintTimer();
+  }
+
+  void _startHintTimer() {
+    _hintTimer?.cancel();
+    _hintTimer = Timer(const Duration(seconds: 3), () {
+      if (!_isShaking && _drawnFortune == null && mounted) {
+        setState(() {
+          _showTouchHint = true;
+        });
+        
+        // Auto hide after 3 seconds
+        _hideHintTimer?.cancel();
+        _hideHintTimer = Timer(const Duration(seconds: 3), () {
+          if (mounted) {
+            setState(() {
+              _showTouchHint = false;
+            });
+            
+            // Start retrigger timer after hiding
+            _startRetriggerTimer();
+          }
+        });
+      }
+    });
+  }
+
+  void _startRetriggerTimer() {
+    _retriggerTimer?.cancel();
+    _retriggerTimer = Timer(const Duration(seconds: 10), () {
+      if (!_isShaking && _drawnFortune == null && mounted) {
+        setState(() {
+          _showTouchHint = true;
+        });
+        
+        // Auto hide after 3 seconds
+        _hideHintTimer?.cancel();
+        _hideHintTimer = Timer(const Duration(seconds: 3), () {
+          if (mounted) {
+            setState(() {
+              _showTouchHint = false;
+            });
+            
+            // Loop: start retrigger timer again
+            _startRetriggerTimer();
+          }
+        });
+      }
+    });
+  }
+
+  void _cancelHintTimers() {
+    _hintTimer?.cancel();
+    _hideHintTimer?.cancel();
+    _retriggerTimer?.cancel();
+    if (_showTouchHint && mounted) {
+      setState(() {
+        _showTouchHint = false;
+      });
+    }
+  }
+
+  Future<void> _playBackgroundMusic() async {
+    try {
+      await _backgroundPlayer.setReleaseMode(ReleaseMode.loop);
+      await _backgroundPlayer.setVolume(0.5);
+      await _backgroundPlayer.setPlayerMode(PlayerMode.mediaPlayer);
+      
+      // Set audio context to allow mixing with other sounds
+      await _backgroundPlayer.setAudioContext(
+        AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: {
+              AVAudioSessionOptions.mixWithOthers,
+            },
+          ),
+          android: AudioContextAndroid(
+            isSpeakerphoneOn: false,
+            stayAwake: false,
+            contentType: AndroidContentType.music,
+            usageType: AndroidUsageType.game,
+            audioFocus: AndroidAudioFocus.gain,
+          ),
+        ),
+      );
+      
+      await _backgroundPlayer.play(AssetSource('audio/fortune_background.mp3'));
+      debugPrint('🎵 Background music started');
+      
+      // Monitor background player state
+      _backgroundPlayer.onPlayerStateChanged.listen((state) {
+        debugPrint('🎵 Background player state: $state');
+      });
+    } catch (e) {
+      debugPrint('❌ Error playing background music: $e');
+    }
+  }
+
+  Future<void> _playShakeSound() async {
+    try {
+      debugPrint('🔊 Playing shake sound...');
+      
+      // Stop any previous effect sound
+      await _effectPlayer.stop();
+      
+      // Configure effect player to not steal audio focus
+      await _effectPlayer.setAudioContext(
+        AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: {
+              AVAudioSessionOptions.mixWithOthers,
+            },
+          ),
+          android: AudioContextAndroid(
+            isSpeakerphoneOn: false,
+            stayAwake: false,
+            contentType: AndroidContentType.sonification,
+            usageType: AndroidUsageType.game,
+            audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+          ),
+        ),
+      );
+      
+      // Lower background music volume temporarily
+      await _backgroundPlayer.setVolume(0.2);
+      debugPrint('🎵 Background volume lowered to 0.2');
+      
+      await _effectPlayer.setVolume(0.7);
+      await _effectPlayer.setPlayerMode(PlayerMode.lowLatency);
+      await _effectPlayer.play(AssetSource('audio/shake_sound.mp3'));
+      debugPrint('🔊 Shake sound started');
+      
+      // Restore background music volume after effect completes
+      _effectPlayer.onPlayerComplete.first.then((_) async {
+        debugPrint('🔊 Shake sound completed');
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5');
+      });
+      
+      // Fallback: restore volume after 2 seconds even if onPlayerComplete doesn't fire
+      Future.delayed(const Duration(seconds: 2), () async {
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5 (timeout fallback)');
+      });
+    } catch (e) {
+      debugPrint('❌ Error playing shake sound: $e');
+      // Restore volume even on error
+      _backgroundPlayer.setVolume(0.5);
+    }
+  }
+
+  Future<void> _playRevealSound() async {
+    try {
+      debugPrint('✨ Playing reveal sound...');
+      
+      // Stop any previous effect sound
+      await _effectPlayer.stop();
+      
+      // Configure effect player to not steal audio focus
+      await _effectPlayer.setAudioContext(
+        AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: {
+              AVAudioSessionOptions.mixWithOthers,
+            },
+          ),
+          android: AudioContextAndroid(
+            isSpeakerphoneOn: false,
+            stayAwake: false,
+            contentType: AndroidContentType.sonification,
+            usageType: AndroidUsageType.game,
+            audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+          ),
+        ),
+      );
+      
+      // Lower background music volume temporarily
+      await _backgroundPlayer.setVolume(0.2);
+      debugPrint('🎵 Background volume lowered to 0.2');
+      
+      await _effectPlayer.setVolume(0.8);
+      await _effectPlayer.setPlayerMode(PlayerMode.lowLatency);
+      await _effectPlayer.play(AssetSource('audio/reveal_sound.mp3'));
+      debugPrint('✨ Reveal sound started');
+      
+      // Restore background music volume after effect completes
+      _effectPlayer.onPlayerComplete.first.then((_) async {
+        debugPrint('✨ Reveal sound completed');
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5');
+      });
+      
+      // Fallback: restore volume after 2 seconds even if onPlayerComplete doesn't fire
+      Future.delayed(const Duration(seconds: 2), () async {
+        await _backgroundPlayer.setVolume(0.5);
+        debugPrint('🎵 Background volume restored to 0.5 (timeout fallback)');
+      });
+    } catch (e) {
+      debugPrint('❌ Error playing reveal sound: $e');
+      // Restore volume even on error
+      _backgroundPlayer.setVolume(0.5);
+    }
   }
 
   @override
   void dispose() {
+    _cancelHintTimers();
     _shakeController.dispose();
     _slideController.dispose();
+    _backgroundPlayer.dispose();
+    _effectPlayer.dispose();
     super.dispose();
   }
 
   void _shakeJar() {
     if (_isShaking || _drawnFortune != null) return;
 
+    // Hide touch hint when user taps
+    _cancelHintTimers();
+
     setState(() {
       _isShaking = true;
     });
 
+    _playShakeSound();
     _shakeController.forward(from: 0);
   }
 
@@ -86,6 +312,11 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
       _drawnFortune = fortune;
     });
 
+    // Wait a bit for shake sound to finish before playing reveal sound
+    Future.delayed(const Duration(milliseconds: 200), () {
+      _playRevealSound();
+    });
+    
     Future.delayed(const Duration(milliseconds: 300), () {
       _slideController.forward(from: 0);
     });
@@ -99,258 +330,308 @@ class _FortuneShakeWidgetState extends State<FortuneShakeWidget>
     });
     _shakeController.reset();
     _slideController.reset();
+    
+    // Restart hint timer
+    _startHintTimer();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            const Color(0xFFFFE5E5),
-            const Color(0xFFFFD1D1),
-            const Color(0xFFFFB7B7),
-          ],
-        ),
-      ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16.w),
-              child: Center(
-                child: Text(
-                  'gieo_que_dau_xuan'.tr(),
-                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    color: const Color(0xFFD32F2F),
-                  ),
-                ),
-              ),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/drawer_bg.jpeg'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.5),
+              BlendMode.darken,
             ),
-            Expanded(
-              child: Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  clipBehavior: Clip.none,
-                  children: [
-                    // Multiple Sticks Inside Jar (before reveal) - Behind the jar
-                    if (_drawnFortune == null)
-                      Positioned(
-                        top: 10.h,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: List.generate(5, (index) {
-                            return AnimatedBuilder(
-                              animation: _shakeAnimation,
+          ),
+        ),
+        child: Stack(
+          children: [
+            SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 64.h),
+                    child: Center(
+                      child: Text(
+                        'gieo_que_dau_xuan'.tr(),
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                          fontFamily: 'serif',
+                          color: Colors.amber,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.7),
+                              offset: const Offset(2, 2),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.none,
+                        children: [
+                          // Multiple Sticks Inside Jar (before reveal) - Behind the jar
+                          if (_drawnFortune == null)
+                            Positioned(
+                              top: 10.h,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: List.generate(5, (index) {
+                                  return AnimatedBuilder(
+                                    animation: _shakeAnimation,
+                                    builder: (context, child) {
+                                      final offset =
+                                          math.sin(
+                                            (_shakeAnimation.value + index * 0.2) *
+                                                math.pi *
+                                                6,
+                                          ) *
+                                          3;
+                                      return Transform.translate(
+                                        offset: Offset(offset, 0),
+                                        child: Transform.rotate(
+                                          angle: (index - 2) * 0.1,
+                                          child: Container(
+                                            width: 12,
+                                            height: 80.h,
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 4,
+                                            ),
+                                            child: CustomPaint(
+                                              painter: FortuneStickPainter(
+                                                slideProgress: 0,
+                                                isRevealed: false,
+                                                context: context,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }),
+                              ),
+                            ),
+
+                          // Revealed Stick - Behind the jar
+                          if (_drawnFortune != null)
+                            AnimatedBuilder(
+                              animation: _slideAnimation,
                               builder: (context, child) {
-                                final offset =
-                                    math.sin(
-                                      (_shakeAnimation.value + index * 0.2) *
-                                          math.pi *
-                                          6,
-                                    ) *
-                                    3;
-                                return Transform.translate(
-                                  offset: Offset(offset, 0),
-                                  child: Transform.rotate(
-                                    angle: (index - 2) * 0.1,
+                                return Positioned(
+                                  top: 50.h - (_slideAnimation.value * 100.h),
+                                  child: Opacity(
+                                    opacity: _slideAnimation.value,
                                     child: Container(
-                                      width: 12,
-                                      height: 80.h,
-                                      margin: const EdgeInsets.symmetric(
-                                        horizontal: 4,
-                                      ),
+                                      width: 18,
+                                      height: 150.h,
                                       child: CustomPaint(
                                         painter: FortuneStickPainter(
-                                          slideProgress: 0,
-                                          isRevealed: false,
+                                          slideProgress: _slideAnimation.value,
+                                          isRevealed: _isRevealed,
+                                          context: context,
                                         ),
                                       ),
                                     ),
                                   ),
                                 );
                               },
-                            );
-                          }),
-                        ),
-                      ),
+                            ),
 
-                    // Revealed Stick - Behind the jar
-                    if (_drawnFortune != null)
-                      AnimatedBuilder(
-                        animation: _slideAnimation,
-                        builder: (context, child) {
-                          return Positioned(
-                            top: 50.h - (_slideAnimation.value * 100.h),
-                            child: Opacity(
-                              opacity: _slideAnimation.value,
-                              child: Container(
-                                width: 18,
-                                height: 150.h,
-                                child: CustomPaint(
-                                  painter: FortuneStickPainter(
-                                    slideProgress: _slideAnimation.value,
-                                    isRevealed: _isRevealed,
+                          // Fortune Jar - On top of sticks
+                          AnimatedBuilder(
+                            animation: _shakeAnimation,
+                            builder: (context, child) {
+                              final shakeValue =
+                                  math.sin(_shakeAnimation.value * math.pi * 8) * 0.1;
+                              return Transform.rotate(
+                                angle: shakeValue,
+                                child: GestureDetector(
+                                  onTap: _shakeJar,
+                                  child: Container(
+                                    width: 200.w,
+                                    height: 300.h,
+                                    child: CustomPaint(
+                                      painter: FortuneJarPainter(
+                                        animationValue: _shakeAnimation.value,
+                                        context: context,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          
+                          // Touch hint animation
+                          if (_showTouchHint && _drawnFortune == null && !_isShaking)
+                            Positioned(
+                              child: IgnorePointer(
+                                child: SizedBox(
+                                  width: 80.w,
+                                  height: 80.h,
+                                  child: Lottie.asset(
+                                    'assets/animations/touch.json',
+                                    fit: BoxFit.contain,
+                                    repeat: true,
                                   ),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
-
-                    // Fortune Jar - On top of sticks
-                    AnimatedBuilder(
-                      animation: _shakeAnimation,
-                      builder: (context, child) {
-                        final shakeValue =
-                            math.sin(_shakeAnimation.value * math.pi * 8) * 0.1;
-                        return Transform.rotate(
-                          angle: shakeValue,
-                          child: GestureDetector(
-                            onTap: _shakeJar,
-                            child: Container(
-                              width: 200.w,
-                              height: 300.h,
-                              child: CustomPaint(
-                                painter: FortuneJarPainter(
-                                  animationValue: _shakeAnimation.value,
-                                  context: context,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Fortune Result Card
-            if (_isRevealed && _drawnFortune != null)
-              Padding(
-                padding: EdgeInsets.all(16.w),
-                child: Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(20.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16.r),
-                      gradient: LinearGradient(
-                        colors: [
-                          const Color(0xFFFFE5E5),
-                          const Color(0xFFFFFFFF),
                         ],
                       ),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          _drawnFortune!.title.tr(),
-                          // style: TextStyle(
-                          //   fontSize: 28.sp,
-                          //   fontWeight: FontWeight.bold,
-                          //   color: const Color(0xFFD32F2F),
-                          // ),
-                          style: Theme.of(
-                            context,
-                          ).textTheme.headlineMedium!.copyWith(
-                            color: const Color(0xFFD32F2F),
-                            fontWeight: FontWeight.bold,
-                          ),
+                  ),
+
+                  // Fortune Result Card
+                  if (_isRevealed && _drawnFortune != null)
+                    Padding(
+                      padding: EdgeInsets.all(16.w),
+                      child: Card(
+                        elevation: 8,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.r),
                         ),
-                        SizedBox(height: 12.h),
-                        Text(
-                          _drawnFortune!.message.tr(),
-                          textAlign: TextAlign.center,
-                          // style: TextStyle(
-                          //   fontSize: 16.sp,
-                          //   color: Colors.black87,
-                          // ),
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(color: Colors.black87),
-                        ),
-                        SizedBox(height: 16.h),
-                        Container(
-                          padding: EdgeInsets.all(12.w),
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(20.w),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFFD700).withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Text(
-                            _drawnFortune!.advice.tr(),
-                            textAlign: TextAlign.center,
-                            // style: TextStyle(
-                            //   fontSize: 14.sp,
-                            //   color: Colors.black87,
-                            //   fontStyle: FontStyle.italic,
-                            // ),
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodyMedium!.copyWith(
-                              color: Colors.black87,
-                              fontStyle: FontStyle.italic,
+                            borderRadius: BorderRadius.circular(16.r),
+                            gradient: LinearGradient(
+                              colors: [
+                                const Color(0xFFFFE5E5),
+                                const Color(0xFFFFFFFF),
+                              ],
                             ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                _drawnFortune!.title.tr(),
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineMedium!.copyWith(
+                                  color: const Color(0xFFD32F2F),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 12.h),
+                              Text(
+                                _drawnFortune!.message.tr(),
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(color: Colors.black87),
+                              ),
+                              SizedBox(height: 16.h),
+                              Container(
+                                padding: EdgeInsets.all(12.w),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFFD700).withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Text(
+                                  _drawnFortune!.advice.tr(),
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.black87,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 16.h),
+                              ElevatedButton(
+                                onPressed: _reset,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFD32F2F),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 32.w,
+                                    vertical: 12.h,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.r),
+                                  ),
+                                ),
+                                child: Text(
+                                  'gieo_lai'.tr(),
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        SizedBox(height: 16.h),
-                        ElevatedButton(
-                          onPressed: _reset,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFD32F2F),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 32.w,
-                              vertical: 12.h,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.r),
+                      ),
+                    ),
+
+                  // Instructions
+                  if (!_isShaking && _drawnFortune == null)
+                    Padding(
+                      padding: EdgeInsets.all(24.w),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.touch_app,
+                            size: 40.sp,
+                            color: Colors.white,
+                          ),
+                          SizedBox(height: 8.h),
+                          Text(
+                            'cham_de_gieo_que'.tr(),
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Colors.white.withOpacity(0.9),
                             ),
                           ),
-                          child: Text(
-                            'gieo_lai'.tr(),
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            
+            // Close button
+            Positioned(
+              top: 10.h,
+              right: 16.w,
+              child: SafeArea(
+                child: Material(
+                  elevation: 4,
+                  shape: CircleBorder(),
+                  color: Colors.white.withOpacity(0.9),
+                  child: InkWell(
+                    onTap: () => context.pop(),
+                    customBorder: CircleBorder(),
+                    child: Container(
+                      width: 40.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.close,
+                        // color: Colors.black,
+                        size: 24.sp,
+                      ),
                     ),
                   ),
                 ),
               ),
-
-            // Instructions
-            if (!_isShaking && _drawnFortune == null)
-              Padding(
-                padding: EdgeInsets.all(24.w),
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.touch_app,
-                      size: 40.sp,
-                      color: const Color(0xFFD32F2F).withOpacity(0.6),
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      'cham_de_gieo_que'.tr(),
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: const Color(0xFFD32F2F),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            ),
           ],
         ),
       ),

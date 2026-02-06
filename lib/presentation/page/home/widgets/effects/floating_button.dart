@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../widgets/lazy_lottie.dart';
 
 class FloatingButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final VoidCallback? onHide;
 
-  const FloatingButton({Key? key, this.onPressed, this.onHide})
-    : super(key: key);
+  const FloatingButton({super.key, this.onPressed, this.onHide});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,12 @@ class FloatingButton extends StatelessWidget {
                   width: 100.w,
                   height: 100.w,
                   child: ClipOval(
-                    child: Lottie.asset(
-                      'assets/animations/new_year_floating_button.json',
+                    child: LazyLottie(
+                      assetPath: 'assets/animations/new_year_floating_button.json',
                       fit: BoxFit.contain,
                       repeat: true,
+                      width: 100.w,
+                      height: 100.w,
                     ),
                   ),
                 ),

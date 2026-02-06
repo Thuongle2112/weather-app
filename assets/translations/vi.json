@@ -44,11 +44,12 @@
   "moonrise": "Trăng mọc",
   "halloween_error": "Ôi không, mạng bị ám! Hãy kết nối để tiếp tục...",
   "new_year_messages": {
-    "0": "🎉 Chỉ còn vài ngày nữa là năm mới! Hãy chuẩn bị cho những khởi đầu tuyệt vời nhé!",
-    "1": "✨ Năm cũ sắp khép lại, chúc bạn những khoảnh khắc ý nghĩa bên gia đình và bạn bè!",
-    "2": "🎆 Đêm giao thừa đã đến! Hãy cùng nhau đếm ngược chào đón năm mới rực rỡ!",
-    "3": "🥂 Chúc mừng năm mới! Chúc bạn một năm tràn đầy sức khỏe, hạnh phúc và thành công!",
-    "4": "🌟 Ngày đầu năm mới! Hãy bắt đầu hành trình mới với nhiều hy vọng và niềm vui!"
+    "0": "🧧 Tết đến xuân về! Chúc cả nhà sum vầy, đầm ấm bên mâm cỗ ngày Tết!",
+    "1": "🎊 Vạn sự như ý, phát tài phát lộc! Chúc năm Bính Ngọ tràn đầy may mắn!",
+    "2": "🌸 Xuân về đất trời tươi mới, chúc bạn luôn khỏe mạnh và hạnh phúc!",
+    "3": "🎆 Pháo nổ rộn ràng, cả nhà đón Tết vui vẻ! Năm mới an khang thịnh vượng!",
+    "4": "🍊 Mâm ngũ quả đầy ắp, tiền tài ùn ùn kéo về! Chúc năm mới phát đạt!",
+    "5": "🐴 Năm Ngọ phi nước đại, công danh thăng tiến, gia đạo yên vui!"
   },
   "select_language": "Chọn ngôn ngữ",
   "weather_clear_sky": "Trời quang đãng",
@@ -166,5 +167,24 @@
       "message": "Niềm vui sắp đến, tin vui từ xa ♡(੭´͈ ᐜ `͈)੭♡",
       "advice": "Mở lòng đón nhận những điều tốt đẹp"
     }
-  }
+  },
+  "skip": "Bỏ qua",
+  "next": "Tiếp",
+  "get_started": "Bắt đầu",
+  "onboarding_title_1": "Cập Nhật Thời Tiết Thời Gian Thực",
+  "onboarding_description_1": "Nhận dự báo thời tiết chính xác cho bất kỳ địa điểm nào trên thế giới với dự đoán chi tiết theo giờ và ngày",
+  "onboarding_title_2": "Dự Báo Theo Vị Trí",
+  "onboarding_description_2": "Sử dụng vị trí hiện tại hoặc tìm kiếm bất kỳ thành phố nào để nhận thông tin thời tiết cá nhân hóa ngay lập tức",
+  "onboarding_title_3": "Thông Báo Thông Minh",
+  "onboarding_description_3": "Luôn chuẩn bị với cảnh báo thời tiết, thông báo mưa và dự báo sáng hàng ngày được gửi đến thiết bị của bạn",
+  "select_location": "Chọn Vị Trí",
+  "selected_location": "Vị Trí Đã Chọn",
+  "confirm_location": "Xác Nhận Vị Trí",
+  "choose_location_method": "Chọn Cách Tìm Vị Trí",
+  "pick_from_map": "Chọn Trên Bản Đồ",
+  "select_location_on_map": "Chọn vị trí trên bản đồ",
+  "search_by_name": "Tìm Theo Tên",
+  "search_city_name": "Tìm kiếm tên thành phố",
+  "search_location": "Tìm kiếm địa điểm...",
+  "happy_lunar_year": "Chúc mừng năm mới!"
 }

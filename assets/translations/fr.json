@@ -44,11 +44,12 @@
   "moonrise": "Lever de lune",
   "halloween_error": "Oh non — le réseau est hanté! Veuillez vous connecter pour continuer.",
   "new_year_messages": {
-    "0": "🎉 Plus que quelques jours avant la nouvelle année ! Préparez-vous à de merveilleux nouveaux départs !",
-    "1": "✨ L'année se termine, je vous souhaite des moments précieux avec votre famille et vos amis !",
-    "2": "🎆 La Saint-Sylvestre est arrivée ! Comptons ensemble pour accueillir une nouvelle année éclatante !",
-    "3": "🥂 Bonne année ! Je vous souhaite une année pleine de santé, de bonheur et de succès !",
-    "4": "🌟 Premier jour de la nouvelle année ! Commencez votre nouveau voyage avec espoir et joie !"
+    "0": "🧧 Le Nouvel An Lunaire arrive avec le printemps ! Réunion de famille et chaleur autour de la table festive !",
+    "1": "🎊 Que tous les vœux se réalisent, prospérité et fortune ! Bonne Année du Cheval !",
+    "2": "🌸 Le printemps apporte le renouveau, vous souhaitant santé et bonheur toujours !",
+    "3": "🎆 Les pétards éclatent de joie, la famille célèbre ensemble ! Prospérité dans la nouvelle année !",
+    "4": "🍊 Plateau de fruits débordant, richesse affluant abondamment ! Prospère nouvelle année !",
+    "5": "🐴 L'Année du Cheval galope en avant, avancement de carrière et harmonie familiale !"
   },
   "select_language": "Sélectionner la langue",
   "oops": "Oups!",
@@ -125,7 +126,7 @@
   "uv_advice_high": "Protection requise. Portez un écran solaire, un chapeau et des lunettes de soleil.",
   "uv_advice_very_high": "Protection supplémentaire nécessaire. Évitez le soleil pendant le milieu de la journée.",
   "uv_advice_extreme": "Prenez toutes les précautions. Évitez l'exposition au soleil si possible.",
-    "gieo_que_dau_xuan": "Tirage de Fortune du Printemps",
+  "gieo_que_dau_xuan": "Tirage de Fortune du Printemps",
   "gieo_que_instructions": "Prévisions de chance pour l’Année du Cheval de Feu",
   "gieo_lai": "Relancer",
   "cham_de_gieo_que": "Appuyez pour lancer la fortune",
@@ -170,5 +171,15 @@
       "message": "La joie arrive, de bonnes nouvelles de loin",
       "advice": "Ouvrez votre cœur pour recevoir de bonnes choses"
     }
-  }
+  },
+  "skip": "Passer",
+  "next": "Suivant",
+  "get_started": "Commencer",
+  "onboarding_title_1": "Mises à Jour Météo en Temps Réel",
+  "onboarding_description_1": "Obtenez des prévisions météo précises pour n'importe quel endroit dans le monde avec des prédictions détaillées par heure et par jour",
+  "onboarding_title_2": "Prévisions Basées sur la Localisation",
+  "onboarding_description_2": "Utilisez votre position actuelle ou recherchez n'importe quelle ville pour obtenir des informations météo personnalisées instantanément",
+  "onboarding_title_3": "Notifications Intelligentes",
+  "onboarding_description_3": "Restez préparé avec des alertes météo, des notifications de pluie et des prévisions matinales quotidiennes livrées sur votre appareil",
+  "happy_lunar_year": "Joyeux Nouvel An Lunaire !"
 }

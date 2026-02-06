@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 class WeatherHeader extends StatelessWidget {
   final String cityName;
-  final Color textColor;
   final bool isDarkMode;
 
   const WeatherHeader({
     super.key,
     required this.cityName,
-    required this.textColor,
     required this.isDarkMode,
   });
 
@@ -33,11 +32,13 @@ class WeatherHeader extends StatelessWidget {
     return Row(
       children: [
         Icon(Icons.location_on, color: Colors.red, size: 24.sp),
-        SizedBox(width: 6.w),
+        Gap(6.w),
         Flexible(
           child: Text(
             cityName,
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -48,27 +49,18 @@ class WeatherHeader extends StatelessWidget {
   Widget _buildMenuButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: 16.w),
-      child: Container(
-        decoration: BoxDecoration(
-          color: isDarkMode ? Colors.white.withOpacity(0.2) : Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 1.5,
-          ),
+      child: IconButton(
+        onPressed: () {
+          Scaffold.of(context).openEndDrawer();
+        },
+        icon: Icon(
+          Icons.menu,
+          // color: isDarkMode ? Colors.white : Colors.black,
+          color: Colors.white,
+          size: 24.sp,
         ),
-        child: IconButton(
-          onPressed: () {
-            Scaffold.of(context).openEndDrawer();
-          },
-          icon: Icon(
-            Icons.menu,
-            color: isDarkMode ? Colors.white : Colors.black,
-            size: 24.sp,
-          ),
-          padding: EdgeInsets.all(8.w),
-          constraints: const BoxConstraints(),
-        ),
+        padding: EdgeInsets.all(8.w),
+        constraints: const BoxConstraints(),
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../widgets/lazy_lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,9 +21,22 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        context.go('/home');
+        _checkOnboardingStatus();
       }
     });
+  }
+
+  Future<void> _checkOnboardingStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+    
+    if (mounted) {
+      if (hasSeenOnboarding) {
+        context.go('/home');
+      } else {
+        context.go('/onboarding');
+      }
+    }
   }
 
   @override
@@ -34,10 +49,9 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox.expand(
-        child: Lottie.asset(
-          'assets/animations/new_year_splash_screen.json',
+        child: LazyLottie(
+          assetPath: 'assets/animations/new_year_splash_screen.json',
           controller: _controller,
-          // fit: BoxFit.cover,
           fit: BoxFit.contain,
           onLoaded: (composition) {
             _controller

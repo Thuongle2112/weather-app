@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class FortuneStickPainter extends CustomPainter {
   final double slideProgress;
   final bool isRevealed;
+  final BuildContext context;
 
-  FortuneStickPainter({required this.slideProgress, this.isRevealed = false});
+  FortuneStickPainter({required this.slideProgress, this.isRevealed = false, required this.context});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -93,10 +94,9 @@ class FortuneStickPainter extends CustomPainter {
     // Gold text on red band (if revealed)
     if (isRevealed) {
       final textPainter = TextPainter(
-        text: const TextSpan(
+        text: TextSpan(
           text: '籤',
-          style: TextStyle(
-            fontSize: 12,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontWeight: FontWeight.bold,
             color: Color(0xFFFFD700),
           ),

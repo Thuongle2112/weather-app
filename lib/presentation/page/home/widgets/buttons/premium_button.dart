@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gap/gap.dart';
 
 class PremiumButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -9,7 +10,7 @@ class PremiumButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
@@ -34,21 +35,20 @@ class PremiumButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.local_fire_department, color: Colors.white, size: 20.sp),
-              SizedBox(width: 8.w),
+              Gap(8.w),
               Text(
                 'get_premium_1hour'.tr(),
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(0, 2),
-                      blurRadius: 6,
-                      color: Colors.black.withOpacity(0.45),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.white.withOpacity(0.9),
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          offset: Offset(0, 2),
+                          blurRadius: 6,
+                          color: Colors.black.withOpacity(0.45),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
               ),
             ],
           ),

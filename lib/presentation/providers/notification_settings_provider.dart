@@ -254,4 +254,10 @@ class NotificationSettingsProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('last_notification_check', time.millisecondsSinceEpoch);
   }
+
+  @override
+  void dispose() {
+    // Clean up notification service resources
+    super.dispose();
+  }
 }

@@ -44,11 +44,12 @@
   "moonrise": "Salida de la luna",
   "halloween_error": "¡Oh no — la red está embrujada! Por favor conéctese para continuar.",
   "new_year_messages": {
-    "0": "🎉 ¡Solo quedan unos días para el Año Nuevo! ¡Prepárate para nuevos comienzos maravillosos!",
-    "1": "✨ El año viejo está terminando, ¡te deseo momentos significativos con familia y amigos!",
-    "2": "🎆 ¡Ya llegó la víspera de Año Nuevo! ¡Contemos juntos para recibir un año brillante!",
-    "3": "🥂 ¡Feliz Año Nuevo! ¡Te deseo un año lleno de salud, felicidad y éxito!",
-    "4": "🌟 ¡El primer día del año nuevo! ¡Comienza tu nuevo viaje con esperanza y alegría!"
+    "0": "🧧 ¡El Año Nuevo Lunar llega con la primavera! ¡Reunión familiar y calidez en la mesa festiva!",
+    "1": "🎊 ¡Que todos los deseos se hagan realidad, prosperidad y fortuna! ¡Feliz Año del Caballo!",
+    "2": "🌸 La primavera trae renovación, ¡te deseo salud y felicidad siempre!",
+    "3": "🎆 ¡Los petardos estallan de alegría, la familia celebra junta! ¡Prosperidad en el año nuevo!",
+    "4": "🍊 ¡Bandeja de frutas desbordante, riqueza fluyendo abundantemente! ¡Próspero año nuevo!",
+    "5": "🐴 ¡El Año del Caballo galopa hacia adelante, avance profesional y armonía familiar!"
   },
   "select_language": "Seleccionar idioma",
   "oops": "¡Ups!",
@@ -170,5 +171,15 @@
       "message": "La alegría llega, buenas noticias desde lejos",
       "advice": "Abre tu corazón para recibir cosas buenas"
     }
-  }
+  },
+  "skip": "Saltar",
+  "next": "Siguiente",
+  "get_started": "Comenzar",
+  "onboarding_title_1": "Actualizaciones del Tiempo en Tiempo Real",
+  "onboarding_description_1": "Obtén pronósticos precisos del tiempo para cualquier ubicación en el mundo con predicciones detalladas por hora y día",
+  "onboarding_title_2": "Pronósticos Basados en Ubicación",
+  "onboarding_description_2": "Usa tu ubicación actual o busca cualquier ciudad para obtener información meteorológica personalizada al instante",
+  "onboarding_title_3": "Notificaciones Inteligentes",
+  "onboarding_description_3": "Mantente preparado con alertas meteorológicas, notificaciones de lluvia y pronósticos matutinos diarios enviados a tu dispositivo",
+  "happy_lunar_year": "¡Feliz año nuevo lunar!"
 }

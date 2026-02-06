@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:weather_app/core/constants/language_constants.dart';
 import 'package:weather_app/core/services/event_service.dart';
 import 'package:weather_app/presentation/providers/theme_provider.dart';
+
+import '../../../../../widgets/lazy_lottie.dart';
 
 import '../../../../settings/notification_settings_page.dart';
 import '../../../../weather_radar_page.dart';
@@ -88,7 +91,7 @@ class AppDrawer extends StatelessWidget {
                           _buildThemeTile(context, themeProvider, isDarkMode),
                         ],
                       ),
-                      SizedBox(height: 16.h),
+                      Gap(8.h),
                       _buildSection(
                         context,
                         title: 'preferences'.tr(),
@@ -97,14 +100,14 @@ class AppDrawer extends StatelessWidget {
                           _buildNotificationTile(context),
                         ],
                       ),
-                      SizedBox(height: 16.h),
+                      Gap(8.h),
                       _buildSection(
                         context,
                         title: 'features'.tr(),
                         children: [_buildWeatherRadarTile(context)],
                       ),
                       if (isLunarNewYearEvent) ...[
-                        SizedBox(height: 16.h),
+                        Gap(8.h),
                         _buildEventButton(context),
                       ],
                     ],
@@ -136,14 +139,13 @@ class AppDrawer extends StatelessWidget {
       child: Row(
         children: [
           if (isLunarNewYear) ...[
-            Text('🧧', style: TextStyle(fontSize: 32.sp)),
-            SizedBox(width: 12.w),
+            Text('🧧', style: Theme.of(context).textTheme.headlineSmall),
+            Gap(12.w),
           ],
           Expanded(
             child: Text(
               'weather_app_title'.tr(),
-              style: TextStyle(
-                fontSize: 24.sp,
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 shadows:
@@ -176,9 +178,8 @@ class AppDrawer extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
           child: Text(
             title,
-            style: TextStyle(
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
               color: Colors.white.withOpacity(0.9),
-              fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
               shadows: [
@@ -217,15 +218,16 @@ class AppDrawer extends StatelessWidget {
       ),
       title: Text(
         'theme'.tr(),
-        style: TextStyle(
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: Colors.white,
-          fontSize: 15.sp,
           fontWeight: FontWeight.w500,
         ),
       ),
       subtitle: Text(
         isDarkMode ? 'dark_mode'.tr() : 'light_mode'.tr(),
-        style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 13.sp),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall!.copyWith(color: Colors.white.withOpacity(0.9)),
       ),
       trailing: Switch(
         value: isDarkMode,
@@ -244,21 +246,27 @@ class AppDrawer extends StatelessWidget {
       leading: Icon(Icons.language, color: Colors.white, size: 24.sp),
       title: Text(
         'language'.tr(),
-        style: TextStyle(
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: Colors.white,
-          fontSize: 15.sp,
           fontWeight: FontWeight.w500,
         ),
       ),
       subtitle: Text(
         currentLanguage.name,
-        style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 13.sp),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall!.copyWith(color: Colors.white.withOpacity(0.9)),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(currentLanguage.flag, style: TextStyle(fontSize: 20.sp)),
-          SizedBox(width: 8.w),
+          Text(
+            currentLanguage.flag,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white.withOpacity(0.9),
+            ),
+          ),
+          Gap(8.w),
           Icon(
             Icons.arrow_forward_ios,
             color: Colors.white.withOpacity(0.7),
@@ -287,19 +295,16 @@ class AppDrawer extends StatelessWidget {
       ),
       title: Text(
         'notifications'.tr(),
-        style: TextStyle(
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: Colors.white,
-          fontSize: 15.sp,
           fontWeight: FontWeight.w500,
         ),
       ),
       subtitle: Text(
         'notification_settings'.tr(),
-        style: TextStyle(
-          color: Colors.white.withOpacity(0.9),
-          fontSize: 13.sp,
-          overflow: TextOverflow.ellipsis,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall!.copyWith(color: Colors.white.withOpacity(0.9)),
       ),
       trailing: Icon(
         Icons.arrow_forward_ios,
@@ -323,16 +328,17 @@ class AppDrawer extends StatelessWidget {
       leading: Icon(Icons.radar, color: Colors.white, size: 24.sp),
       title: Text(
         'weather_radar'.tr(),
-        style: TextStyle(
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: Colors.white,
-          fontSize: 15.sp,
           fontWeight: FontWeight.w500,
           overflow: TextOverflow.ellipsis,
         ),
       ),
       subtitle: Text(
         'view_weather_radar'.tr(),
-        style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 13.sp),
+        style: Theme.of(
+          context,
+        ).textTheme.bodySmall!.copyWith(color: Colors.white.withOpacity(0.9)),
       ),
       trailing: Icon(
         Icons.arrow_forward_ios,
@@ -393,9 +399,10 @@ class AppDrawer extends StatelessWidget {
                     children: [
                       Text(
                         'gieo_que_dau_xuan'.tr(),
-                        style: TextStyle(
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium!.copyWith(
                           color: Colors.white,
-                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                           shadows: [
                             Shadow(
@@ -406,21 +413,20 @@ class AppDrawer extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      Gap(4.h),
                       Text(
                         'gieo_que_instructions'.tr(),
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: Colors.amber[100],
-                          fontSize: 12.sp,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(width: 12.w),
-                Lottie.asset(
-                  'assets/animations/lunar_year_button_drawer.json',
+                Gap(12.w),
+                LazyLottie(
+                  assetPath: 'assets/animations/lunar_year_button_drawer.json',
                   width: 60.w,
                   height: 60.h,
                   fit: BoxFit.contain,
@@ -445,9 +451,8 @@ class AppDrawer extends StatelessWidget {
         children: [
           Text(
             'Weather Today',
-            style: TextStyle(
+            style: Theme.of(context).textTheme.labelMedium!.copyWith(
               color: Colors.white.withOpacity(0.8),
-              fontSize: 12.sp,
               shadows: [
                 Shadow(
                   color: Colors.black.withOpacity(0.5),
@@ -457,13 +462,21 @@ class AppDrawer extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 4.h),
-          Text(
-            'Version 1.2.0',
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
-              fontSize: 10.sp,
-            ),
+          Gap(4.h),
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              final version =
+                  snapshot.hasData
+                      ? 'Version ${snapshot.data!.version}'
+                      : 'Version 1.2.0';
+              return Text(
+                version,
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  color: Colors.white.withOpacity(0.5),
+                ),
+              );
+            },
           ),
         ],
       ),

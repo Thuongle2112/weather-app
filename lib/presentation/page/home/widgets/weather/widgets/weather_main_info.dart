@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:gap/gap.dart';
 import '../../../../../../data/model/weather/weather.dart';
 import '../../../../../utils/weather_ui_helper.dart';
 import '../../widgets.dart';
@@ -31,12 +32,12 @@ class WeatherMainInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildTemperature(context),
-              SizedBox(height: 12.h),
+              Gap(8.h),
               _buildHighLowTemperature(context),
             ],
           ),
         ),
-        SizedBox(width: 16.w),
+        Gap(12.w),
         Expanded(
           flex: 2,
           child: Column(
@@ -44,7 +45,7 @@ class WeatherMainInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildWeatherIcon(),
-              SizedBox(height: 12.h),
+              Gap(8.h),
               _buildDescription(context),
             ],
           ),
@@ -74,9 +75,9 @@ class WeatherMainInfo extends StatelessWidget {
           '${(weather.temperature + 2).toInt()}°',
           style: Theme.of(
             context,
-          ).textTheme.titleLarge!.copyWith(color: textColor.withOpacity(0.7)),
+          ).textTheme.bodyLarge!.copyWith(color: textColor.withOpacity(0.7)),
         ),
-        SizedBox(width: 16.w),
+        Gap(12.w),
         Icon(
           Icons.arrow_downward,
           color: textColor.withOpacity(0.7),
@@ -86,7 +87,7 @@ class WeatherMainInfo extends StatelessWidget {
           '${(weather.temperature - 2).toInt()}°',
           style: Theme.of(
             context,
-          ).textTheme.titleLarge!.copyWith(color: textColor.withOpacity(0.7)),
+          ).textTheme.bodyLarge!.copyWith(color: textColor.withOpacity(0.7)),
         ),
       ],
     );
@@ -121,7 +122,7 @@ class WeatherMainInfo extends StatelessWidget {
       WeatherUIHelper.capitalizeFirstLetter(localizedDescription),
       style: Theme.of(
         context,
-      ).textTheme.titleLarge!.copyWith(color: textColor.withOpacity(0.9)),
+      ).textTheme.bodyLarge!.copyWith(color: textColor.withOpacity(0.9)),
       textAlign: TextAlign.center,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,

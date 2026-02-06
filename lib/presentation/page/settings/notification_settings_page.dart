@@ -105,7 +105,7 @@ class NotificationSettingsPage extends StatelessWidget {
         ListTile(
           title: Text(
             'no_saved_cities'.tr(),
-            style: const TextStyle(
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontStyle: FontStyle.italic,
               color: Colors.grey,
             ),

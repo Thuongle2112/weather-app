@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
+
+import '../../../../widgets/lazy_lottie.dart';
 
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
@@ -11,11 +12,13 @@ class LoadingView extends StatelessWidget {
       child: SizedBox(
         width: 200.w,
         height: 200.w,
-        child: Lottie.asset(
-          'assets/animations/new_year_loading.json',
+        child: LazyLottie(
+          assetPath: 'assets/animations/new_year_loading.json',
           fit: BoxFit.contain,
           repeat: true,
           animate: true,
+          width: 200.w,
+          height: 200.w,
         ),
       ),
     );

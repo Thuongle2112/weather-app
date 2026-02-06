@@ -13,7 +13,6 @@ export 'effects/event_effect.dart';
 export 'effects/floating_button.dart';
 
 export 'states/error_view.dart';
-export 'states/initial_view.dart';
 export 'states/loading_view.dart';
 
 export 'weather/temperature_display.dart';
