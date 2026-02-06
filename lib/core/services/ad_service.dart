@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdService {
   BannerAd? _bannerAd;
@@ -13,6 +14,10 @@ class AdService {
   int _rewardedLoadAttempts = 0;
   bool _isPremium = false;
   bool _isDisposed = false;
+  Timer? _premiumExpiryTimer;
+  VoidCallback? _onPremiumExpiredCallback;
+  
+  static const String _premiumExpiryKey = 'premium_expiry_timestamp';
   
   // Idle preloading
   bool _isAppIdle = false;
@@ -27,13 +32,64 @@ class AdService {
     required this.bannerAdUnitId,
     required this.interstitialAdUnitId,
     required this.rewardedAdUnitId,
-  });
+  }) {
+    _checkPremiumStatus();
+  }
 
   bool get isAdLoaded => _isAdLoaded;
   bool get isPremium => _isPremium;
   BannerAd? get bannerAd => _bannerAd;
   InterstitialAd? get interstitialAd => _interstitialAd;
   RewardedAd? get rewardedAd => _rewardedAd;
+  
+  /// Check premium status on app start
+  Future<void> _checkPremiumStatus() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final expiryTimestamp = prefs.getInt(_premiumExpiryKey);
+      
+      if (expiryTimestamp != null) {
+        final expiryTime = DateTime.fromMillisecondsSinceEpoch(expiryTimestamp);
+        final now = DateTime.now();
+        
+        if (now.isBefore(expiryTime)) {
+          // Premium is still valid
+          _isPremium = true;
+          final remainingDuration = expiryTime.difference(now);
+          debugPrint('✨ Premium restored - ${remainingDuration.inMinutes} minutes remaining');
+          
+          // Schedule expiry
+          _schedulePremiumExpiry(remainingDuration);
+        } else {
+          // Premium has expired
+          debugPrint('⏰ Premium has expired');
+          await prefs.remove(_premiumExpiryKey);
+          _isPremium = false;
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ Error checking premium status: $e');
+    }
+  }
+  
+  /// Schedule premium expiry timer
+  void _schedulePremiumExpiry(Duration duration) {
+    _premiumExpiryTimer?.cancel();
+    _premiumExpiryTimer = Timer(duration, () async {
+      debugPrint('⏰ Premium expired');
+      _isPremium = false;
+      
+      // Clear saved timestamp
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_premiumExpiryKey);
+      
+      // Call expiry callback to reload banner ad
+      if (_onPremiumExpiredCallback != null) {
+        debugPrint('📢 Calling premium expired callback');
+        _onPremiumExpiredCallback!();
+      }
+    });
+  }
   
   /// Called when app lifecycle changes
   void onAppLifecycleStateChanged(AppLifecycleState state) {
@@ -227,23 +283,35 @@ class AdService {
   void activatePremium(
     VoidCallback onPremiumActivated,
     VoidCallback onPremiumExpired,
-  ) {
+  ) async {
     _isPremium = true;
     _bannerAd?.dispose();
     _bannerAd = null;
     _isAdLoaded = false;
+    
+    // Save the callback for later use
+    _onPremiumExpiredCallback = onPremiumExpired;
+
+    // Save expiry timestamp (1 hour from now)
+    final expiryTime = DateTime.now().add(const Duration(hours: 1));
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt(_premiumExpiryKey, expiryTime.millisecondsSinceEpoch);
+      debugPrint('✨ Premium activated - expires at ${DateFormat('HH:mm:ss').format(expiryTime)}');
+    } catch (e) {
+      debugPrint('❌ Error saving premium expiry: $e');
+    }
 
     onPremiumActivated();
 
-    Future.delayed(const Duration(hours: 1), () {
-      _isPremium = false;
-      onPremiumExpired();
-    });
+    // Schedule expiry callback (will call onPremiumExpired automatically)
+    _schedulePremiumExpiry(const Duration(hours: 1));
   }
 
   void dispose() {
     _isDisposed = true;
     _cancelIdleDetection();
+    _premiumExpiryTimer?.cancel();
     _bannerAd?.dispose();
     _interstitialAd?.dispose();
     _rewardedAd?.dispose();

@@ -270,11 +270,12 @@ class _CityListSectionState extends State<CityListSection>
   }
 
   Future<void> _openMapLocationPicker(BuildContext context) async {
-    // Show interstitial ad first
-    widget.adService.showInterstitialAd();
-
-    // Wait a bit for the ad to show
-    await Future.delayed(const Duration(milliseconds: 500));
+    // Show interstitial ad first (only if not premium)
+    if (!widget.adService.isPremium) {
+      widget.adService.showInterstitialAd();
+      // Wait a bit for the ad to show
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
 
     final location = await Navigator.push<SelectedLocation>(
       context,
